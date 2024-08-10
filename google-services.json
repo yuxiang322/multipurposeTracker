@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "147979251597",
+    "project_id": "multipurposetracker-30aee",
+    "storage_bucket": "multipurposetracker-30aee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:147979251597:android:2454f4e392273e141957c4",
+        "android_client_info": {
+          "package_name": "com.example.multiplepurposetracker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvDOdsWcnXS72I2X90RJdx8OqfygLYHQs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:147979251597:android:c58ec3abd4df3dc91957c4",
+        "android_client_info": {
+          "package_name": "com.example.multitracker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvDOdsWcnXS72I2X90RJdx8OqfygLYHQs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
