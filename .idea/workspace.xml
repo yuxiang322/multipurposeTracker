@@ -112,7 +112,15 @@
       <option name="project" value="LOCAL" />
       <updated>1723394781954</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="3rd commit&#10;1.Set up dependencies&#10;2.Added main">
+      <option name="closed" value="true" />
+      <created>1723396891977</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1723396891977</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
