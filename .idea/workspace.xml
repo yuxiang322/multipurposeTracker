@@ -4,12 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d1db8eb0-4824-475c-982c-3f60315432ee" name="Changes" comment="3rd commit&#10;1.Set up dependencies">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/Main.java" afterDir="false" />
+    <list default="true" id="d1db8eb0-4824-475c-982c-3f60315432ee" name="Changes" comment="3rd commit&#10;1.Set up dependencies&#10;2.Added main">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,13 +104,22 @@
       <option name="project" value="LOCAL" />
       <updated>1723391558288</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="3rd commit&#10;1.Set up dependencies&#10;2.Added main">
+      <option name="closed" value="true" />
+      <created>1723394781954</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1723394781954</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="1st commit" />
     <MESSAGE value="2nd commit" />
     <MESSAGE value="3rd commit&#10;1.Set up dependencies" />
-    <option name="LAST_COMMIT_MESSAGE" value="3rd commit&#10;1.Set up dependencies" />
+    <MESSAGE value="3rd commit&#10;1.Set up dependencies&#10;2.Added main" />
+    <option name="LAST_COMMIT_MESSAGE" value="3rd commit&#10;1.Set up dependencies&#10;2.Added main" />
   </component>
 </project>
