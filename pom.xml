@@ -48,12 +48,23 @@
             <version>3.0.5</version>
         </dependency>
 
+        <!-- Firebase -->
+        <dependency>
+            <groupId>com.google.firebase</groupId>
+            <artifactId>firebase-admin</artifactId>
+            <version>9.1.1</version>
+        </dependency>
     </dependencies>
 
     <repositories>
         <repository>
             <id>central</id>
             <url>https://repo.maven.apache.org/maven2/</url>
+        </repository>
+
+        <repository>
+            <id>google</id>
+            <url>https://maven.google.com/</url>
         </repository>
     </repositories>
 
