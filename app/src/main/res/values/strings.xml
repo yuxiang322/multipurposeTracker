@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">multiTracker</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="submit">Submit</string>
+    <string name="cancel">Cancel</string>
+    <string-array name="country_codes">
+        <item>+1</item>
+        <item>+44</item>
+        <item>+91</item>
+        <item>+62</item>
+        <item>+65</item>
+    </string-array>
 </resources>
