@@ -64,7 +64,6 @@ public class UserCredentialService {
     public String loginValidation(String username, String password) {
         // Validate the login
         UserCredentialsDTO userCredential = userCredentialsRepository.findByUsernameAndPassword(username, password);
-
         if (userCredential != null && userCredential.getPassword().equals(password)) {
             try {
                 String uid = userCredential.getUserUID();

@@ -4,18 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d1db8eb0-4824-475c-982c-3f60315432ee" name="Changes" comment="5th commit&#10;1.Controller,Service,DTO,JPA">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/controller/UserCredentialController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/model/LoginRequestDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/model/RegisterRequestDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/service/FirebaseService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/service/UserCredentialService.java" afterDir="false" />
+    <list default="true" id="d1db8eb0-4824-475c-982c-3f60315432ee" name="Changes" comment="6th commit&#10;1. Registration and login">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/controller/UserDetailsController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/repository/UserCredentialsRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/repository/UserCredentialsRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/service/UserDetailsService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/controller/UserCredentialController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/controller/UserCredentialController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/service/UserCredentialService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/service/UserCredentialService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -181,7 +173,15 @@
       <option name="project" value="LOCAL" />
       <updated>1723621862244</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="6th commit&#10;1. Registration and login">
+      <option name="closed" value="true" />
+      <created>1723846627371</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1723846627371</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -191,6 +191,7 @@
     <MESSAGE value="3rd commit&#10;1.Set up dependencies&#10;2.Added main" />
     <MESSAGE value="4th commit&#10;1.Database connection&#10;2.Encryption of password" />
     <MESSAGE value="5th commit&#10;1.Controller,Service,DTO,JPA" />
-    <option name="LAST_COMMIT_MESSAGE" value="5th commit&#10;1.Controller,Service,DTO,JPA" />
+    <MESSAGE value="6th commit&#10;1. Registration and login" />
+    <option name="LAST_COMMIT_MESSAGE" value="6th commit&#10;1. Registration and login" />
   </component>
 </project>
