@@ -14,14 +14,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.multitracker.api.MainPageAPI;
 import com.example.multitracker.commonUtil.PasswordEncryption;
-import com.example.multitracker.commonUtil.RetrofitClientInstanceJson;
-import com.example.multitracker.commonUtil.RetrofitClientInstancePlain;
+import com.example.multitracker.commonUtil.RetrofitClientInstance;
 import com.example.multitracker.dto.LoginRequestDTO;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                 if (!username.isEmpty() && !password.isEmpty()) {
                     validateLogin(username, password);
                 } else {
-                    Toast.makeText(MainActivity.this, "Fill up the required fields", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Fill up the required fields", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -80,25 +81,32 @@ public class MainActivity extends AppCompatActivity {
 
         // Call API
         LoginRequestDTO loginRequest = new LoginRequestDTO(username, encryptedPassword);
-        MainPageAPI loginService = RetrofitClientInstanceJson.getRetrofitInstance().create(MainPageAPI.class);
+        MainPageAPI loginService = RetrofitClientInstance.getRetrofitInstance().create(MainPageAPI.class);
         Call<String> call = loginService.loginUser(loginRequest);
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
                     String token = response.body();
-                    Toast.makeText(MainActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Login successful!", Toast.LENGTH_LONG).show();
                     //Authenticate token with firebase
                     firebaseAuthentication(token);
                 } else {
-                    // Handle login failure
-                    Toast.makeText(MainActivity.this, "Login failed: Invalid Username/Password", Toast.LENGTH_SHORT).show();
+                    // Log error body
+                    String errorBody = null;
+                    try {
+                        errorBody = response.errorBody() != null ? response.errorBody().string() : "Unknown error";
+                    } catch (IOException e) {
+                        Log.e("login", "Error reading error body", e);
+                    }
+                    Log.d("login", "Error response body: " + errorBody);
+                    Toast.makeText(MainActivity.this, "Error: " + response.code() + " - " + errorBody, Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "An error occurred: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "An error occurred: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -117,8 +125,8 @@ public class MainActivity extends AppCompatActivity {
                             finish();
                         } else {
                             // sign in fails
-                            Log.w("TAG", "signInWithCustomToken:failure", task.getException());
-                            Toast.makeText(MainActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                            Log.w("Firebase", "signInWithCustomToken:failure", task.getException());
+                            Toast.makeText(MainActivity.this, "Authentication failed.", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
