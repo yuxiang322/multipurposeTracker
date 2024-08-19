@@ -20,15 +20,15 @@ public class UserCredentialService {
     private UserDetailsRepository userDetailsRepository;
 
     @Transactional
-    public Boolean registrationValidation(String username, String password, String name, String email, String phoneNumber) {
+    public String registrationValidation(String username, String password, String name, String email, String phoneNumber) {
+        String response = null;
         // Validate the user credentials -- Username
-        UserCredentialsDTO userCredential = userCredentialsRepository.findByUsernameAndPassword(username, password);
+        UserCredentialsDTO userCredential = userCredentialsRepository.findByUsername(username);
 
         if (userCredential == null) {
             try {
                 UserRecord.CreateRequest request = new UserRecord.CreateRequest()
-                        .setUid(username)
-                        .setPhoneNumber(phoneNumber);
+                        .setUid(username);
 
                 UserRecord userRecord = FirebaseAuth.getInstance().createUser(request);
 
@@ -48,34 +48,34 @@ public class UserCredentialService {
                     newUserCredentials.setUserUID(userRecord.getUid());
                     userCredentialsRepository.save(newUserCredentials);
 
-                    return true;
-                } else {
-                    return false;
+                    response = "Registration successful. Please proceed to login.";
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                return false;
+                response = "Registration failed: " + e.getMessage();
             }
         } else {
-            return false;
+            response = "Username taken.";
         }
+        return response;
     }
 
     public String loginValidation(String username, String password) {
+        String response = null;
         // Validate the login
         UserCredentialsDTO userCredential = userCredentialsRepository.findByUsernameAndPassword(username, password);
         if (userCredential != null && userCredential.getPassword().equals(password)) {
             try {
                 String uid = userCredential.getUserUID();
                 // Generate token
-                return FirebaseAuth.getInstance().createCustomToken(uid);
+                response = FirebaseAuth.getInstance().createCustomToken(uid);
             } catch (FirebaseAuthException e) {
                 e.printStackTrace();
-                return null;
+                response = "Firebase authentication error.";
             }
         } else {
-            return null;
+            response = "Invalid username or password";
         }
+        return response;
     }
-
 }

@@ -27,23 +27,27 @@ public class UserCredentialController {
 
     @PostMapping("/register")
     public ResponseEntity<String> registrationUser(@RequestBody RegisterRequestDTO registerRequest) throws FirebaseAuthException {
-        Boolean registrationFlag = userCredentialService.registrationValidation(registerRequest.getUsername(), registerRequest.getPassword(), registerRequest.getName(), registerRequest.getEmail(), registerRequest.getPhoneNumber());
+        String registrationResponse = userCredentialService.registrationValidation(registerRequest.getUsername(), registerRequest.getPassword(), registerRequest.getName(), registerRequest.getEmail(), registerRequest.getPhoneNumber());
 
-        if (registrationFlag) {
-            return ResponseEntity.ok("Registration successful. Please proceed to login.");
+        if (registrationResponse.equals("Registration successful. Please proceed to login.")) {
+            return ResponseEntity.ok(registrationResponse);
+        } else if (registrationResponse.equals("Username taken.")) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(registrationResponse);
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Username");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(registrationResponse);
         }
     }
 
     @PostMapping("/login")
     public ResponseEntity<String> loginUser(@RequestBody LoginRequestDTO loginRequest) throws FirebaseAuthException {
-        String token = userCredentialService.loginValidation(loginRequest.getUserName(), loginRequest.getPassword());
+        String loginResponse = userCredentialService.loginValidation(loginRequest.getUserName(), loginRequest.getPassword());
 
-        if (token != null) {
-            return ResponseEntity.ok(token);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+        if (loginResponse.equals("Invalid username or password")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(loginResponse);
+        }else if(loginResponse.equals("Firebase authentication error.")){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(loginResponse);
+        }else {
+            return ResponseEntity.ok(loginResponse);
         }
     }
 }
