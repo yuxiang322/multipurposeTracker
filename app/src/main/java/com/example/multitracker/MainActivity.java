@@ -30,6 +30,8 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
+    private EditText usernameEditText;
+    private EditText passwordEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mAuth = FirebaseAuth.getInstance();
+        usernameEditText = findViewById(R.id.username);
+        passwordEditText = findViewById(R.id.password);
         // set up login api
         setupLogin();
         // set up register
@@ -48,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                clearCredentials();
                 Intent intent = new Intent(MainActivity.this, RegistrationPage.class);
                 startActivity(intent);
             }
@@ -59,13 +64,12 @@ public class MainActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText usernameEditText = findViewById(R.id.username);
-                EditText passwordEditText = findViewById(R.id.password);
                 String username = String.valueOf(usernameEditText.getText());
                 String password = String.valueOf(passwordEditText.getText());
 
                 if (!username.isEmpty() && !password.isEmpty()) {
                     validateLogin(username, password);
+                    clearCredentials();
                 } else {
                     Toast.makeText(MainActivity.this, "Fill up the required fields", Toast.LENGTH_LONG).show();
                 }
@@ -130,5 +134,10 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    private void clearCredentials(){
+        usernameEditText.setText("");
+        passwordEditText.setText("");
     }
 }
