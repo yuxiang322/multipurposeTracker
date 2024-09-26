@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/border_layout"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/templateTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Template test"
+        android:textSize="30sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toStartOf="@id/viewDetailsButton"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/viewDetailsButton"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:backgroundTint="@color/light_gray"
+        android:drawableEnd="@drawable/arrow_forward_24dp"
+        app:layout_constraintBottom_toBottomOf="@id/templateTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/templateTitle" />
+
+    <TextView
+        android:id="@+id/templateDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="70dp"
+        android:text="test"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@id/deleteButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/templateTitle" />
+
+    <Button
+        android:id="@+id/deleteButton"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="30dp"
+        android:backgroundTint="@color/red"
+        android:text="X"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/templateTitle" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

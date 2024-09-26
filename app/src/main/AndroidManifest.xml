@@ -25,6 +25,13 @@
 
         <activity android:name=".RegistrationPage"/>
         <activity android:name=".HomePage"/>
+        <activity android:name=".AccountDetails"/>
+        <activity android:name=".ImportTemplate"/>
+        <activity android:name=".CreateTemplate"/>
+        <activity android:name=".ManagementPage"/>
+        <activity android:name=".NotificationSetting"/>
+        <activity android:name=".TemplateDetails"/>
+        <activity android:name=".CreateTable"/>
     </application>
 
 </manifest>

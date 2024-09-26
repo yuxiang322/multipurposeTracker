@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.multitracker.api.MainPageAPI;
+import com.example.multitracker.commonUtil.GlobalConstant;
 import com.example.multitracker.commonUtil.PasswordEncryption;
 import com.example.multitracker.commonUtil.RetrofitClientInstance;
 import com.example.multitracker.dto.LoginRequestDTO;
@@ -37,6 +38,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        // Redirect user to homepage
+//        Intent intent = new Intent(MainActivity.this, HomePage.class);
+//        startActivity(intent);
 
         mAuth = FirebaseAuth.getInstance();
         usernameEditText = findViewById(R.id.username);
@@ -110,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
+                Log.d("login", "Error coonnecting: " + t.getMessage());
                 Toast.makeText(MainActivity.this, "An error occurred: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
@@ -123,6 +130,10 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success
                             FirebaseUser user = mAuth.getCurrentUser();
+
+                            GlobalConstant.userID = user.getUid();
+                            Log.d("Firebase", "User ID stored: " + GlobalConstant.userID);
+
                             // Redirect user to homepage
                             Intent intent = new Intent(MainActivity.this, HomePage.class);
                             startActivity(intent);

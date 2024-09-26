@@ -11,4 +11,7 @@
         <item>+62</item>
         <item>+65</item>
     </string-array>
+    <string name="sign_out">Sign Out</string>
+    <string name="Notifications">Notification</string>
+    <string name="menu">menu</string>
 </resources>

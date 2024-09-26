@@ -121,6 +121,7 @@ public class RegistrationPage extends AppCompatActivity {
                     String registrationResponse = response.body();
                     if (registrationResponse != null) {
                         Toast.makeText(RegistrationPage.this, registrationResponse, Toast.LENGTH_LONG).show();
+                        finish();
                     } else {
                         Toast.makeText(RegistrationPage.this, "Empty response", Toast.LENGTH_LONG).show();
                     }
