@@ -1,10 +1,10 @@
-package com.xiang.multipurposeTracker.model;
+package com.xiang.multipurposeTracker.entities;
 
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "UserCredentials")
-public class UserCredentialsDTO {
+public class UserCredentials {
     @Id
     @Column(name = "Username", nullable = false)
     private String username;
@@ -13,9 +13,9 @@ public class UserCredentialsDTO {
     @Column(name = "UserUID")
     private String userUID;
 
-    public UserCredentialsDTO(){}
+    public UserCredentials(){}
 
-    public UserCredentialsDTO(String username, String password, String userUID) {
+    public UserCredentials(String username, String password, String userUID) {
         this.username = username;
         this.password = password;
         this.userUID = userUID;

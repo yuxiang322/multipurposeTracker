@@ -1,10 +1,10 @@
-package com.xiang.multipurposeTracker.model;
+package com.xiang.multipurposeTracker.entities;
 
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "ShareTable")
-public class ShareTableDTO {
+public class ShareTable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ShareID")
@@ -18,9 +18,9 @@ public class ShareTableDTO {
     @Column(name = "TemplateDetails")
     private String templateDetails;
 
-    public ShareTableDTO(){}
+    public ShareTable(){}
 
-    public ShareTableDTO(int shareID, int templateID, String sharingCode, String sharingStatus, String templateDetails) {
+    public ShareTable(int shareID, int templateID, String sharingCode, String sharingStatus, String templateDetails) {
         this.shareID = shareID;
         this.templateID = templateID;
         this.sharingCode = sharingCode;

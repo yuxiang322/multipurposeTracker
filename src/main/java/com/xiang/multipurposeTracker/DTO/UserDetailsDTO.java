@@ -1,22 +1,11 @@
-package com.xiang.multipurposeTracker.model;
+package com.xiang.multipurposeTracker.DTO;
 
-import jakarta.persistence.*;
 
-@Entity
-@Table(name = "UserDetails")
 public class UserDetailsDTO {
 
-    @Id
-    @Column(name = "UserUID", nullable = false)
     private String userUID;
-
-    @Column(name = "Email", nullable = false)
     private String email;
-
-    @Column(name = "Name", nullable = false)
     private String name;
-
-    @Column(name = "Phone", nullable = false)
     private String phone;
 
     public UserDetailsDTO() {}
@@ -44,11 +33,11 @@ public class UserDetailsDTO {
         this.email = email;
     }
 
-    public String getName() {
+    public String getUserName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setUserName(String name) {
         this.name = name;
     }
 

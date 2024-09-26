@@ -1,10 +1,10 @@
-package com.xiang.multipurposeTracker.model;
+package com.xiang.multipurposeTracker.entities;
 
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "HeaderDetails")
-public class HeaderDetailsDTO {
+public class HeaderDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "HeaderID")
@@ -17,15 +17,25 @@ public class HeaderDetailsDTO {
     private String headerFillColour;
     @Column(name = "HeaderTextColour")
     private String headerTextColour;
+    @Column(name = "TextBold")
+    private Boolean textBold;
 
-    public HeaderDetailsDTO() {}
+    public HeaderDetails() {}
 
-    public HeaderDetailsDTO(int headerID, int tableID, String headerName, String headerFillColour, String headerTextColour) {
+    public HeaderDetails(int headerID, int tableID, String headerName, String headerFillColour, String headerTextColour) {
         this.headerID = headerID;
         this.tableID = tableID;
         this.headerName = headerName;
         this.headerFillColour = headerFillColour;
         this.headerTextColour = headerTextColour;
+    }
+
+    public Boolean getTextBold() {
+        return textBold;
+    }
+
+    public void setTextBold(Boolean textBold) {
+        this.textBold = textBold;
     }
 
     public int getHeaderID() {

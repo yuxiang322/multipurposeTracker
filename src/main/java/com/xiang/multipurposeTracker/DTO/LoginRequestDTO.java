@@ -1,4 +1,4 @@
-package com.xiang.multipurposeTracker.model;
+package com.xiang.multipurposeTracker.DTO;
 
 public class LoginRequestDTO {
     private String userName;

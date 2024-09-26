@@ -1,8 +1,10 @@
 package com.xiang.multipurposeTracker.controller;
 
 import com.google.firebase.auth.FirebaseAuthException;
-import com.xiang.multipurposeTracker.model.LoginRequestDTO;
-import com.xiang.multipurposeTracker.model.RegisterRequestDTO;
+import com.xiang.multipurposeTracker.DTO.LoginRequestDTO;
+import com.xiang.multipurposeTracker.DTO.PasswordDTO;
+import com.xiang.multipurposeTracker.DTO.RegisterRequestDTO;
+import com.xiang.multipurposeTracker.DTO.UserDetailsDTO;
 import com.xiang.multipurposeTracker.service.UserCredentialService;
 import com.xiang.multipurposeTracker.service.FirebaseService;
 import org.slf4j.Logger;
@@ -26,8 +28,8 @@ public class UserCredentialController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<String> registrationUser(@RequestBody RegisterRequestDTO registerRequest) throws FirebaseAuthException {
-        String registrationResponse = userCredentialService.registrationValidation(registerRequest.getUsername(), registerRequest.getPassword(), registerRequest.getName(), registerRequest.getEmail(), registerRequest.getPhoneNumber());
+    public ResponseEntity<String> registrationUser(@RequestBody RegisterRequestDTO registerRequestDTO) throws FirebaseAuthException {
+        String registrationResponse = userCredentialService.registrationValidation(registerRequestDTO.getUsername(), registerRequestDTO.getPassword(), registerRequestDTO.getName(), registerRequestDTO.getEmail(), registerRequestDTO.getPhoneNumber());
 
         if (registrationResponse.equals("Registration successful. Please proceed to login.")) {
             return ResponseEntity.ok(registrationResponse);
@@ -39,8 +41,8 @@ public class UserCredentialController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody LoginRequestDTO loginRequest) throws FirebaseAuthException {
-        String loginResponse = userCredentialService.loginValidation(loginRequest.getUserName(), loginRequest.getPassword());
+    public ResponseEntity<String> loginUser(@RequestBody LoginRequestDTO loginRequestDTO) throws FirebaseAuthException {
+        String loginResponse = userCredentialService.loginValidation(loginRequestDTO.getUserName(), loginRequestDTO.getPassword());
 
         if (loginResponse.equals("Invalid username or password")) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(loginResponse);
@@ -48,6 +50,18 @@ public class UserCredentialController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(loginResponse);
         }else {
             return ResponseEntity.ok(loginResponse);
+        }
+    }
+
+    // Change password .request body user uid + password(encrypted) (new)
+    @PostMapping("/changePassword")
+    public ResponseEntity<String> editPassword(@RequestBody PasswordDTO newPassword){
+
+        try {
+            userCredentialService.updatePassword(newPassword.getUserUID(), newPassword.getPassword());
+            return ResponseEntity.ok("Password updated successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to update password: " + e.getMessage());
         }
     }
 }

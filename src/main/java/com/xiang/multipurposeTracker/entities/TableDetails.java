@@ -1,10 +1,10 @@
-package com.xiang.multipurposeTracker.model;
+package com.xiang.multipurposeTracker.entities;
 
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "TableDetails")
-public class TableDetailsDTO {
+public class TableDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "TableDetailsID")
@@ -14,9 +14,9 @@ public class TableDetailsDTO {
     @Column(name = "JsonData")
     private String jsonData;
 
-    public TableDetailsDTO(){}
+    public TableDetails(){}
 
-    public TableDetailsDTO(int tableDetailsID, Integer tableID, String jsonData) {
+    public TableDetails(int tableDetailsID, Integer tableID, String jsonData) {
         this.tableDetailsID = tableDetailsID;
         this.tableID = tableID;
         this.jsonData = jsonData;

@@ -5,10 +5,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d1db8eb0-4824-475c-982c-3f60315432ee" name="Changes" comment="6th commit&#10;1. Registration and login">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/DTO/PasswordDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/DTO/TemplateDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/DTO/UserDetailsDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/DTO/UserUIDRequestDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/controller/TemplateController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/controller/UserDetailsController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/service/TemplateService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/service/UserDetailsService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/controller/UserCredentialController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/controller/UserCredentialController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/model/HeaderDetailsDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/entities/HeaderDetails.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/model/LoginRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/DTO/LoginRequestDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/model/NotificationsDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/entities/Notifications.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/model/RegisterRequestDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/DTO/RegisterRequestDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/model/RepeatStatusDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/entities/RepeatStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/model/ShareTableDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/entities/ShareTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/model/TableDetailsDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/entities/TableDetails.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/model/TemplateDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/entities/Template.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/model/TemplateTablesDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/entities/TemplateTables.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/model/UserCredentialsDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/entities/UserCredentials.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/model/UserDetailsDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/entities/UserDetails.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/repository/TemplateRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/repository/TemplateRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/repository/UserCredentialsRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/repository/UserCredentialsRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/repository/UserDetailsRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/repository/UserDetailsRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/service/UserCredentialService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/service/UserCredentialService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,6 +96,9 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\rlptr\IdeaProjects\backendMultipurposeTracker\src\main\resources\firebase" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.xiang.multipurposeTracker.DTO" />
     </key>
   </component>
   <component name="RunManager">
@@ -190,7 +215,15 @@
       <option name="project" value="LOCAL" />
       <updated>1724023726955</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="6th commit&#10;1. Registration and login">
+      <option name="closed" value="true" />
+      <created>1724045333975</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1724045333975</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">

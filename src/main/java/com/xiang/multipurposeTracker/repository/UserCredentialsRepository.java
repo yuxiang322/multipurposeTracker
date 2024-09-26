@@ -1,12 +1,13 @@
 package com.xiang.multipurposeTracker.repository;
 
-import com.xiang.multipurposeTracker.model.UserCredentialsDTO;
+import com.xiang.multipurposeTracker.entities.UserCredentials;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserCredentialsRepository extends JpaRepository<UserCredentialsDTO, String> {
+public interface UserCredentialsRepository extends JpaRepository<UserCredentials, String> {
 
-    UserCredentialsDTO findByUsername(String username);
-    UserCredentialsDTO findByUsernameAndPassword(String username, String password);
+    UserCredentials findByUsername(String username);
+    UserCredentials findByUsernameAndPassword(String username, String password);
+    UserCredentials findByUserUID(String userUID);
 }

@@ -1,10 +1,10 @@
-package com.xiang.multipurposeTracker.model;
+package com.xiang.multipurposeTracker.entities;
 
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Notifications")
-public class NotificationsDTO {
+public class Notifications {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "NotificationID")
@@ -22,9 +22,9 @@ public class NotificationsDTO {
     @Column(name = "EmailFlag")
     private Boolean emailFlag;
 
-    public NotificationsDTO(){}
+    public Notifications(){}
 
-    public NotificationsDTO(int notificationID, Integer templateID, String userUID, Boolean notificationFlag, Boolean smsFlag, Boolean whatsAppFlag, Boolean emailFlag) {
+    public Notifications(int notificationID, Integer templateID, String userUID, Boolean notificationFlag, Boolean smsFlag, Boolean whatsAppFlag, Boolean emailFlag) {
         this.notificationID = notificationID;
         this.templateID = templateID;
         this.userUID = userUID;

@@ -3,8 +3,8 @@ package com.xiang.multipurposeTracker.service;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
-import com.xiang.multipurposeTracker.model.UserCredentialsDTO;
-import com.xiang.multipurposeTracker.model.UserDetailsDTO;
+import com.xiang.multipurposeTracker.entities.UserCredentials;
+import com.xiang.multipurposeTracker.entities.UserDetails;
 import com.xiang.multipurposeTracker.repository.UserCredentialsRepository;
 import com.xiang.multipurposeTracker.repository.UserDetailsRepository;
 import jakarta.transaction.Transactional;
@@ -23,7 +23,7 @@ public class UserCredentialService {
     public String registrationValidation(String username, String password, String name, String email, String phoneNumber) {
         String response = null;
         // Validate the user credentials -- Username
-        UserCredentialsDTO userCredential = userCredentialsRepository.findByUsername(username);
+        UserCredentials userCredential = userCredentialsRepository.findByUsername(username);
 
         if (userCredential == null) {
             try {
@@ -34,7 +34,7 @@ public class UserCredentialService {
 
                 if (userRecord != null) {
                     // Insert user into User_Details table
-                    UserDetailsDTO newUserDetails = new UserDetailsDTO();
+                    UserDetails newUserDetails = new UserDetails();
                     newUserDetails.setUserUID(userRecord.getUid());
                     newUserDetails.setEmail(email);
                     newUserDetails.setName(name);
@@ -42,7 +42,7 @@ public class UserCredentialService {
                     userDetailsRepository.save(newUserDetails);
 
                     // Insert user into User_Credentials table
-                    UserCredentialsDTO newUserCredentials = new UserCredentialsDTO();
+                    UserCredentials newUserCredentials = new UserCredentials();
                     newUserCredentials.setUsername(username);
                     newUserCredentials.setPassword(password);
                     newUserCredentials.setUserUID(userRecord.getUid());
@@ -63,7 +63,7 @@ public class UserCredentialService {
     public String loginValidation(String username, String password) {
         String response = null;
         // Validate the login
-        UserCredentialsDTO userCredential = userCredentialsRepository.findByUsernameAndPassword(username, password);
+        UserCredentials userCredential = userCredentialsRepository.findByUsernameAndPassword(username, password);
         if (userCredential != null && userCredential.getPassword().equals(password)) {
             try {
                 String uid = userCredential.getUserUID();
@@ -77,5 +77,34 @@ public class UserCredentialService {
             response = "Invalid username or password";
         }
         return response;
+    }
+
+    public String getUserName(String userUID){
+        // Retrieve UserCredentials by userUID
+        UserCredentials userCredentials = userCredentialsRepository.findByUserUID(userUID);
+
+        // Check if userCredentials is null
+        if (userCredentials != null) {
+            System.out.println(userCredentials.getUsername());
+            return userCredentials.getUsername();
+        } else {
+            // You can return a default value or throw an exception as needed
+            throw new RuntimeException("User credentials not found for userUID: " + userUID);
+        }
+    }
+
+    public void updatePassword(String userUID, String newPassword) throws Exception {
+        // Find the user by userUID
+        UserCredentials user = userCredentialsRepository.findByUserUID(userUID);
+
+        if (user == null) {
+            throw new Exception("User not found");
+        }
+
+        // Update the password with the already encrypted password
+        user.setPassword(newPassword);
+
+        // Save the updated user entity
+        userCredentialsRepository.save(user);
     }
 }

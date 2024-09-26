@@ -1,30 +1,41 @@
-package com.xiang.multipurposeTracker.model;
+package com.xiang.multipurposeTracker.entities;
 
 import java.time.LocalDateTime;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Template")
-public class TemplateDTO {
+public class Template {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "TemplateID")
+    @Column(name = "Templateid")
     private int templateID;
-    @Column(name = "UserUID")
+    @Column(name = "Useruid")
     private String userUID;
-    @Column(name = "TemplateName")
+    @Column(name = "Templatename")
     private String templateName;
-    @Column(name = "DateCreated")
+    @Column(name = "Datecreated")
     private LocalDateTime dateCreated;
+    @Column(name = "Description")
+    private String templateDescription;
 
-    public TemplateDTO(){}
+    public Template(){}
 
-    public TemplateDTO(int templateID, String userUID, String templateName, LocalDateTime dateCreated) {
+    public Template(int templateID, String userUID, String templateName, LocalDateTime dateCreated, String templateDescription) {
         this.templateID = templateID;
         this.userUID = userUID;
         this.templateName = templateName;
         this.dateCreated = dateCreated;
+        this.templateDescription = templateDescription;
+    }
+
+    public String getTemplateDescription() {
+        return templateDescription;
+    }
+
+    public void setTemplateDescription(String templateDescription) {
+        this.templateDescription = templateDescription;
     }
 
     public int getTemplateID() {

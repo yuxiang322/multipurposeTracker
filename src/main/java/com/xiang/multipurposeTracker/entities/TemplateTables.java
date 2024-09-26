@@ -1,10 +1,10 @@
-package com.xiang.multipurposeTracker.model;
+package com.xiang.multipurposeTracker.entities;
 
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "TemplateTables")
-public class TemplateTablesDTO {
+public class TemplateTables {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "TableID")
@@ -15,9 +15,9 @@ public class TemplateTablesDTO {
     private String tableName;
 
 
-    public TemplateTablesDTO(){}
+    public TemplateTables(){}
 
-    public TemplateTablesDTO(int tableID, int templateID, String tableName) {
+    public TemplateTables(int tableID, int templateID, String tableName) {
         this.tableID = tableID;
         this.templateID = templateID;
         this.tableName = tableName;

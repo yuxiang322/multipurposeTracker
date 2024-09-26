@@ -1,4 +1,4 @@
-package com.xiang.multipurposeTracker.model;
+package com.xiang.multipurposeTracker.entities;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "RepeatStatus")
-public class RepeatStatusDTO {
+public class RepeatStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "RepeatID")
@@ -20,9 +20,9 @@ public class RepeatStatusDTO {
     @Column(name = "RepeatStartTime")
     private LocalTime repeatStartTime;
 
-    public RepeatStatusDTO(){}
+    public RepeatStatus(){}
 
-    public RepeatStatusDTO(int repeatID, int notificationID, String repeatInterval, LocalDate repeatStartDate, LocalTime repeatStartTime) {
+    public RepeatStatus(int repeatID, int notificationID, String repeatInterval, LocalDate repeatStartDate, LocalTime repeatStartTime) {
         this.repeatID = repeatID;
         this.notificationID = notificationID;
         this.repeatInterval = repeatInterval;
