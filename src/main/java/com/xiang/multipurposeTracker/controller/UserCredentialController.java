@@ -53,7 +53,7 @@ public class UserCredentialController {
         }
     }
 
-    // Change password .request body user uid + password(encrypted) (new)
+    // Change password
     @PostMapping("/changePassword")
     public ResponseEntity<String> editPassword(@RequestBody PasswordDTO newPassword){
 

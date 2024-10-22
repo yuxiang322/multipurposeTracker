@@ -1,4 +1,17 @@
 package com.xiang.multipurposeTracker.repository;
 
-public class RepeatStatusRepository {
+import com.xiang.multipurposeTracker.entities.RepeatStatus;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+
+@Repository
+public interface RepeatStatusRepository extends JpaRepository<RepeatStatus, String> {
+
+    RepeatStatus findByNotificationID(int notificationID);
+
+    Optional<RepeatStatus> findByRepeatID(int repeatID);
+
+    void deleteByNotificationID(int notificationID);
 }

@@ -29,16 +29,12 @@ public class TemplateController {
     // Create Template
     @PostMapping("/createTemplate")
     public ResponseEntity<String> createTemplate(@RequestBody TemplateDTO templateRequest) {
-        System.out.println("here? ");
         try {
             String responseMessage = templateService.createTemplate(templateRequest);
-            // Return a 200 OK status with a success message
             return new ResponseEntity<>(responseMessage, HttpStatus.OK);
         } catch (RuntimeException e) {
             // Log the error for debugging
             System.err.println("Error in controller: " + e.getMessage());
-
-            // Return a 400 or 500 status code based on the error
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -46,16 +42,12 @@ public class TemplateController {
     // Delete Template
     @PostMapping("/deleteTemplate")
     public ResponseEntity<String> deleteTemplate(@RequestBody TemplateDTO templateRequest) {
-
         try {
             String responseMessage = templateService.deleteTemplate(templateRequest);
-            // Return a 200 OK status with a success message
             return new ResponseEntity<>(responseMessage, HttpStatus.OK);
         } catch (RuntimeException e) {
             // Log the error for debugging
             System.err.println("Error in controller: " + e.getMessage());
-
-            // Return a 400 or 500 status code based on the error
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

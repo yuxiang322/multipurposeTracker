@@ -1,30 +1,26 @@
-package com.xiang.multipurposeTracker.entities;
+package com.xiang.multipurposeTracker.DTO;
 
 import jakarta.persistence.*;
 
-@Entity
-@Table(name = "Notifications")
-public class Notifications {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Notificationid")
+public class NotificationDTO {
+
     private int notificationID;
-    @Column(name = "Templateid")
+
     private Integer templateID;
-    @JoinColumn(name = "Useruid")
+
     private String userUID;
-    @Column(name = "Notificationflag")
+
     private Boolean notificationFlag;
-    @Column(name = "smsflag")
+
     private Boolean smsFlag;
-    @Column(name = "Whatsappflag")
+
     private Boolean whatsAppFlag;
-    @Column(name = "Emailflag")
+
     private Boolean emailFlag;
 
-    public Notifications(){}
+    public NotificationDTO(){}
 
-    public Notifications(int notificationID, Integer templateID, String userUID, Boolean notificationFlag, Boolean smsFlag, Boolean whatsAppFlag, Boolean emailFlag) {
+    public NotificationDTO(int notificationID, Integer templateID, String userUID, Boolean notificationFlag, Boolean smsFlag, Boolean whatsAppFlag, Boolean emailFlag) {
         this.notificationID = notificationID;
         this.templateID = templateID;
         this.userUID = userUID;

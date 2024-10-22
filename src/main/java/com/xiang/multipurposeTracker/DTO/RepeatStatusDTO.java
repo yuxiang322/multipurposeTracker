@@ -1,30 +1,18 @@
-package com.xiang.multipurposeTracker.entities;
+package com.xiang.multipurposeTracker.DTO;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import jakarta.persistence.*;
 
-@Entity
-@Table(name = "RepeatStatus")
-public class RepeatStatus {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Repeatid")
+public class RepeatStatusDTO {
+
     private int repeatID;
-    @Column(name = "Notificationid")
     private int notificationID;
-    @Column(name = "Repeatinterval")
     private String repeatInterval;
-    @Column(name = "Repeatstartdate")
-    private LocalDate repeatStartDate;
-    @Column(name = "Repeatstarttime")
-    private LocalTime repeatStartTime;
-    @Column(name = "Repeatintervaltype")
+    private String repeatStartDate;
+    private String repeatStartTime;
     private String repeatIntervalType;
 
-    public RepeatStatus(){}
+    public RepeatStatusDTO(){}
 
-    public RepeatStatus(int repeatID, int notificationID, String repeatInterval, LocalDate repeatStartDate, LocalTime repeatStartTime, String repeatIntervalType) {
+    public RepeatStatusDTO(int repeatID, int notificationID, String repeatInterval, String repeatStartDate, String repeatStartTime, String repeatIntervalType) {
         this.repeatID = repeatID;
         this.notificationID = notificationID;
         this.repeatInterval = repeatInterval;
@@ -57,19 +45,19 @@ public class RepeatStatus {
         this.repeatInterval = repeatInterval;
     }
 
-    public LocalDate getRepeatStartDate() {
+    public String getRepeatStartDate() {
         return repeatStartDate;
     }
 
-    public void setRepeatStartDate(LocalDate repeatStartDate) {
+    public void setRepeatStartDate(String repeatStartDate) {
         this.repeatStartDate = repeatStartDate;
     }
 
-    public LocalTime getRepeatStartTime() {
+    public String getRepeatStartTime() {
         return repeatStartTime;
     }
 
-    public void setRepeatStartTime(LocalTime repeatStartTime) {
+    public void setRepeatStartTime(String repeatStartTime) {
         this.repeatStartTime = repeatStartTime;
     }
 

@@ -22,7 +22,7 @@ public class UserDetailsController {
     @Autowired
     private UserCredentialService userCredentialService;
 
-    // Get user details .request body user uid
+    // Get user details
     @PostMapping("/getUserDetails")
     public ResponseEntity<UserDetailsDTO> getUserDetails(@RequestBody UserDetailsDTO userDetailsDTO) {
 
@@ -32,7 +32,7 @@ public class UserDetailsController {
             return ResponseEntity.ok(userDetails);
     }
 
-    // Edit email  .request body user uid + email(new)
+    // Edit email
     @PostMapping("/changeEmail")
     public ResponseEntity<String> editEmail(@RequestBody UserDetailsDTO newEmail){
 
@@ -45,7 +45,7 @@ public class UserDetailsController {
         }
     }
 
-    // Edit phone .request body user uid + phone(new)
+    // Edit phone
     @PostMapping("/changePhone")
     public ResponseEntity<String> editPhone(@RequestBody UserDetailsDTO newPhone){
 
