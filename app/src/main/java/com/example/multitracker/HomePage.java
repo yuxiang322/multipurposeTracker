@@ -45,18 +45,14 @@ public class HomePage extends AppCompatActivity {
         // Set up buttons
         buttonSetup();
     }
-
     @Override
     protected void onResume() {
         super.onResume();
         addTemplates();
         searchTemplate();
     }
-
     private void menuSetup() {
-
         ImageButton menuButton = findViewById(R.id.menuButton);
-
         MenuUtil.setupMenuButton(this, R.id.menuButton, R.menu.homepage_menu, new MenuUtil.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -92,59 +88,51 @@ public class HomePage extends AppCompatActivity {
         Button importButton = findViewById(R.id.templateImport);
         Button addTemplateButton = findViewById(R.id.addTemplate);
 
-        //account
+        // account
         accountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Handle Account button click
-                Toast.makeText(HomePage.this, "Account button clicked", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(HomePage.this, AccountDetails.class);
                 startActivity(intent);
             }
         });
-        //import
+        // import
         importButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Handle Import button click
-                Toast.makeText(HomePage.this, "Import button clicked", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(HomePage.this, ImportTemplate.class);
                 startActivity(intent);
             }
         });
-        //add template
+        // add template
         addTemplateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Handle Add Template button click
-                Toast.makeText(HomePage.this, "Add Template button clicked", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(HomePage.this, CreateTemplate.class);
                 startActivity(intent);
             }
         });
     }
-
     // Setup search functionality
     private void searchTemplate() {
-
         EditText searchTemplate = findViewById(R.id.searchTemplate);
         searchTemplate.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // Filter templates as the user types
                 filterTemplates(s.toString());
             }
-
             @Override
             public void afterTextChanged(Editable s) {
             }
         });
     }
-
     private void filterTemplates(String keyword) {
         List<TemplateDTO> filteredTemplates = new ArrayList<>();
 
@@ -155,38 +143,24 @@ public class HomePage extends AppCompatActivity {
                 filteredTemplates.add(template);
             }
         }
-        // Update the ScrollView with the filtered templates
+        // Update with the filtered templates
         populateScrollViewWithTemplates(filteredTemplates);
     }
-
     private void addTemplates() {
-        // Step 1: Setup the Retrofit API call
-        TemplatesAPI homepageAPI = RetrofitClientInstance.getRetrofitInstance().create(TemplatesAPI.class);
-
-        // Assume you have the UserUID stored as a global variable or fetched from somewhere
-        String userUID = GlobalConstant.userID; // Replace with actual userUID
-
-        // Create the request object for the API call
+        TemplatesAPI templateAPI = RetrofitClientInstance.getRetrofitInstance().create(TemplatesAPI.class);
+        String userUID = GlobalConstant.userID;
         UserUIDRequestDTO requestDTO = new UserUIDRequestDTO(userUID);
-
-        // Make the API call to fetch templates
-        Call<List<TemplateDTO>> call = homepageAPI.getTemplates(requestDTO);
-
-        // Step 2: Enqueue the Retrofit API call
+        Call<List<TemplateDTO>> call = templateAPI.getTemplates(requestDTO);
         call.enqueue(new Callback<List<TemplateDTO>>() {
             @Override
             public void onResponse(Call<List<TemplateDTO>> call, Response<List<TemplateDTO>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     allTemplates = response.body();
-
-                    // Step 3: Populate the ScrollView with the templates
                     populateScrollViewWithTemplates(allTemplates);
                 } else {
-                    // Handle API error
                     Toast.makeText(HomePage.this, "Failed to retrieve templates", Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onFailure(Call<List<TemplateDTO>> call, Throwable t) {
                 // Handle network failure
@@ -194,21 +168,16 @@ public class HomePage extends AppCompatActivity {
             }
         });
     }
-
     private void populateScrollViewWithTemplates(List<TemplateDTO> templates) {
         LinearLayout scrollViewLinearLayout = findViewById(R.id.templateLinearLayout);
-
-        // Clear any previous views
+        // Clear
         scrollViewLinearLayout.removeAllViews();
-
-        // Inflate the template layout for each template and add it to the LinearLayout
+        // Inflate the template layout for each
         LayoutInflater inflater = LayoutInflater.from(this);
 
         for (TemplateDTO template : templates) {
-            // Inflate the template layout
             View templateView = inflater.inflate(R.layout.homepage_template_container, scrollViewLinearLayout, false);
-
-            // Set margins for each inflated view
+            // Set margins for each view
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
@@ -216,64 +185,48 @@ public class HomePage extends AppCompatActivity {
             layoutParams.setMargins(16, 16, 16, 16);  // Adjust margins as needed
             templateView.setLayoutParams(layoutParams);
 
-            // Find and populate the views with template data
             TextView templateName = templateView.findViewById(R.id.templateTitle);
             TextView templateDescription = templateView.findViewById(R.id.templateDescription);
             Button deleteButton = templateView.findViewById(R.id.deleteButton);
             Button viewDetails = templateView.findViewById(R.id.viewDetailsButton);
 
-            // Set the template data into the views
             templateName.setText(template.getTemplateName());
             templateDescription.setText(template.getTemplateDescription());
 
-            // Handle delete button click for each individual template
             deleteButton.setOnClickListener(v -> {
-                // Call a method to handle the delete action, passing the template ID
                 deleteTemplate(template);
-                Toast.makeText(HomePage.this, "Delete clicked", Toast.LENGTH_SHORT).show();
             });
 
             viewDetails.setOnClickListener(v -> {
-                //move intent
-                Toast.makeText(HomePage.this, "Details clicked", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(this, TemplateDetails.class);
                 intent.putExtra("TEMPLATE_KEY", template);
                 startActivity(intent);
             });
-
-
             // Add the inflated view to the LinearLayout inside the ScrollView
             scrollViewLinearLayout.addView(templateView);
         }
     }
-
-
     private void deleteTemplate(TemplateDTO templateDTODeleteRequest) {
-        // Show a confirmation dialog (optional)
         new AlertDialog.Builder(this)
                 .setTitle("Delete Template")
                 .setMessage("Are you sure you want to delete this template?")
                 .setPositiveButton(android.R.string.yes, (dialog, which) -> {
-                    // Call your API to delete the template using the templateID and userID
                     TemplatesAPI apiService = RetrofitClientInstance.getRetrofitInstance().create(TemplatesAPI.class);
                     Call<String> call = apiService.deleteTemplate(templateDTODeleteRequest);
                     call.enqueue(new Callback<String>() {
                         @Override
                         public void onResponse(Call<String> call, Response<String> response) {
                             if (response.isSuccessful() && response.body() != null) {
-                                // Handle success message from the response
+                                // Handle success message
                                 String deleteResponse = response.body();
                                 Toast.makeText(HomePage.this, deleteResponse, Toast.LENGTH_SHORT).show();
-                                // Optionally, refresh the list of templates after deletion
                                 addTemplates();
                             } else {
                                 Toast.makeText(HomePage.this, "Failed to delete template", Toast.LENGTH_SHORT).show();
                             }
                         }
-
                         @Override
                         public void onFailure(Call<String> call, Throwable t) {
-                            // Handle failure (network error, etc.)
                             Toast.makeText(HomePage.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });

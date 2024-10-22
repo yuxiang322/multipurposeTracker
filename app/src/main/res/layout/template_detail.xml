@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="16dp">
 
     <LinearLayout
@@ -14,29 +14,36 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-            android:id="@+id/templateName"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:text="Template"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:enabled="false"/>
+        <ScrollView
+            android:layout_width="210dp"
+            android:layout_height="80dp"
+            android:paddingTop="10dp">
+
+            <EditText
+                android:id="@+id/templateName"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="Template"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+        </ScrollView>
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:paddingTop="10dp">
+
             <EditText
                 android:id="@+id/templateDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Description"
-                android:textSize="16dp"
-                android:textStyle="bold"
                 android:enabled="false"
                 android:padding="10dp"
-                android:scrollbars="vertical"/>
+                android:scrollbars="vertical"
+                android:text="Description"
+                android:textSize="16dp"
+                android:textStyle="bold" />
         </ScrollView>
 
         <ScrollView
@@ -51,6 +58,11 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="In Progress"
+                    android:textSize="20dp" />
             </LinearLayout>
         </ScrollView>
 
@@ -61,7 +73,7 @@
             android:backgroundTint="@color/black"
             android:text="+"
             android:textSize="20dp"
-            app:layout_constraintTop_toBottomOf="@id/scrollViewDetails"/>
+            app:layout_constraintTop_toBottomOf="@id/scrollViewDetails" />
     </LinearLayout>
 
 
@@ -74,27 +86,35 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/editTemplate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="edit" />
+
         <Button
             android:id="@+id/saveTemplate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save"
-            android:layout_marginStart="150dp"/>
+            android:layout_marginStart="75dp"
+            android:text="Save" />
+
         <Button
             android:id="@+id/cancelSaveTemplate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cancel"
-            android:layout_marginStart="20dp"/>
+            android:layout_marginStart="15dp"
+            android:text="Cancel" />
     </LinearLayout>
 
     <Button
-        android:id="@+id/topRightButton"
+        android:id="@+id/topRightNotificationButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Edit"
+        android:layout_margin="10dp"
+        android:text="Notification"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_margin="10dp"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

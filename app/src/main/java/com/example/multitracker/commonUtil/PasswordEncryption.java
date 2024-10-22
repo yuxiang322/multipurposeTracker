@@ -11,7 +11,7 @@ public class PasswordEncryption {
 
             byte[] encodedHash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
 
-            // Convert the byte array to hexadecimal string
+            // Convert byte array to hexadecimal string
             return bytesToHex(encodedHash);
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);

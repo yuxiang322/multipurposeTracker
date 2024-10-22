@@ -11,7 +11,8 @@ import okhttp3.logging.HttpLoggingInterceptor;
 
 public class RetrofitClientInstance {
     private static Retrofit retrofit;
-    private static final String BASE_URL = "http://192.168.0.2:8080/";
+    //private static final String BASE_URL = "http://192.168.0.10:8080/";
+    private static  final String BASE_URL = "https://multipurposetracker-esaga3auhghmd6ej.southeastasia-01.azurewebsites.net/";
 
     public static Retrofit getRetrofitInstance() {
 

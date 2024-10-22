@@ -38,12 +38,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
         // Redirect user to homepage
 //        Intent intent = new Intent(MainActivity.this, HomePage.class);
 //        startActivity(intent);
-
         mAuth = FirebaseAuth.getInstance();
         usernameEditText = findViewById(R.id.username);
         passwordEditText = findViewById(R.id.password);
@@ -52,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
         // set up register
         setupRegistration();
     }
-
     private void setupRegistration() {
         Button registerButton = findViewById(R.id.register);
         registerButton.setOnClickListener(new View.OnClickListener() {
@@ -64,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
     private void setupLogin() {
         Button loginButton = findViewById(R.id.login);
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -82,14 +77,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
     private void validateLogin(String username, String password) {
-
         // Encrypt password
         PasswordEncryption passwordEncryption = new PasswordEncryption();
         String encryptedPassword = passwordEncryption.encrypt(password);
-
-        // Call API
         LoginRequestDTO loginRequest = new LoginRequestDTO(username, encryptedPassword);
         MainPageAPI loginService = RetrofitClientInstance.getRetrofitInstance().create(MainPageAPI.class);
         Call<String> call = loginService.loginUser(loginRequest);
@@ -109,19 +100,15 @@ public class MainActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         Log.e("login", "Error reading error body", e);
                     }
-                    Log.d("login", "Error response body: " + errorBody);
                     Toast.makeText(MainActivity.this, "Error: " + response.code() + " - " + errorBody, Toast.LENGTH_LONG).show();
                 }
             }
-
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                Log.d("login", "Error coonnecting: " + t.getMessage());
                 Toast.makeText(MainActivity.this, "An error occurred: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
-
     private void firebaseAuthentication(String firebaseToken) {
         mAuth.signInWithCustomToken(firebaseToken)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -130,10 +117,8 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success
                             FirebaseUser user = mAuth.getCurrentUser();
-
                             GlobalConstant.userID = user.getUid();
                             Log.d("Firebase", "User ID stored: " + GlobalConstant.userID);
-
                             // Redirect user to homepage
                             Intent intent = new Intent(MainActivity.this, HomePage.class);
                             startActivity(intent);

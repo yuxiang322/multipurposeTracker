@@ -79,7 +79,7 @@ public class TemplateDTO implements Parcelable {
         dest.writeInt(templateID);
         dest.writeString(userUID);
         dest.writeString(templateName);
-        dest.writeString(dateCreated);  // Write dateCreated as String
+        dest.writeString(dateCreated);
         dest.writeString(templateDescription);
     }
 
@@ -89,7 +89,7 @@ public class TemplateDTO implements Parcelable {
             int templateID = in.readInt();
             String userUID = in.readString();
             String templateName = in.readString();
-            String dateCreatedStr = in.readString();  // Read dateCreated as String
+            String dateCreatedStr = in.readString();
             String templateDescription = in.readString();
 
             return new TemplateDTO(templateID, userUID, templateName, dateCreatedStr, templateDescription);

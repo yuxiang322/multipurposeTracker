@@ -21,19 +21,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
 public class RegistrationPage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registration);
-
         // Set up registration
         registrationSetup();
     }
-
     private void registrationSetup(){
-
         Button submitButton = findViewById(R.id.registrationSubmit);
         Button cancelButton = findViewById(R.id.registrationCancel);
         EditText usernameEditText = findViewById(R.id.registrationUsername);
@@ -42,7 +38,6 @@ public class RegistrationPage extends AppCompatActivity {
         EditText emailEditText = findViewById(R.id.registrationEmail);
         Spinner countryCodeSpinner = findViewById(R.id.registrationCountryCode);
         EditText phoneEditText = findViewById(R.id.registrationPhone);
-
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,25 +46,21 @@ public class RegistrationPage extends AppCompatActivity {
                 String name = nameEditText.getText().toString().trim();
                 String email = emailEditText.getText().toString().trim();
                 String phone = phoneEditText.getText().toString().trim();
-
                 if (username.isEmpty()) {
                     usernameEditText.setError("Username is required");
                     usernameEditText.requestFocus();
                     return;
                 }
-
                 if (password.isEmpty()) {
                     passwordEditText.setError("Password is required");
                     passwordEditText.requestFocus();
                     return;
                 }
-
                 if (name.isEmpty()) {
                     nameEditText.setError("Name is required");
                     nameEditText.requestFocus();
                     return;
                 }
-
                 if (email.isEmpty()) {
                     emailEditText.setError("Email is required");
                     emailEditText.requestFocus();
@@ -79,7 +70,6 @@ public class RegistrationPage extends AppCompatActivity {
                     emailEditText.requestFocus();
                     return;
                 }
-
                 if (phone.isEmpty()) {
                     phoneEditText.setError("Phone number is required");
                     phoneEditText.requestFocus();
@@ -98,19 +88,16 @@ public class RegistrationPage extends AppCompatActivity {
                 nameEditText.setText("");
                 emailEditText.setText("");
                 phoneEditText.setText("");
-                countryCodeSpinner.setSelection(0); // Reset spinner to the first item
+                countryCodeSpinner.setSelection(0); // Reset spinner
                 finish();
             }
         });
     }
-
     private void performRegistration(String username, String password, String name, String email, String phone){
         // Encrypt password
         PasswordEncryption passwordEncryption = new PasswordEncryption();
         String encryptedPassword = passwordEncryption.encrypt(password);
-        Log.d("register", "password: " + encryptedPassword);
 
-        // Call API
         RegisterRequestDTO registerRequest = new RegisterRequestDTO(username, encryptedPassword, name, email, phone);
         MainPageAPI registerService = RetrofitClientInstance.getRetrofitInstance().create(MainPageAPI.class);
         Call<String> call = registerService.registerUser(registerRequest);
@@ -137,7 +124,6 @@ public class RegistrationPage extends AppCompatActivity {
                     Toast.makeText(RegistrationPage.this, "Error: " + response.code() + " - " + errorBody, Toast.LENGTH_LONG).show();
                 }
             }
-
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 Toast.makeText(RegistrationPage.this, "An error occurred: " + t.getMessage(), Toast.LENGTH_LONG).show();

@@ -24,7 +24,6 @@ import retrofit2.Response;
 public class CreateTemplate extends AppCompatActivity {
     private EditText nameEditText, descriptionEditText;
     private Button addTemplateButton, cancelTemplateButton;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,17 +31,14 @@ public class CreateTemplate extends AppCompatActivity {
 
         // Initialize the EditText and Button views
         initViews();
-
         setupListeners();
     }
-
     private void initViews() {
         nameEditText = findViewById(R.id.templateName);
         descriptionEditText = findViewById(R.id.templateDescription);
         addTemplateButton = findViewById(R.id.addTemplate);
         cancelTemplateButton = findViewById(R.id.cancelTemplate);
     }
-
     private void setupListeners(){
         // Set onClickListener for the "Add" button
         addTemplateButton.setOnClickListener(new View.OnClickListener() {
@@ -51,7 +47,6 @@ public class CreateTemplate extends AppCompatActivity {
                 validateAndAddTemplate();
             }
         });
-
         // Set onClickListener for the "Cancel" button
         cancelTemplateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,60 +55,50 @@ public class CreateTemplate extends AppCompatActivity {
             }
         });
     }
-
     private void validateAndAddTemplate() {
         // Get the input from EditText fields
         String name = nameEditText.getText().toString().trim();
         String description = descriptionEditText.getText().toString().trim();
-
         // Validate the input fields
         if (TextUtils.isEmpty(name)) {
             nameEditText.setError("Name is required");
             nameEditText.requestFocus();
             return;
         }
-
         if (TextUtils.isEmpty(description)) {
             descriptionEditText.setError("Description is required");
             descriptionEditText.requestFocus();
             return;
         }
-
-        // If validation passes, show a success message and proceed
         Toast.makeText(this, "Template added successfully", Toast.LENGTH_SHORT).show();
 
-        // Implement the logic to call the API and add the template
         // Create the TemplateDTO object to send in the API request
         TemplateDTO templateRequest = new TemplateDTO();
         templateRequest.setTemplateName(name);
         templateRequest.setTemplateDescription(description);
-        templateRequest.setUserUID(GlobalConstant.userID); // Replace with actual user ID
+        templateRequest.setUserUID(GlobalConstant.userID);
 
         // Convert the current time to UTC and format it as a string
         LocalDateTime dateCreated = LocalDateTime.now(ZoneOffset.UTC);
-       // Set the dateCreated string in the DTO
+        // Set the dateCreated string in the DTO
         templateRequest.setDateCreated(dateCreated);
 
-        // Use Retrofit to make the API call
+        // make the API call
         TemplatesAPI createApiService = RetrofitClientInstance.getRetrofitInstance().create(TemplatesAPI.class);
         Call<String> call = createApiService.createTemplates(templateRequest);
-
-        // Enqueue the call to run asynchronously
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
-                    // Handle the success response
+                    // Handle success response
                     String apiResponse = response.body();
                     Toast.makeText(CreateTemplate.this, apiResponse, Toast.LENGTH_SHORT).show();
-                    // Close the activity or navigate back after successful creation
                     finish();
                 } else {
-                    // Handle the failure response
+                    // Handle failure response
                     Toast.makeText(CreateTemplate.this, "Failed to add template", Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 // Handle the error
@@ -121,9 +106,8 @@ public class CreateTemplate extends AppCompatActivity {
             }
         });
     }
-
     private void clearFieldsAndFinish() {
-        // Clear the input fields and finish the activity
+        // Clear input fields
         nameEditText.setText("");
         descriptionEditText.setText("");
         finish();

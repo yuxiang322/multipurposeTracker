@@ -25,10 +25,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AccountDetails extends AppCompatActivity {
-
     private EditText emailEditText;
     private EditText phoneEditText;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +34,6 @@ public class AccountDetails extends AppCompatActivity {
 
         emailEditText = findViewById(R.id.userEmail);
         phoneEditText = findViewById(R.id.userPhone);
-
         // Setup buttons
         hideAllEditButtons();
         // Edit buttons listener
@@ -44,26 +41,20 @@ public class AccountDetails extends AppCompatActivity {
         setUpPhoneEditButtons();
         // change password butotn
         setupChangepassword();
-
     }
-
     @Override
     protected void onResume() {
         super.onResume();
         setUpUserDetails();
     }
-
     // Hide button
     private void hideAllEditButtons() {
         hideEmailEditButtons();
         hidePhoneEditButtons();
     }
-
     // Setup email buttons
     private void setUpEmailEditButtons() {
-
         Button editEmail = findViewById(R.id.editEmailButton);
-
         editEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,21 +65,17 @@ public class AccountDetails extends AppCompatActivity {
             }
         });
     }
-
     private void setUpButtonsEditEmail() {
         Button emailOk = findViewById(R.id.emailOk);
         Button emailCancel = findViewById(R.id.emailCancel);
-
         emailOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // API request to update email
                 updateEmail();
                 hideEmailEditButtons();
                 emailEditText.setEnabled(false);
             }
         });
-
         emailCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,7 +85,6 @@ public class AccountDetails extends AppCompatActivity {
             }
         });
     }
-
     // Edit email api request
     private void updateEmail() {
         String newEmail = emailEditText.getText().toString();
@@ -106,25 +92,21 @@ public class AccountDetails extends AppCompatActivity {
         UserDetailsDTO userDetailsDTO = new UserDetailsDTO();
         userDetailsDTO.setUserUID(userID);
         userDetailsDTO.setEmail(newEmail);
-
         // Call api
         UserDetailsAPI userDetailsAPI = RetrofitClientInstance.getRetrofitInstance().create(UserDetailsAPI.class);
         Call<String> call = userDetailsAPI.changeEmail(userDetailsDTO);
-
-        // Enqueue the call to run asynchronously
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
-                    // Handle the success response
+                    // Handle success response
                     String apiResponse = response.body();
                     Toast.makeText(AccountDetails.this, apiResponse, Toast.LENGTH_SHORT).show();
                 } else {
-                    // Handle the failure response
+                    // Handle failure response
                     Toast.makeText(AccountDetails.this, "Failed to change email", Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 // Handle the error
@@ -132,7 +114,6 @@ public class AccountDetails extends AppCompatActivity {
             }
         });
     }
-
     // Setup phone buttons
     private void setUpPhoneEditButtons() {
         Button editPhone = findViewById(R.id.editPhoneButton);
@@ -146,7 +127,6 @@ public class AccountDetails extends AppCompatActivity {
             }
         });
     }
-
     private void setUpButtonsEditPhone() {
         Button phoneOk = findViewById(R.id.phoneOk);
         Button phoneCancel = findViewById(R.id.phoneCancel);
@@ -159,7 +139,6 @@ public class AccountDetails extends AppCompatActivity {
                 phoneEditText.setEnabled(false);
             }
         });
-
         phoneCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -169,33 +148,27 @@ public class AccountDetails extends AppCompatActivity {
             }
         });
     }
-
     // Edit phone api request
     private void updatePhone() {
         String newPhone = phoneEditText.getText().toString();
-
         UserDetailsDTO userDetailsDTO = new UserDetailsDTO();
         userDetailsDTO.setUserUID(userID);
         userDetailsDTO.setPhone(newPhone);
-
         // Call api
         UserDetailsAPI userDetailsAPI = RetrofitClientInstance.getRetrofitInstance().create(UserDetailsAPI.class);
         Call<String> call = userDetailsAPI.changePhone(userDetailsDTO);
-
-        // Enqueue the call to run asynchronously
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
-                    // Handle the success response
+                    // Handle success response
                     String apiResponse = response.body();
                     Toast.makeText(AccountDetails.this, apiResponse, Toast.LENGTH_SHORT).show();
                 } else {
-                    // Handle the failure response
+                    // Handle failure response
                     Toast.makeText(AccountDetails.this, "Failed to change phone number", Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 // Handle the error
@@ -203,50 +176,39 @@ public class AccountDetails extends AppCompatActivity {
             }
         });
     }
-
     // Hide edit email
     private void hideEmailEditButtons() {
         Button emailOk = findViewById(R.id.emailOk);
         Button emailCancel = findViewById(R.id.emailCancel);
-
         emailOk.setVisibility(View.GONE);
         emailCancel.setVisibility(View.GONE);
     }
-
     // Show the buttons for edit email
     private void showEmailEditButtons() {
         Button emailOk = findViewById(R.id.emailOk);
         Button emailCancel = findViewById(R.id.emailCancel);
-
         emailOk.setVisibility(View.VISIBLE);
         emailCancel.setVisibility(View.VISIBLE);
     }
-
     // Hide edit Phone
     private void hidePhoneEditButtons() {
         Button phoneOk = findViewById(R.id.phoneOk);
         Button phoneCancel = findViewById(R.id.phoneCancel);
-
         phoneOk.setVisibility(View.GONE);
         phoneCancel.setVisibility(View.GONE);
     }
-
     // Show the buttons for edit phone
     private void showPhoneEditButtons() {
         Button phoneOk = findViewById(R.id.phoneOk);
         Button phoneCancel = findViewById(R.id.phoneCancel);
-
         phoneOk.setVisibility(View.VISIBLE);
         phoneCancel.setVisibility(View.VISIBLE);
     }
-
     private void setUpUserDetails() {
         UserDetailsDTO userRequest = new UserDetailsDTO();
         userRequest.setUserUID(userID);
-
         UserDetailsAPI userAPI = RetrofitClientInstance.getRetrofitInstance().create(UserDetailsAPI.class);
         Call<UserDetailsDTO> call = userAPI.getUserDetails(userRequest);
-
         call.enqueue(new Callback<UserDetailsDTO>() {
             @Override
             public void onResponse(Call<UserDetailsDTO> call, Response<UserDetailsDTO> response) {
@@ -261,12 +223,10 @@ public class AccountDetails extends AppCompatActivity {
                         Toast.makeText(AccountDetails.this, "Failed to retrieve user details", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Log.d("details", "Test here???");
                     // Handle the case where response is not successful
                     Toast.makeText(AccountDetails.this, "Failed to retrieve user details", Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onFailure(Call<UserDetailsDTO> call, Throwable t) {
                 // Handle network or other errors
@@ -274,21 +234,17 @@ public class AccountDetails extends AppCompatActivity {
             }
         });
     }
-
     // Populate page
     private void populateDetails(UserDetailsDTO userDetails) {
         TextView userName = findViewById(R.id.userName);
         EditText userEmail = findViewById(R.id.userEmail);
         EditText userPhone = findViewById(R.id.userPhone);
-
         userName.setText(userDetails.getUserUID());
         userEmail.setText(userDetails.getEmail());
         userPhone.setText(userDetails.getPhone());
     }
-
     private void setupChangepassword() {
         Button changePasswordButton = findViewById(R.id.changePassword);
-
         changePasswordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -296,47 +252,35 @@ public class AccountDetails extends AppCompatActivity {
             }
         });
     }
-
     private void showChangePasswordDialog() {
-        // Inflate the dialog layout
+        // Inflate dialog layout
         LayoutInflater inflater = LayoutInflater.from(this);
         View dialogView = inflater.inflate(R.layout.change_password_dialog, null);
-
-        // Create an AlertDialog builder
+        // Create AlertDialog
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(dialogView);
-
-        // Find the EditTexts inside the dialog layout
+        // Find the EditTexts
         EditText newPassword = dialogView.findViewById(R.id.newPassword);
         EditText confirmPassword = dialogView.findViewById(R.id.confirmPassword);
-
-        // Set up the dialog buttons but don't dismiss on click automatically
-        builder.setPositiveButton("OK", null); // Set to null to manually handle it later
+        // Set up the dialog buttons
+        builder.setPositiveButton("OK", null);
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
-
-        // Create and show the dialog
+        // Create the dialog
         AlertDialog dialog = builder.create();
         dialog.show();
 
-        // Set a click listener on the OK button after showing the dialog
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
-            // Handle the password change logic here
             String newPass = newPassword.getText().toString();
             String confirmPass = confirmPassword.getText().toString();
-
-            // Add validation logic
             if (newPass.equals(confirmPass)) {
-                //  Passwords match, proceed with API changing password
                 changePassword(confirmPass);
                 Toast.makeText(AccountDetails.this, "Password changed", Toast.LENGTH_SHORT).show();
-                dialog.dismiss(); // Close the dialog when passwords match
+                dialog.dismiss();
             } else {
-                // Show an error that passwords do not match and keep the dialog open
                 Toast.makeText(AccountDetails.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
             }
         });
     }
-
     private void changePassword(String newPassword) {
         // Encrypt password
         PasswordEncryption passwordEncryption = new PasswordEncryption();
@@ -348,20 +292,18 @@ public class AccountDetails extends AppCompatActivity {
 
         UserDetailsAPI userDetailsAPI = RetrofitClientInstance.getRetrofitInstance().create(UserDetailsAPI.class);
         Call<String> call = userDetailsAPI.changePassword(passwordDTO);
-
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
-                    // Handle the success response
+                    // Handle success response
                     String apiResponse = response.body();
                     Toast.makeText(AccountDetails.this, apiResponse, Toast.LENGTH_SHORT).show();
                 } else {
-                    // Handle the failure response
+                    // Handle failure response
                     Toast.makeText(AccountDetails.this, "Failed to change password", Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 // Handle the error

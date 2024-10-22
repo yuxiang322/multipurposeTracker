@@ -43,10 +43,13 @@
                 android:textSize="20dp" />
 
             <EditText
+                android:id="@+id/notificationEmail"
                 android:layout_width="200dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:enabled="false"/>
 
             <CheckBox
+                android:id="@+id/emailCheckbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -63,8 +66,10 @@
                 android:textSize="20dp" />
 
             <EditText
+                android:id="@+id/notificationPhone"
                 android:layout_width="200dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:enabled="false"/>
 
         </LinearLayout>
 
@@ -80,6 +85,7 @@
                 android:textSize="20dp" />
 
             <CheckBox
+                android:id="@+id/smsCheckbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -90,6 +96,7 @@
                 android:textSize="20dp" />
 
             <CheckBox
+                android:id="@+id/whatappsCheckbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -98,14 +105,16 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Repeat Interval"
-            android:textSize="30dp"
             android:paddingTop="30dp"
-            android:paddingBottom="10dp"/>
+            android:paddingBottom="10dp"
+            android:text="Repeat Interval"
+            android:textSize="30dp" />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -113,57 +122,91 @@
                 android:textSize="20dp" />
 
             <EditText
+                android:id="@+id/repeatStatusStartDate"
                 android:layout_width="200dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:focusable="false"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Start Time: "
+                android:text="Time: "
                 android:textSize="20dp" />
 
             <EditText
+                android:id="@+id/repeatStatusTime"
                 android:layout_width="200dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:focusable="false"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Intervals "
+                android:text="Intervals"
                 android:textSize="20dp" />
 
-            <Button
-                android:id="@+id/buttonMinus"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:text="-"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"/>
-            <TextView
-                android:id="@+id/quantityText"
+            <!-- Spinner for predefined intervals -->
+            <Spinner
+                android:id="@+id/interval_spinner"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <!-- EditText for custom interval, initially hidden -->
+            <EditText
+                android:id="@+id/custom_interval_edittext"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:text="0"
-                android:textSize="20sp"
-                android:gravity="center"
-                android:layout_marginEnd="10dp"/>
-            <Button
-                android:id="@+id/buttonPlus"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:text="+"/>
+                android:inputType="number"
+                android:hint="Enter interval in minutes"
+                android:visibility="gone" />
         </LinearLayout>
+
+        <!--        <LinearLayout-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:orientation="horizontal">-->
+
+        <!--            <TextView-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:text="Repetition"-->
+        <!--                android:textSize="20dp" />-->
+
+        <!--            <Button-->
+        <!--                android:id="@+id/buttonMinus"-->
+        <!--                android:layout_width="40dp"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:text="-"-->
+        <!--                android:layout_marginStart="10dp"-->
+        <!--                android:layout_marginEnd="10dp"/>-->
+        <!--            <TextView-->
+        <!--                android:id="@+id/quantityText"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:text="0"-->
+        <!--                android:textSize="20sp"-->
+        <!--                android:gravity="center"-->
+        <!--                android:layout_marginEnd="10dp"/>-->
+        <!--            <Button-->
+        <!--                android:id="@+id/buttonPlus"-->
+        <!--                android:layout_width="40dp"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:text="+"/>-->
+        <!--        </LinearLayout>-->
 
     </LinearLayout>
 
@@ -176,18 +219,20 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
+
         <Button
             android:id="@+id/saveNotification"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save"
-            android:layout_marginStart="150dp"/>
+            android:layout_marginStart="150dp"
+            android:text="Save" />
+
         <Button
             android:id="@+id/cancelNotification"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cancel"
-            android:layout_marginStart="20dp"/>
+            android:layout_marginStart="20dp"
+            android:text="Cancel" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
