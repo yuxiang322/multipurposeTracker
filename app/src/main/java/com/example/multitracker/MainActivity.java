@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -62,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
     }
     private void setupLogin() {
         Button loginButton = findViewById(R.id.login);
+        Button registerButton = findViewById(R.id.register);
+        ProgressBar progressBar = findViewById(R.id.progressBar);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,6 +72,12 @@ public class MainActivity extends AppCompatActivity {
                 String password = String.valueOf(passwordEditText.getText());
 
                 if (!username.isEmpty() && !password.isEmpty()) {
+
+                    // Hide button and show progress
+                    loginButton.setVisibility(View.GONE);
+                    registerButton.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.VISIBLE);
+
                     validateLogin(username, password);
                     clearCredentials();
                 } else {
@@ -78,6 +87,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     private void validateLogin(String username, String password) {
+        Button loginButton = findViewById(R.id.login);
+        Button registerButton = findViewById(R.id.register);
+        ProgressBar progressBar = findViewById(R.id.progressBar);
         // Encrypt password
         PasswordEncryption passwordEncryption = new PasswordEncryption();
         String encryptedPassword = passwordEncryption.encrypt(password);
@@ -87,6 +99,12 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
+
+                // Show button and hide progress
+                loginButton.setVisibility(View.VISIBLE);
+                registerButton.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
+
                 if (response.isSuccessful()) {
                     String token = response.body();
                     Toast.makeText(MainActivity.this, "Login successful!", Toast.LENGTH_LONG).show();
@@ -105,6 +123,9 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<String> call, Throwable t) {
+                // Re-enable the button and hide progress
+                loginButton.setEnabled(true);
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(MainActivity.this, "An error occurred: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
