@@ -2,6 +2,5 @@
 <network-security-config>
 <domain-config cleartextTrafficPermitted="false">
     <domain includeSubdomains="true">localhost</domain>
-    <domain includeSubdomains="true">multipurposetracker-esaga3auhghmd6ej.southeastasia-01.azurewebsites.net</domain>
 </domain-config>
 </network-security-config>
