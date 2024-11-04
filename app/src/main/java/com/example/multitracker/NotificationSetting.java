@@ -197,6 +197,10 @@ public class NotificationSetting extends AppCompatActivity {
                         notificationSwitch.setChecked(retrieveNotification.getNotificationFlag());
                         // Set up email phone checkboxes
                         setupEmailPhoneCheckBoxes(retrieveNotification);
+                        // Set up notification timer
+//                        EditText notificationTimer = findViewById(R.id.NotificationTime);
+//                        notificationTimer.setText(retrieveNotification.getNotificationTimer());
+
                         if(!retrieveNotification.getNotificationFlag()){
                             setFieldsEnabledStatus(false);
                         }
@@ -345,16 +349,18 @@ public class NotificationSetting extends AppCompatActivity {
         CheckBox whatappsCheckbox = findViewById(R.id.whatappsCheckbox);
         CheckBox emailCheckbox = findViewById(R.id.emailCheckbox);
         SwitchCompat notificationSwitch = findViewById(R.id.notificationSwitchCompat);
+        // To add in new notification timer
+        //EditText notificationTimer = findViewById(R.id.NotificationTime);
 
         // Create the DTO for notification data
         NotificationDTO notificationDTO = new NotificationDTO();
 
-        Log.d("NotificationID", "Notif ID??? Save" + notificationID);
         notificationDTO.setNotificationID(notificationID);
         notificationDTO.setSmsFlag(smsCheckbox.isChecked());
         notificationDTO.setWhatsAppFlag(whatappsCheckbox.isChecked());
         notificationDTO.setEmailFlag(emailCheckbox.isChecked());
         notificationDTO.setNotificationFlag(notificationSwitch.isChecked());
+        //notificationDTO.setNotificationTimer(notificationTimer.getText().toString());
 
         NotificationAPI notificationAPI = RetrofitClientInstance.getRetrofitInstance().create(NotificationAPI.class);
         Call<String> notificationAPICall = notificationAPI.updateNotification(notificationDTO);

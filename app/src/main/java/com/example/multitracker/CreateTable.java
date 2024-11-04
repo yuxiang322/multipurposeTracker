@@ -10,6 +10,9 @@ public class CreateTable extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_table);
 
+        // Listener for Column Quantity
 
     }
+
+
 }

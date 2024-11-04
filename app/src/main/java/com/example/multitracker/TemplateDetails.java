@@ -34,12 +34,14 @@ public class TemplateDetails extends AppCompatActivity {
         // Set up notification listener
         notificationButtonListener();
         // Add table button
+        addTableButton();
 
     }
     @Override
     protected void onResume() {
         super.onResume();
     }
+
     private void initialUIState(){
         Button saveButton = findViewById(R.id.saveTemplate);
         Button cancelButton = findViewById(R.id.cancelSaveTemplate);
@@ -70,6 +72,20 @@ public class TemplateDetails extends AppCompatActivity {
                 enableButtons();
                 // Enable Edit text template name and description
                 stateEditTemplate(true);
+            }
+        });
+    }
+
+    // Add table button
+    private void addTableButton(){
+        Button addTable = findViewById(R.id.addTable);
+
+        addTable.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // New intent
+                Intent intent = new Intent(TemplateDetails.this,CreateTable.class);
+                startActivity(intent);
             }
         });
     }
@@ -106,12 +122,14 @@ public class TemplateDetails extends AppCompatActivity {
             }
         });
     }
+
     private void populateTables(TemplateDTO templateDTO){
         // Template dto details to get list of tables
 
         // populate into the scroll view
 
     }
+
     private void setupTemplateIntent(){
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("TEMPLATE_KEY")) {

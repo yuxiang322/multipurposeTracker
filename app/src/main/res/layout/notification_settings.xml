@@ -102,12 +102,32 @@
 
         </LinearLayout>
 
+        <!-->Need another Notification Timer<-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time: "
+                android:textSize="20dp" />
+            <EditText
+                android:id="@+id/NotificationTime"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:focusable="false"/>
+        </LinearLayout>
+
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="30dp"
             android:paddingBottom="10dp"
-            android:text="Repeat Interval"
+            android:text="Repeat Interval Report"
             android:textSize="30dp" />
 
         <LinearLayout

@@ -15,6 +15,9 @@ public class NotificationDTO {
 
     private Boolean emailFlag;
 
+    // Add another variable for notification Time
+    private String notificationTimer;
+
     public NotificationDTO(){}
 
     public NotificationDTO(int notificationID, Integer templateID, String userUID, Boolean notificationFlag, Boolean smsFlag, Boolean whatsAppFlag, Boolean emailFlag) {
@@ -26,6 +29,26 @@ public class NotificationDTO {
         this.whatsAppFlag = whatsAppFlag;
         this.emailFlag = emailFlag;
     }
+
+//    public NotificationDTO(int notificationID, Integer templateID, String userUID, Boolean notificationFlag, Boolean smsFlag, Boolean whatsAppFlag, Boolean emailFlag, String notificationTimer) {
+//        this.notificationID = notificationID;
+//        this.templateID = templateID;
+//        this.userUID = userUID;
+//        this.notificationFlag = notificationFlag;
+//        this.smsFlag = smsFlag;
+//        this.whatsAppFlag = whatsAppFlag;
+//        this.emailFlag = emailFlag;
+//        this.notificationTimer = notificationTimer;
+//    }
+
+      // Notification Timer Get/Set
+//    public String getNotificationTimer() {
+//        return notificationTimer;
+//    }
+//
+//    public void setNotificationTimer(String notificationTimer) {
+//        this.notificationTimer = notificationTimer;
+//    }
 
     public int getNotificationID() {
         return notificationID;
