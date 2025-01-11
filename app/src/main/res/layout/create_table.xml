@@ -105,11 +105,11 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/saveTemplate"
+            android:id="@+id/addTables"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="150dp"
-            android:text="Save" />
+            android:text="Add" />
 
         <Button
             android:id="@+id/cancelSaveTemplate"

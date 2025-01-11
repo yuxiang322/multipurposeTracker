@@ -1,22 +1,19 @@
 package com.example.multitracker;
 
-import static com.example.multitracker.commonUtil.GlobalConstant.userID;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.multitracker.commonUtil.GlobalConstant;
 import com.example.multitracker.dto.TemplateDTO;
 
 public class TemplateDetails extends AppCompatActivity {
 
     private TemplateDTO templateDTOnotification;
+    private int templateID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +40,7 @@ public class TemplateDetails extends AppCompatActivity {
     }
 
     private void initialUIState(){
-        Button saveButton = findViewById(R.id.saveTemplate);
+        Button saveButton = findViewById(R.id.addTables);
         Button cancelButton = findViewById(R.id.cancelSaveTemplate);
         Button addTable = findViewById(R.id.addTable);
         saveButton.setVisibility(View.GONE);
@@ -51,7 +48,7 @@ public class TemplateDetails extends AppCompatActivity {
         addTable.setVisibility(View.GONE);
     }
     private void enableButtons(){
-        Button saveButton = findViewById(R.id.saveTemplate);
+        Button saveButton = findViewById(R.id.addTables);
         Button cancelButton = findViewById(R.id.cancelSaveTemplate);
         Button addTable = findViewById(R.id.addTable);
         saveButton.setVisibility(View.VISIBLE);
@@ -83,18 +80,16 @@ public class TemplateDetails extends AppCompatActivity {
         addTable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // New intent
-
                 // Pass template id
-
-                Intent intent = new Intent(TemplateDetails.this,CreateTable.class);
+                Intent intent = new Intent(TemplateDetails.this, CreateTable.class);
+                intent.putExtra("TEMPLATE_ID", templateID);
                 startActivity(intent);
             }
         });
     }
 
     private void saveCancelButtonListener(){
-        Button saveButton = findViewById(R.id.saveTemplate);
+        Button saveButton = findViewById(R.id.addTables);
         Button cancelButton = findViewById(R.id.cancelSaveTemplate);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -139,6 +134,7 @@ public class TemplateDetails extends AppCompatActivity {
             TemplateDTO templateDTO = intent.getParcelableExtra("TEMPLATE_KEY");
             if (templateDTO != null) {
                 templateDTOnotification = templateDTO;
+                templateID = templateDTOnotification.getTemplateID();
                 displayTemplateDetails(templateDTO);
                 // Populate
                 populateTables(templateDTO);

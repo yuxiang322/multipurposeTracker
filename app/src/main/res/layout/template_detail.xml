@@ -98,7 +98,7 @@
             android:text="edit" />
 
         <Button
-            android:id="@+id/saveTemplate"
+            android:id="@+id/addTables"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="75dp"
