@@ -29,7 +29,8 @@
             <EditText
                 android:id="@+id/registrationUsername"
                 android:layout_width="150dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="text"/>
         </LinearLayout>
 
         <LinearLayout
@@ -45,7 +46,8 @@
             <EditText
                 android:id="@+id/registrationPassword"
                 android:layout_width="150dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"/>
         </LinearLayout>
 
         <LinearLayout
@@ -61,7 +63,8 @@
             <EditText
                 android:id="@+id/registrationName"
                 android:layout_width="150dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="text"/>
         </LinearLayout>
 
         <LinearLayout
@@ -77,7 +80,8 @@
             <EditText
                 android:id="@+id/registrationEmail"
                 android:layout_width="150dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="text"/>
         </LinearLayout>
 
         <LinearLayout

@@ -11,9 +11,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -23,6 +23,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:inputType="text"
                 android:text="Name: "
                 android:textSize="20sp" />
 
@@ -39,10 +40,10 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="10dp"
-        app:layout_constraintTop_toBottomOf="@id/tableCreateLinear"
-        app:layout_constraintBottom_toTopOf="@id/scrollView"
+        app:layout_constraintBottom_toTopOf="@id/columnScrollView"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/tableCreateLinear">
 
         <TextView
             android:layout_width="wrap_content"
@@ -54,33 +55,35 @@
             android:id="@+id/buttonMinus"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
-            android:text="-"
             android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"/>
+            android:layout_marginEnd="10dp"
+            android:text="-" />
+
         <TextView
             android:id="@+id/quantityText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0"
-            android:textSize="20sp"
+            android:layout_marginEnd="10dp"
             android:gravity="center"
-            android:layout_marginEnd="10dp"/>
+            android:text="0"
+            android:textSize="30sp" />
+
         <Button
             android:id="@+id/buttonPlus"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
-            android:text="+"/>
+            android:text="+" />
     </LinearLayout>
 
     <ScrollView
-        android:id="@+id/scrollView"
+        android:id="@+id/columnScrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:paddingTop="10dp"
-        app:layout_constraintTop_toBottomOf="@id/columnsLinear"
         app:layout_constraintBottom_toTopOf="@id/buttonTemplateDetailsLinear"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/columnsLinear">
 
         <LinearLayout
             android:id="@+id/tableFields"
@@ -88,9 +91,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="10dp">
-
-            <!-- Add your dynamic content here -->
-
         </LinearLayout>
     </ScrollView>
 

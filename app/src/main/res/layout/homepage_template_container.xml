@@ -17,7 +17,8 @@
         app:layout_constraintEnd_toStartOf="@id/viewDetailsButton"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:inputType="text"/>
 
     <Button
         android:id="@+id/viewDetailsButton"

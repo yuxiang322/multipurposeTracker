@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:paddingBottom="10dp"
             android:text="Active Notification"
-            android:textSize="20dp" />
+            android:textSize="20dp"/>
 
         <ScrollView
             android:id="@+id/activeScrollview"

@@ -46,7 +46,8 @@
                 android:id="@+id/notificationEmail"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:enabled="false"/>
+                android:enabled="false"
+                android:inputType="text"/>
 
             <CheckBox
                 android:id="@+id/emailCheckbox"
@@ -69,7 +70,8 @@
                 android:id="@+id/notificationPhone"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:enabled="false"/>
+                android:enabled="false"
+                android:inputType="text"/>
 
         </LinearLayout>
 

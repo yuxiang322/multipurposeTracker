@@ -84,6 +84,9 @@ public class TemplateDetails extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // New intent
+
+                // Pass template id
+
                 Intent intent = new Intent(TemplateDetails.this,CreateTable.class);
                 startActivity(intent);
             }

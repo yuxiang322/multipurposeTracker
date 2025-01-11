@@ -44,7 +44,8 @@
                 android:layout_height="wrap_content"
                 android:enabled="false"
                 android:text="Email@email.com"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:inputType="text"/>
 
             <Button
                 android:id="@+id/editEmailButton"
@@ -102,7 +103,8 @@
                 android:layout_height="wrap_content"
                 android:enabled="false"
                 android:text="+6596523913"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:inputType="text"/>
 
             <Button
                 android:id="@+id/editPhoneButton"

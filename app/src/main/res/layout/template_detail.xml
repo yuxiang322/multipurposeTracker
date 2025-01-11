@@ -27,7 +27,8 @@
                 android:text="Template"
                 android:textSize="20dp"
                 android:textColor="@color/black"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:inputType="text"/>
         </ScrollView>
 
         <ScrollView
