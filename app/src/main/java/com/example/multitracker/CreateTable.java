@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -142,23 +143,24 @@ public class CreateTable extends AppCompatActivity {
                 View headerColumnView = parent.getChildAt(i);
 
                 TextView headerNameTextView = headerColumnView.findViewById(R.id.headerName);
-                String columnName = headerNameTextView.getText().toString().trim();
+                String headerName = headerNameTextView.getText().toString().trim();
 
-                if (columnName.isEmpty()) {
+                if (headerName.isEmpty()) {
                     headerNameTextView.setError("Column name is required");
                     isValid = false;
                     break;
                 }
 
                 TextView textColour = findViewById(R.id.headerTextColour);
-                TextView testFilColour = findViewById(R.id.headerFillColour);
+                TextView backgroundFillColour = findViewById(R.id.headerFillColour);
+                CheckBox boldFlag = findViewById(R.id.headerBoldCheck);
 
                 int testRGB = textColour.getCurrentTextColor();
                 String textRGB = rgbConversion(testRGB);
 
                 int fillColour = 0;
                 String fillRGB = null;
-                Drawable background = testFilColour.getBackground();
+                Drawable background = backgroundFillColour.getBackground();
                 if (background instanceof ColorDrawable) {
                     ColorDrawable colorDrawable = (ColorDrawable) background;
                     fillColour = colorDrawable.getColor();
@@ -172,26 +174,27 @@ public class CreateTable extends AppCompatActivity {
                     return;
                 }
 
-                // create object to arraylist
                 HeaderDetailsDTO tempHeaderDetails = new HeaderDetailsDTO();
+                tempHeaderDetails.setHeaderName(headerName);
+                tempHeaderDetails.setHeaderTextColour(textRGB);
+                tempHeaderDetails.setHeaderFillColour(fillRGB);
+                tempHeaderDetails.setTextBold(boldFlag.isChecked());
 
+                headerDetailsDTOList.add(tempHeaderDetails);
             }
 
             if (isValid) {
-                // api request table creation
                 tableCreation(headerDetailsDTOList);
-
             } else {
-                // Clear Template_tables
-                // Clear Header_Details
                 Toast.makeText(CreateTable.this, "Please fix the errors and try again.", Toast.LENGTH_SHORT).show();
             }
+            headerDetailsDTOList.clear();
         });
     }
 
     // Api call
 
-    private void tableCreation(List<HeaderDetailsDTO> headerDetailsDTOList){
+    private void tableCreation(List<HeaderDetailsDTO> headerDetailsDTOList) {
 
         // Need a new class for templateTables and List<HeaderDetailsDTO>
         TemplateTablesDTO tempTemplateTable = new TemplateTablesDTO();
