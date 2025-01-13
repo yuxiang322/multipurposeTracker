@@ -4,13 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d1db8eb0-4824-475c-982c-3f60315432ee" name="Changes" comment="8th commit&#10;1. Test deployment onto Server">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/DTO/ContactRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/controller/ContactRequestController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/service/ContactRequestService.java" afterDir="false" />
+    <list default="true" id="d1db8eb0-4824-475c-982c-3f60315432ee" name="Changes" comment="8th commit&#10;1. Additional SMTP changes">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/DTO/HeaderDetailsDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/DTO/TableCreationDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/DTO/TableDetailsDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/DTO/TemplateTablesDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -219,7 +218,15 @@
       <option name="project" value="LOCAL" />
       <updated>1729614635343</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="8th commit&#10;1. Additional SMTP changes">
+      <option name="closed" value="true" />
+      <created>1729869060930</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1729869060930</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -232,6 +239,7 @@
     <MESSAGE value="6th commit&#10;1. Registration and login" />
     <MESSAGE value="7th commit&#10;1. Homepage, Create Template, Account details editing Controllers and Services" />
     <MESSAGE value="8th commit&#10;1. Test deployment onto Server" />
-    <option name="LAST_COMMIT_MESSAGE" value="8th commit&#10;1. Test deployment onto Server" />
+    <MESSAGE value="8th commit&#10;1. Additional SMTP changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="8th commit&#10;1. Additional SMTP changes" />
   </component>
 </project>
