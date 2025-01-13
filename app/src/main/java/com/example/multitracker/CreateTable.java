@@ -196,7 +196,7 @@ public class CreateTable extends AppCompatActivity {
         // Need a new class for templateTables and List<HeaderDetailsDTO>
         TemplateTablesDTO tempTemplateTable = new TemplateTablesDTO();
         // table name, template id
-        //( backend to create tableDetails data)
+        //( backend to create tableDetails data and json structure)
 
         // headerDetailsDTOList needs to be sent
 
