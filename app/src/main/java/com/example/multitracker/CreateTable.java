@@ -17,6 +17,13 @@ import yuku.ambilwarna.AmbilWarnaDialog;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.multitracker.dto.HeaderDetailsDTO;
+import com.example.multitracker.dto.TableDetailsDTO;
+import com.example.multitracker.dto.TemplateTablesDTO;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class CreateTable extends AppCompatActivity {
 
     private int numberOfColumns;
@@ -120,9 +127,10 @@ public class CreateTable extends AppCompatActivity {
 
         save.setOnClickListener(v -> {
             boolean isValid = true;
-            // Template_tables
-            // Header_Details
-            // Table_Details
+
+            List<TemplateTablesDTO> templateTablesDTOList = new ArrayList<>();
+            List<HeaderDetailsDTO> headerDetailsDTOList = new ArrayList<>();
+            List<TableDetailsDTO> tableDetailsDTOList = new ArrayList<>();
 
             String tableNameFlag = tableName.getText().toString().trim();
             if (tableNameFlag.isEmpty()) {
@@ -144,31 +152,29 @@ public class CreateTable extends AppCompatActivity {
                     break;
                 }
 
-                TextView testColour = findViewById(R.id.headerTextColour);
+                TextView textColour = findViewById(R.id.headerTextColour);
                 TextView testFilColour = findViewById(R.id.headerFillColour);
-                // Get text rgb
-                int testRGB = testColour.getCurrentTextColor();
+
+                int testRGB = textColour.getCurrentTextColor();
                 String textRGB = rgbConversion(testRGB);
 
-                // Get background rgb
-                int testfillRGB = 0;
+                int fillColour = 0;
                 String fillRGB = null;
                 Drawable background = testFilColour.getBackground();
                 if (background instanceof ColorDrawable) {
                     ColorDrawable colorDrawable = (ColorDrawable) background;
-                    testfillRGB = colorDrawable.getColor();
-                    fillRGB = rgbConversion(testfillRGB);
+                    fillColour = colorDrawable.getColor();
+                    fillRGB = rgbConversion(fillColour);
 
                 } else if (background instanceof GradientDrawable) {
                     GradientDrawable gradientDrawable = (GradientDrawable) background;
-                    // Get the color from the GradientDrawable (e.g., the first color in the gradient)
-                    testfillRGB = gradientDrawable.getColor().getDefaultColor();
-                    fillRGB = rgbConversion(testfillRGB);
+                    fillColour = gradientDrawable.getColor().getDefaultColor();
+                    fillRGB = rgbConversion(fillColour);
+                } else{
+                    return;
                 }
-                Toast.makeText(CreateTable.this, "text rgb: " + fillRGB, Toast.LENGTH_LONG).show(); // test
 
-                // add into arraylist for the following 3 objects
-
+                // create object to arraylist
             }
 
             if (isValid) {
@@ -186,14 +192,17 @@ public class CreateTable extends AppCompatActivity {
 
     // RGB conversion
     private String rgbConversion(int rgbInteger) {
-
+        String colorRGB = null;
         int red = (rgbInteger >> 16) & 0xFF;
         int green = (rgbInteger >> 8) & 0xFF;
         int blue = rgbInteger & 0xFF;
+
         if (red < 0 || red > 255 || green < 0 || green > 255 || blue < 0 || blue > 255) {
             throw new IllegalArgumentException("RGB values must be between 0 and 255.");
+        } else{
+            colorRGB = "RGB(" + red + ", " + green + ", " + blue + ")";
         }
-        String colorRGB = "RGB(" + red + ", " + green + ", " + blue + ")";
+
         return colorRGB;
     }
     // Save Template_tables
