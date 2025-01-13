@@ -14,13 +14,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import yuku.ambilwarna.AmbilWarnaDialog;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.multitracker.api.TableCreationAPI;
+import com.example.multitracker.commonUtil.RetrofitClientInstance;
 import com.example.multitracker.dto.HeaderDetailsDTO;
 import com.example.multitracker.dto.TableCreationDTO;
-import com.example.multitracker.dto.TableDetailsDTO;
 import com.example.multitracker.dto.TemplateTablesDTO;
 
 import java.util.ArrayList;
@@ -196,20 +200,32 @@ public class CreateTable extends AppCompatActivity {
     // Api call
     private void tableCreation(List<HeaderDetailsDTO> headerDetailsDTOList) {
 
-        TableCreationDTO tableCreation = new TableCreationDTO();
+        TableCreationDTO tableCreationDTO = new TableCreationDTO();
         TemplateTablesDTO templateTable = new TemplateTablesDTO();
         EditText tableName = findViewById(R.id.tableName);
 
         templateTable.setTableName(tableName.getText().toString());
         templateTable.setTemplateID(templateID);
 
-        tableCreation.setHeaderDetailsList(headerDetailsDTOList);
-        tableCreation.setTemplateTables(templateTable);
+        tableCreationDTO.setHeaderDetailsList(headerDetailsDTOList);
+        tableCreationDTO.setTemplateTables(templateTable);
 
         // retrofit
         // table name, template id
         //( backend to create tableDetails data and json structure)
+        TableCreationAPI createTableApi = RetrofitClientInstance.getRetrofitInstance().create(TableCreationAPI.class);
+        Call<String> call = createTableApi.tableCreation(tableCreationDTO);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
 
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
     }
 
     // RGB conversion
