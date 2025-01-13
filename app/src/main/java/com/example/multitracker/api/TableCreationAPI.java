@@ -8,6 +8,6 @@ import retrofit2.http.POST;
 
 public interface TableCreationAPI {
 
-    @POST("/api/users/")
+    @POST("/api/table/create")
     Call<String> tableCreation(@Body TableCreationDTO tableCreationDTO);
 }

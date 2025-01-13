@@ -1,6 +1,5 @@
 package com.example.multitracker.dto;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TableCreationDTO {
