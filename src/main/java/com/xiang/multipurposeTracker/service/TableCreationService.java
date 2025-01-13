@@ -13,23 +13,27 @@ public class TableCreationService {
 
     // Add table
     @Transactional
-    public String addTable(TableCreationDTO tableCreationDTO){
-        // insert to TemplateTables
-        int tableId = tableCreationDTO.getTemplateTables().getTableID();
+    public String addTable(TableCreationDTO tableCreationDTO) {
+        try {
+            // insert to TemplateTables
+            int tableId = tableCreationDTO.getTemplateTables().getTableID();
 
-        // Create Json data insert to TableDetails
-        insertTableDetails(tableId,tableCreationDTO.getHeaderDetailsList());
-        // insert to HeaderDetails
-        insertHeaderDetails(tableId, tableCreationDTO.getHeaderDetailsList());
+            // Create Json data insert to TableDetails
+            insertTableDetails(tableId, tableCreationDTO.getHeaderDetailsList());
+            // insert to HeaderDetails
+            insertHeaderDetails(tableId, tableCreationDTO.getHeaderDetailsList());
 
-        return "Test";
+            return "Test";
+        } catch (Exception e) {
+            return "Failed " + e.getMessage();
+        }
     }
 
-    private void insertTableDetails(int tableID, List<HeaderDetailsDTO> headerDetailsDTOList){
+    private void insertTableDetails(int tableID, List<HeaderDetailsDTO> headerDetailsDTOList) {
 
     }
 
-    private void insertHeaderDetails(int tableID, List<HeaderDetailsDTO> headerDetailsDTOList){
+    private void insertHeaderDetails(int tableID, List<HeaderDetailsDTO> headerDetailsDTOList) {
 
     }
 }
