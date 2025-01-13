@@ -20,6 +20,8 @@ public class TableCreationController {
     public ResponseEntity<String> tableCreate(@RequestBody TableCreationDTO tableCreationDTO) {
 
         // Service
+        String addTableDataResponse = tableCreationService.addTable(tableCreationDTO);
+        // Validate return response accordingly
 
         return ResponseEntity.ok("Test");
     }
