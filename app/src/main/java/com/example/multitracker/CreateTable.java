@@ -128,9 +128,7 @@ public class CreateTable extends AppCompatActivity {
         save.setOnClickListener(v -> {
             boolean isValid = true;
 
-            List<TemplateTablesDTO> templateTablesDTOList = new ArrayList<>();
             List<HeaderDetailsDTO> headerDetailsDTOList = new ArrayList<>();
-            List<TableDetailsDTO> tableDetailsDTOList = new ArrayList<>();
 
             String tableNameFlag = tableName.getText().toString().trim();
             if (tableNameFlag.isEmpty()) {
@@ -170,24 +168,38 @@ public class CreateTable extends AppCompatActivity {
                     GradientDrawable gradientDrawable = (GradientDrawable) background;
                     fillColour = gradientDrawable.getColor().getDefaultColor();
                     fillRGB = rgbConversion(fillColour);
-                } else{
+                } else {
                     return;
                 }
 
                 // create object to arraylist
+                HeaderDetailsDTO tempHeaderDetails = new HeaderDetailsDTO();
+
             }
 
             if (isValid) {
-                // Save Template_tables()
-                // Save Header_Details()
-                // Save Table_Details()
+                // api request table creation
+                tableCreation(headerDetailsDTOList);
+
             } else {
                 // Clear Template_tables
                 // Clear Header_Details
-                // Clear Table_Details
                 Toast.makeText(CreateTable.this, "Please fix the errors and try again.", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    // Api call
+
+    private void tableCreation(List<HeaderDetailsDTO> headerDetailsDTOList){
+
+        // Need a new class for templateTables and List<HeaderDetailsDTO>
+        TemplateTablesDTO tempTemplateTable = new TemplateTablesDTO();
+        // table name, template id
+        //( backend to create tableDetails data)
+
+        // headerDetailsDTOList needs to be sent
+
     }
 
     // RGB conversion
@@ -199,16 +211,12 @@ public class CreateTable extends AppCompatActivity {
 
         if (red < 0 || red > 255 || green < 0 || green > 255 || blue < 0 || blue > 255) {
             throw new IllegalArgumentException("RGB values must be between 0 and 255.");
-        } else{
+        } else {
             colorRGB = "RGB(" + red + ", " + green + ", " + blue + ")";
         }
 
         return colorRGB;
     }
-    // Save Template_tables
-    // Save Header_Details
-    // Save Table_Details
-
 
     // Cancel
     private void cancelButton() {
