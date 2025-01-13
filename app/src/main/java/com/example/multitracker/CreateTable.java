@@ -19,6 +19,7 @@ import yuku.ambilwarna.AmbilWarnaDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.multitracker.dto.HeaderDetailsDTO;
+import com.example.multitracker.dto.TableCreationDTO;
 import com.example.multitracker.dto.TableDetailsDTO;
 import com.example.multitracker.dto.TemplateTablesDTO;
 
@@ -193,15 +194,21 @@ public class CreateTable extends AppCompatActivity {
     }
 
     // Api call
-
     private void tableCreation(List<HeaderDetailsDTO> headerDetailsDTOList) {
 
-        // Need a new class for templateTables and List<HeaderDetailsDTO>
-        TemplateTablesDTO tempTemplateTable = new TemplateTablesDTO();
+        TableCreationDTO tableCreation = new TableCreationDTO();
+        TemplateTablesDTO templateTable = new TemplateTablesDTO();
+        EditText tableName = findViewById(R.id.tableName);
+
+        templateTable.setTableName(tableName.getText().toString());
+        templateTable.setTemplateID(templateID);
+
+        tableCreation.setHeaderDetailsList(headerDetailsDTOList);
+        tableCreation.setTemplateTables(templateTable);
+
+        // retrofit
         // table name, template id
         //( backend to create tableDetails data and json structure)
-
-        // headerDetailsDTOList needs to be sent
 
     }
 
