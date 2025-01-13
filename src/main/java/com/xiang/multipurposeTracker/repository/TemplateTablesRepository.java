@@ -1,4 +1,8 @@
 package com.xiang.multipurposeTracker.repository;
 
-public class TemplateTablesRepository {
+import com.xiang.multipurposeTracker.entities.TemplateTables;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface TemplateTablesRepository extends JpaRepository<TemplateTables, String> {
+
 }
