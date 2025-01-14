@@ -11,6 +11,8 @@ import com.xiang.multipurposeTracker.repository.HeaderDetailsRepository;
 import com.xiang.multipurposeTracker.repository.TableDetailsRepository;
 import com.xiang.multipurposeTracker.repository.TemplateTablesRepository;
 import org.checkerframework.checker.units.qual.A;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +31,8 @@ public class TableCreationService {
     private TableDetailsRepository tableDetailsRepository;
     @Autowired
     private HeaderDetailsRepository headerDetailsRepository;
+
+    private static final Logger logger = LoggerFactory.getLogger(TableCreationService.class);//test
 
     // Add table
     @Transactional
@@ -51,7 +55,7 @@ public class TableCreationService {
         }
     }
 
-    private void insertTableDetails(int tableID, List<HeaderDetailsDTO> headerDetailsDTOList) {
+    public void insertTableDetails(int tableID, List<HeaderDetailsDTO> headerDetailsDTOList) {
         try{
             // Set jsonData just need the HeaderName
             Map<String, List<String>> headerDataMap = new HashMap<>();
@@ -63,6 +67,8 @@ public class TableCreationService {
 
             ObjectMapper headerNamesMapper = new ObjectMapper();
             String headerJsonData = headerNamesMapper.writeValueAsString(headerDataMap);
+
+            logger.info("Generated Header JSON Data: " + headerJsonData); //test
 
             // table details object
             TableDetails tableDetailsAdd = new TableDetails();
@@ -76,7 +82,7 @@ public class TableCreationService {
         }
     }
 
-    private void insertHeaderDetails(int tableID, List<HeaderDetailsDTO> headerDetailsDTOList) {
+    public void insertHeaderDetails(int tableID, List<HeaderDetailsDTO> headerDetailsDTOList) {
         try{
             List<HeaderDetails> headerDetailsList = new ArrayList<>();
 

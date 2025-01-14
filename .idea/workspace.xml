@@ -5,8 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d1db8eb0-4824-475c-982c-3f60315432ee" name="Changes" comment="8th commit&#10;1. Additional SMTP changes">
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/xiang/multipurposeTracker/test/TableCreationTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/repository/TableDetailsRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/repository/TableDetailsRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/DTO/HeaderDetailsDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/DTO/HeaderDetailsDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/service/TableCreationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/service/TableCreationService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -55,21 +56,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Application.test.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;springbootbackend&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/rlptr/IdeaProjects/backendMultipurposeTracker/src/main/resources/firebase&quot;,
-    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/rlptr/IdeaProjects/backendMultipurposeTracker/src/main/java/org/example/Main.java&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "Application.test.executor": "Run",
+    "JUnit.TableCreationTest.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "springbootbackend",
+    "kotlin-language-version-configured": "true",
+    "last_directory_selection": "C:/Users/rlptr/IdeaProjects/backendMultipurposeTracker/src/test/java",
+    "last_opened_file_path": "C:/Users/rlptr/IdeaProjects/backendMultipurposeTracker/src/main/resources/firebase",
+    "onboarding.tips.debug.path": "C:/Users/rlptr/IdeaProjects/backendMultipurposeTracker/src/main/java/org/example/Main.java",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\rlptr\IdeaProjects\backendMultipurposeTracker\src\main\resources\firebase" />
@@ -78,7 +81,7 @@
       <recent name="com.xiang.multipurposeTracker.DTO" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.TableCreationTest">
     <configuration name="test" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="com.xiang.multipurposeTracker.Main" />
       <module name="backendMultipurposeTracker" />
@@ -86,6 +89,26 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="TableCreationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="backendMultipurposeTracker" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.xiang.multipurposeTracker.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.xiang.multipurposeTracker.test" />
+      <option name="MAIN_CLASS_NAME" value="com.xiang.multipurposeTracker.test.TableCreationTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.TableCreationTest" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -272,7 +295,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736759278032</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="8th commit&#10;1. Additional SMTP changes">
+      <option name="closed" value="true" />
+      <created>1736830762448</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1736830762448</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">

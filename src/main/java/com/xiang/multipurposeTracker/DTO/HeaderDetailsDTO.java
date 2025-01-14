@@ -11,12 +11,13 @@ public class HeaderDetailsDTO {
 
     public HeaderDetailsDTO() {}
 
-    public HeaderDetailsDTO(int headerID, int tableID, String headerName, String headerFillColour, String headerTextColour) {
+    public HeaderDetailsDTO(int headerID, int tableID, String headerName, String headerFillColour, String headerTextColour, Boolean textBold) {
         this.headerID = headerID;
         this.tableID = tableID;
         this.headerName = headerName;
         this.headerFillColour = headerFillColour;
         this.headerTextColour = headerTextColour;
+        this.textBold = textBold;
     }
 
     public Boolean getTextBold() {
