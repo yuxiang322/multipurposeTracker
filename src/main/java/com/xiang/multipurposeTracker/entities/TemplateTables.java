@@ -7,9 +7,9 @@ import jakarta.persistence.*;
 public class TemplateTables {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "TableID")
+    @Column(name = "Tableid")
     private int tableID;
-    @Column(name = "TemplateID")
+    @Column(name = "Templateid")
     private int templateID;
     @Column(name = "TableName")
     private String tableName;

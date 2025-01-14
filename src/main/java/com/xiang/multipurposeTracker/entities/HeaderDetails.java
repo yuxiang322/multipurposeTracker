@@ -7,9 +7,9 @@ import jakarta.persistence.*;
 public class HeaderDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "HeaderID")
+    @Column(name = "Headerid")
     private int headerID;
-    @Column(name = "TableID")
+    @Column(name = "Tableid")
     private int tableID;
     @Column(name = "HeaderName")
     private String headerName;
