@@ -3,14 +3,12 @@ package com.xiang.multipurposeTracker.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xiang.multipurposeTracker.DTO.HeaderDetailsDTO;
 import com.xiang.multipurposeTracker.DTO.TableCreationDTO;
-import com.xiang.multipurposeTracker.DTO.TemplateTablesDTO;
 import com.xiang.multipurposeTracker.entities.HeaderDetails;
 import com.xiang.multipurposeTracker.entities.TableDetails;
 import com.xiang.multipurposeTracker.entities.TemplateTables;
 import com.xiang.multipurposeTracker.repository.HeaderDetailsRepository;
 import com.xiang.multipurposeTracker.repository.TableDetailsRepository;
 import com.xiang.multipurposeTracker.repository.TemplateTablesRepository;
-import org.checkerframework.checker.units.qual.A;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +22,7 @@ import java.util.Map;
 
 @Service
 public class TableCreationService {
-    //Repo
+
     @Autowired
     private TemplateTablesRepository templateTablesRepository;
     @Autowired
@@ -34,7 +32,6 @@ public class TableCreationService {
 
     private static final Logger logger = LoggerFactory.getLogger(TableCreationService.class);//test
 
-    // Add table
     @Transactional
     public String addTable(TableCreationDTO tableCreationDTO) {
         try {
@@ -44,23 +41,21 @@ public class TableCreationService {
             templateTablesRepository.save(templateTableAdd);
             int tableId = templateTableAdd.getTableID();
 
-            // Create Json data insert to TableDetails
             insertTableDetails(tableId, tableCreationDTO.getHeaderDetailsList());
-            // insert to HeaderDetails
+
             insertHeaderDetails(tableId, tableCreationDTO.getHeaderDetailsList());
 
-            return "Test";
+            return "Success";
         } catch (Exception e) {
             return "Failed " + e.getMessage();
         }
     }
 
     public void insertTableDetails(int tableID, List<HeaderDetailsDTO> headerDetailsDTOList) {
-        try{
-            // Set jsonData just need the HeaderName
+        try {
             Map<String, List<String>> headerDataMap = new HashMap<>();
 
-            for(HeaderDetailsDTO currentHeaderDetails : headerDetailsDTOList){
+            for (HeaderDetailsDTO currentHeaderDetails : headerDetailsDTOList) {
                 String headerName = currentHeaderDetails.getHeaderName();
                 headerDataMap.putIfAbsent(headerName, new ArrayList<>());
             }
@@ -70,23 +65,22 @@ public class TableCreationService {
 
             logger.info("Generated Header JSON Data: " + headerJsonData); //test
 
-            // table details object
             TableDetails tableDetailsAdd = new TableDetails();
             tableDetailsAdd.setTableID(tableID);
             tableDetailsAdd.setJsonData(headerJsonData);
-            // save
+
             tableDetailsRepository.save(tableDetailsAdd);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void insertHeaderDetails(int tableID, List<HeaderDetailsDTO> headerDetailsDTOList) {
-        try{
+        try {
             List<HeaderDetails> headerDetailsList = new ArrayList<>();
 
-            for(HeaderDetailsDTO tempHeaderDetails : headerDetailsDTOList){
+            for (HeaderDetailsDTO tempHeaderDetails : headerDetailsDTOList) {
                 HeaderDetails headerDetailsAdd = new HeaderDetails();
                 headerDetailsAdd.setTableID(tableID);
                 headerDetailsAdd.setHeaderName(tempHeaderDetails.getHeaderName());
@@ -97,7 +91,7 @@ public class TableCreationService {
                 headerDetailsList.add(headerDetailsAdd);
             }
             headerDetailsRepository.saveAll(headerDetailsList);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
