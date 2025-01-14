@@ -11,13 +11,13 @@ public class HeaderDetails {
     private int headerID;
     @Column(name = "Tableid")
     private int tableID;
-    @Column(name = "HeaderName")
+    @Column(name = "Headername")
     private String headerName;
-    @Column(name = "HeaderFillColour")
+    @Column(name = "Headerfillcolour")
     private String headerFillColour;
-    @Column(name = "HeaderTextColour")
+    @Column(name = "Headertextcolour")
     private String headerTextColour;
-    @Column(name = "TextBold")
+    @Column(name = "Textbold")
     private Boolean textBold;
 
     public HeaderDetails() {}

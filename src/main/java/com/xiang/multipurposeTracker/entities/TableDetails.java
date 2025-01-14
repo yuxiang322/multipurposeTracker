@@ -7,11 +7,11 @@ import jakarta.persistence.*;
 public class TableDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "TableDetailsid")
+    @Column(name = "Tabledetailsid")
     private int tableDetailsID;
-    @Column(name = "TableID")
+    @Column(name = "Tableid")
     private Integer tableID;
-    @Column(name = "JsonData")
+    @Column(name = "Jsondata")
     private String jsonData;
 
     public TableDetails(){}

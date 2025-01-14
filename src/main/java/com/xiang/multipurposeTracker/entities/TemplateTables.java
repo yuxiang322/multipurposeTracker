@@ -11,7 +11,7 @@ public class TemplateTables {
     private int tableID;
     @Column(name = "Templateid")
     private int templateID;
-    @Column(name = "TableName")
+    @Column(name = "Tablename")
     private String tableName;
 
 

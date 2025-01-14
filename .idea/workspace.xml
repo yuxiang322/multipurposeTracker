@@ -316,7 +316,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736834040185</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="1. Table Details Json Data structure test">
+      <option name="closed" value="true" />
+      <created>1736835242898</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1736835242898</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
