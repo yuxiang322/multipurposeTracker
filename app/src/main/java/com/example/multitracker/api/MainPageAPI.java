@@ -9,9 +9,9 @@ import retrofit2.http.POST;
 
 public interface MainPageAPI {
 
-    @POST("/api/users/login")
+    @POST("api/users/login")
     Call<String> loginUser(@Body LoginRequestDTO loginRequest);
 
-    @POST("/api/users/register")
+    @POST("api/users/register")
     Call<String> registerUser(@Body RegisterRequestDTO registerRequest);
 }

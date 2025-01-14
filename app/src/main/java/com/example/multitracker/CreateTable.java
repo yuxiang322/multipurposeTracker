@@ -149,6 +149,14 @@ public class CreateTable extends AppCompatActivity {
 
                 TextView headerNameTextView = headerColumnView.findViewById(R.id.headerName);
                 String headerName = headerNameTextView.getText().toString().trim();
+                TextView textColour = headerColumnView.findViewById(R.id.headerTextColour);
+                TextView backgroundFillColour = headerColumnView.findViewById(R.id.headerFillColour);
+                CheckBox boldFlag = headerColumnView.findViewById(R.id.headerBoldCheck);
+
+                int testRGB = textColour.getCurrentTextColor();
+                String textRGB = rgbConversion(testRGB);
+                int fillColour = 0;
+                String fillRGB = null;
 
                 if (headerName.isEmpty()) {
                     headerNameTextView.setError("Column name is required");
@@ -156,15 +164,6 @@ public class CreateTable extends AppCompatActivity {
                     break;
                 }
 
-                TextView textColour = findViewById(R.id.headerTextColour);
-                TextView backgroundFillColour = findViewById(R.id.headerFillColour);
-                CheckBox boldFlag = findViewById(R.id.headerBoldCheck);
-
-                int testRGB = textColour.getCurrentTextColor();
-                String textRGB = rgbConversion(testRGB);
-
-                int fillColour = 0;
-                String fillRGB = null;
                 Drawable background = backgroundFillColour.getBackground();
                 if (background instanceof ColorDrawable) {
                     ColorDrawable colorDrawable = (ColorDrawable) background;
@@ -190,6 +189,7 @@ public class CreateTable extends AppCompatActivity {
 
             if (isValid) {
                 tableCreation(headerDetailsDTOList);
+                finish();
             } else {
                 Toast.makeText(CreateTable.this, "Please fix the errors and try again.", Toast.LENGTH_SHORT).show();
             }
@@ -210,15 +210,15 @@ public class CreateTable extends AppCompatActivity {
         tableCreationDTO.setHeaderDetailsList(headerDetailsDTOList);
         tableCreationDTO.setTemplateTables(templateTable);
 
-        // retrofit
-        // table name, template id
-        //( backend to create tableDetails data and json structure)
         TableCreationAPI createTableApi = RetrofitClientInstance.getRetrofitInstance().create(TableCreationAPI.class);
         Call<String> call = createTableApi.tableCreation(tableCreationDTO);
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-
+                if (response.isSuccessful()) {
+                    String responseText = response.body();
+                    Toast.makeText(CreateTable.this, responseText, Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override

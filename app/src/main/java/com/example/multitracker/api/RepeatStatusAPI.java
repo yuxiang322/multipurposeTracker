@@ -10,11 +10,11 @@ import retrofit2.http.POST;
 public interface RepeatStatusAPI {
 
     // get repeat status using notificaiton id
-    @POST("/api/repeatStatus/getRepeatStatus ")
+    @POST("api/repeatStatus/getRepeatStatus ")
     Call<RepeatStatusDTO> getRepeatStatus(@Body NotificationDTO notificationID);
 
     // update repeat status
-    @POST("/api/repeatStatus/updateRepeatStatus ")
+    @POST("api/repeatStatus/updateRepeatStatus ")
     Call<String> updateRepeatStatus(@Body RepeatStatusDTO repeatStatusDTO);
 
 

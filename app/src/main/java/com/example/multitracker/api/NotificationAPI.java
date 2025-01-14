@@ -9,9 +9,9 @@ import retrofit2.http.POST;
 
 public interface NotificationAPI {
 
-    @POST("/api/notification/getNotification")
+    @POST("api/notification/getNotification")
     Call<NotificationDTO> getNotification(@Body TemplateDTO templateID);
-    @POST("/api/notification/updateNotification")
+    @POST("api/notification/updateNotification")
     Call<String> updateNotification(@Body NotificationDTO updateNotification);
 
 
