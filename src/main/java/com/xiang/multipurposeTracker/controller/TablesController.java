@@ -1,6 +1,8 @@
 package com.xiang.multipurposeTracker.controller;
 
+import com.xiang.multipurposeTracker.DTO.RetrieveTableDetailsDTO;
 import com.xiang.multipurposeTracker.DTO.TableCreationDTO;
+import com.xiang.multipurposeTracker.DTO.TemplateDTO;
 import com.xiang.multipurposeTracker.service.TableCreationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,9 +12,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/table")
-public class TableCreationController {
+public class TablesController {
 
     @Autowired
     private TableCreationService tableCreationService;
@@ -31,5 +36,12 @@ public class TableCreationController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create table: " + e.getMessage());
         }
+    }
+
+    @PostMapping("/get")
+    public ResponseEntity<List<RetrieveTableDetailsDTO>> tableGet(@RequestBody TemplateDTO templateID){
+        List<RetrieveTableDetailsDTO> test = new ArrayList<>();
+
+        return ResponseEntity.ok(test);
     }
 }
