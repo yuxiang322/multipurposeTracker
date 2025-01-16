@@ -1,8 +1,8 @@
 package com.example.multitracker;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -19,7 +19,6 @@ import com.example.multitracker.commonUtil.RetrofitClientInstance;
 import com.example.multitracker.dto.RetrieveTableDetailsDTO;
 import com.example.multitracker.dto.TemplateDTO;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -46,7 +45,8 @@ public class TemplateDetails extends AppCompatActivity {
         notificationButtonListener();
         // Add table button
         addTableButton();
-
+        // rmove table
+        removeTable();
     }
 
     @Override
@@ -178,8 +178,7 @@ public class TemplateDetails extends AppCompatActivity {
                 tableName.setText(table.getTemplateTables().getTableName());
 
                 tableName.setOnClickListener(v -> {
-                    Toast.makeText(TemplateDetails.this, "Clickable", Toast.LENGTH_LONG).show();
-                    previewTableData();
+                    tableDataManagement();
                 });
 
                 tableDeleteCheckbox.setOnClickListener(v -> {
@@ -220,16 +219,23 @@ public class TemplateDetails extends AppCompatActivity {
         Button removeTable = findViewById(R.id.removeTable);
 
         removeTable.setOnClickListener(v -> {
-            // run check on current child tables checked from view templateLinearLayout
-            // only remove checks
-            // List of TableID
-            // api delete tableDetails,Headerdetails, templatedetails Delete.
+            // Confirmation
+            new AlertDialog.Builder(this)
+                    .setTitle("confirm remove")
+                    .setMessage("Are you sure?")
+                    .setPositiveButton("yes",((dialog, which) -> {
+                        // run check on current child tables checked from view templateLinearLayout
+                        // only remove checks
+                        // List of TableID
+                        // api delete tableDetails,Headerdetails, templatedetails Delete.
+
+                    }))
+                    .setNegativeButton("no",((dialog, which) -> {
+                        dialog.dismiss();
+                    }))
+                    .show();
+
         });
-    }
-
-    // Preview of table data
-    private void previewTableData() {
-
     }
 
     private void setupTemplateIntent() {
@@ -250,5 +256,10 @@ public class TemplateDetails extends AppCompatActivity {
 
         templateNameEditText.setText(templateDTO.getTemplateName());
         descriptionEditText.setText(templateDTO.getTemplateDescription());
+    }
+
+    // Preview of table data
+    private void tableDataManagement() {
+
     }
 }
