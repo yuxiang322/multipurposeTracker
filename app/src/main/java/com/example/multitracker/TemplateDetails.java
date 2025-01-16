@@ -2,35 +2,42 @@ package com.example.multitracker;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Layout;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.multitracker.api.RetrieveTablesAPI;
+import com.example.multitracker.commonUtil.RetrofitClientInstance;
+import com.example.multitracker.dto.RetrieveTableDetailsDTO;
 import com.example.multitracker.dto.TemplateDTO;
-import com.example.multitracker.dto.TemplateTablesDTO;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class TemplateDetails extends AppCompatActivity {
 
-    private TemplateDTO templateDTOnotification;
+    private TemplateDTO templateObject;
     private int templateID;
-
-    private Boolean enableDelete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.template_detail);
 
-        enableDelete = false;
         // Retrieval of template table details
         setupTemplateIntent();
-        // Set up button view Save, Cancel
-        initialUIState();
         // Edit button set up
         setupEditButtonListener();
         // Save cancel button listener
@@ -45,6 +52,8 @@ public class TemplateDetails extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        initialUIState();
+        populateTables();
     }
 
     private void initialUIState() {
@@ -62,11 +71,9 @@ public class TemplateDetails extends AppCompatActivity {
         Button saveButton = findViewById(R.id.addTables);
         Button cancelButton = findViewById(R.id.cancelSaveTemplate);
         Button addTable = findViewById(R.id.addTable);
-        Button deleteTable = findViewById(R.id.removeTable);
         saveButton.setVisibility(View.VISIBLE);
         cancelButton.setVisibility(View.VISIBLE);
         addTable.setVisibility(View.VISIBLE);
-        deleteTable.setVisibility(View.VISIBLE);
     }
 
     private void stateEditTemplate(Boolean editTextFlag) {
@@ -109,7 +116,7 @@ public class TemplateDetails extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(TemplateDetails.this, NotificationSetting.class);
-                intent.putExtra("templateObject", templateDTOnotification);
+                intent.putExtra("templateObject", templateObject);
                 startActivity(intent);
             }
         });
@@ -138,13 +145,74 @@ public class TemplateDetails extends AppCompatActivity {
         });
     }
 
-    private void populateTables(TemplateDTO templateDTO) {
-        // onresume
-        // Template dto details to get list of tables Api List RetrieveTableDetailsDTO
+    private void populateTables() {
+        RetrieveTablesAPI retrieveTableApi = RetrofitClientInstance.getRetrofitInstance().create(RetrieveTablesAPI.class);
+        Call<List<RetrieveTableDetailsDTO>> tableList = retrieveTableApi.retrieveTable(templateObject);
+        tableList.enqueue(new Callback<List<RetrieveTableDetailsDTO>>() {
+            @Override
+            public void onResponse(Call<List<RetrieveTableDetailsDTO>> call, Response<List<RetrieveTableDetailsDTO>> response) {
+                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
+                    addingTables(response.body());
+                }
+            }
+            @Override
+            public void onFailure(Call<List<RetrieveTableDetailsDTO>> call, Throwable t) {
+            }
+        });
+    }
 
-        // populate into the scroll view
-        // Check box listener -> enableDelete
-        // Clickable new layout for data preview -> passing in RetrieveTableDetailsDTO
+    private void addingTables(List<RetrieveTableDetailsDTO> currentTables) {
+        LinearLayout linearTableList = findViewById(R.id.templateTableLinearLayout);
+        linearTableList.removeAllViews();
+
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+
+        if (!currentTables.isEmpty()) {
+            for (RetrieveTableDetailsDTO table : currentTables) {
+                // template_tables.xml
+                View tableView = layoutInflater.inflate(R.layout.template_tables, linearTableList, false);
+
+                TextView tableName = tableView.findViewById(R.id.templateTableName);
+                CheckBox tableDeleteCheckbox = tableView.findViewById(R.id.deleteTableCheckbox);
+
+                tableName.setText(table.getTemplateTables().getTableName());
+
+                tableName.setOnClickListener(v -> {
+                    Toast.makeText(TemplateDetails.this, "Clickable", Toast.LENGTH_LONG).show();
+                    previewTableData();
+                });
+
+                tableDeleteCheckbox.setOnClickListener(v -> {
+                    deleteButtonState();
+                });
+
+                linearTableList.addView(tableView);
+            }
+        }
+
+    }
+
+    private void deleteButtonState() {
+        LinearLayout linearTableList = findViewById(R.id.templateTableLinearLayout);
+        boolean enableDelete = false;
+
+        for (int i = 0; i < linearTableList.getChildCount(); i++) {
+            View child = linearTableList.getChildAt(i);
+
+            CheckBox currentChildCheckbox = child.findViewById(R.id.deleteTableCheckbox);
+
+            if (currentChildCheckbox.isChecked()) {
+                enableDelete = true;
+                break;
+            }
+        }
+
+        Button deleteTable = findViewById(R.id.removeTable);
+        if (enableDelete) {
+            deleteTable.setVisibility(View.VISIBLE);
+        } else {
+            deleteTable.setVisibility(View.GONE);
+        }
     }
 
     // Remove button
@@ -156,17 +224,12 @@ public class TemplateDetails extends AppCompatActivity {
             // only remove checks
             // List of TableID
             // api delete tableDetails,Headerdetails, templatedetails Delete.
-
         });
     }
 
-    private void deleteButtonState(){
-        // get child view
-        // reset state
-        // loop through
-           // if 1 is enabled break set flag to true
+    // Preview of table data
+    private void previewTableData() {
 
-        // set button state
     }
 
     private void setupTemplateIntent() {
@@ -174,11 +237,9 @@ public class TemplateDetails extends AppCompatActivity {
         if (intent != null && intent.hasExtra("TEMPLATE_KEY")) {
             TemplateDTO templateDTO = intent.getParcelableExtra("TEMPLATE_KEY");
             if (templateDTO != null) {
-                templateDTOnotification = templateDTO;
-                templateID = templateDTOnotification.getTemplateID();
+                templateObject = templateDTO;
+                templateID = templateObject.getTemplateID();
                 displayTemplateDetails(templateDTO);
-                // Populate
-                populateTables(templateDTO);
             }
         }
     }

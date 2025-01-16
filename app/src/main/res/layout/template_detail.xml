@@ -50,22 +50,17 @@
         </ScrollView>
 
         <ScrollView
-            android:id="@+id/scrollViewDetails"
+            android:id="@+id/scrollViewTableDetails"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="350dp"
             android:paddingTop="10dp">
 
             <LinearLayout
-                android:id="@+id/templateLinearLayout"
+                android:id="@+id/templateTableLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="10dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="In Progress"
-                    android:textSize="20dp" />
             </LinearLayout>
         </ScrollView>
 
@@ -77,7 +72,7 @@
             android:text="+"
             android:textColor="@color/white"
             android:textSize="20dp"
-            app:layout_constraintTop_toBottomOf="@id/scrollViewDetails" />
+            app:layout_constraintTop_toBottomOf="@id/scrollViewTableDetails" />
 
         <Button
             android:id="@+id/removeTable"

@@ -46,6 +46,7 @@
         app:layout_constraintTop_toBottomOf="@id/tableCreateLinear">
 
         <TextView
+            android:id="@+id/columnQuanText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Columns "

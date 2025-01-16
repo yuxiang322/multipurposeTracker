@@ -8,7 +8,6 @@ public class RetrieveTableDetailsDTO {
 
     private TemplateTablesDTO templateTables;
     private List<HeaderDetailsDTO> headerDetailsList;
-
     private TableDetailsDTO tableDetails;
 
     public RetrieveTableDetailsDTO() {

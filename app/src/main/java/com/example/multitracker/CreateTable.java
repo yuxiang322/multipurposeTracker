@@ -27,6 +27,8 @@ import com.example.multitracker.dto.HeaderDetailsDTO;
 import com.example.multitracker.dto.TableCreationDTO;
 import com.example.multitracker.dto.TemplateTablesDTO;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +57,7 @@ public class CreateTable extends AppCompatActivity {
     private void columnsSetup() {
         Button minus = findViewById(R.id.buttonMinus);
         Button plus = findViewById(R.id.buttonPlus);
+        TextView columnsError = findViewById(R.id.columnQuanText);
 
         minus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +72,7 @@ public class CreateTable extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 numberOfColumns += 1;
+                columnsError.setError(null);
                 updateColumns();
             }
         });
@@ -130,6 +134,7 @@ public class CreateTable extends AppCompatActivity {
 
         Button save = findViewById(R.id.addTables);
         EditText tableName = findViewById(R.id.tableName);
+        TextView columnsError = findViewById(R.id.columnQuanText);
 
         save.setOnClickListener(v -> {
             boolean isValid = true;
@@ -143,6 +148,11 @@ public class CreateTable extends AppCompatActivity {
             }
 
             LinearLayout parent = findViewById(R.id.tableFields);
+
+            if(parent.getChildCount() == 0){
+                columnsError.setError("Required");
+                return;
+            }
 
             for (int i = 0; i < parent.getChildCount(); i++) {
                 View headerColumnView = parent.getChildAt(i);
@@ -220,7 +230,6 @@ public class CreateTable extends AppCompatActivity {
                     Toast.makeText(CreateTable.this, responseText, Toast.LENGTH_LONG).show();
                 }
             }
-
             @Override
             public void onFailure(Call<String> call, Throwable t) {
 
