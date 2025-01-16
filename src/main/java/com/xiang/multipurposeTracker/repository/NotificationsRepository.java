@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface NotificationsRepository extends JpaRepository<Notifications, String> {
+public interface NotificationsRepository extends JpaRepository<Notifications, Integer> {
 
     Notifications findNotificationByTemplateID(int templateID);
 

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface RepeatStatusRepository extends JpaRepository<RepeatStatus, String> {
+public interface RepeatStatusRepository extends JpaRepository<RepeatStatus, Integer> {
 
     RepeatStatus findByNotificationID(int notificationID);
 

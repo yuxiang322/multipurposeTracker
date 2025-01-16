@@ -3,10 +3,12 @@ package com.xiang.multipurposeTracker.controller;
 import com.xiang.multipurposeTracker.DTO.RetrieveTableDetailsDTO;
 import com.xiang.multipurposeTracker.DTO.TableCreationDTO;
 import com.xiang.multipurposeTracker.DTO.TemplateDTO;
+import com.xiang.multipurposeTracker.service.RetrieveTableService;
 import com.xiang.multipurposeTracker.service.TableCreationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,8 @@ public class TablesController {
 
     @Autowired
     private TableCreationService tableCreationService;
+    @Autowired
+    private RetrieveTableService retrieveTableService;
 
     @PostMapping("/create")
     public ResponseEntity<String> tableCreate(@RequestBody TableCreationDTO tableCreationDTO) {
@@ -39,9 +43,14 @@ public class TablesController {
     }
 
     @PostMapping("/get")
-    public ResponseEntity<List<RetrieveTableDetailsDTO>> tableGet(@RequestBody TemplateDTO templateID){
-        List<RetrieveTableDetailsDTO> test = new ArrayList<>();
+    public ResponseEntity<List<RetrieveTableDetailsDTO>> tableGet(@RequestBody TemplateDTO templateObject){
+        try{
+            List<RetrieveTableDetailsDTO> tableListRetrieved = retrieveTableService.retrieveListOfTable(templateObject.getTemplateID());
 
-        return ResponseEntity.ok(test);
+            return ResponseEntity.ok(tableListRetrieved);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+
     }
 }
