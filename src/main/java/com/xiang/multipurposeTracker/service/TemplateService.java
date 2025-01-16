@@ -79,6 +79,7 @@ public class TemplateService {
     }
 
     // Delete Template
+    // TABLE DELETION. TemplateTable, HeaderDetails, TableDetails
     @Transactional
     public String deleteTemplate(TemplateDTO templateRequest) {
         try {
@@ -98,6 +99,11 @@ public class TemplateService {
                 // Delete notification
                 notificationsRepository.delete(notification);
             }
+            // Delete Header Detail
+
+            // Delete Table Detail
+
+            // Delete Template Table
 
             // Delete template
             templateRepository.delete(template);
