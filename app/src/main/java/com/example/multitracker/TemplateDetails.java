@@ -179,12 +179,10 @@ public class TemplateDetails extends AppCompatActivity {
                 CheckBox tableDeleteCheckbox = tableView.findViewById(R.id.deleteTableCheckbox);
 
                 tableName.setText(table.getTemplateTables().getTableName());
-                tableName.setTag(table);
-
                 tableDeleteCheckbox.setTag(table.getTemplateTables().getTableID());
 
                 tableName.setOnClickListener(v -> {
-                    tableDataManagement();
+                    tableDataManagement(table);
                 });
 
                 tableDeleteCheckbox.setOnClickListener(v -> {
@@ -294,7 +292,10 @@ public class TemplateDetails extends AppCompatActivity {
     }
 
     // Preview of table data
-    private void tableDataManagement() {
-
+    private void tableDataManagement(RetrieveTableDetailsDTO tableData) {
+        // new layout for managing table data
+        // for adding new values
+        // pass intent to new class TableDataManagement
+        //
     }
 }
