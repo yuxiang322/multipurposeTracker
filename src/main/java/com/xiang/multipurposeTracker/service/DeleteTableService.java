@@ -18,9 +18,16 @@ public class DeleteTableService {
     @Autowired
     private TableDetailsRepository tableDetailsRepository;
 
-    public String deleteTables(List<TemplateTablesDTO> deleteTemplateTablesList){
-
-
-        return "test";
+    public String deleteTables(int [] tableIDs){
+        try{
+            for(int tableID : tableIDs){
+                tableDetailsRepository.deleteByTableID(tableID);
+                headerDetailsRepository.deleteByTableID(tableID);
+                templateTablesRepository.deleteByTableID(tableID);
+            }
+            return "Deleted";
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

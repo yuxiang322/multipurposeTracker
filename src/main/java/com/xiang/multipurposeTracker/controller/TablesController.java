@@ -3,18 +3,17 @@ package com.xiang.multipurposeTracker.controller;
 import com.xiang.multipurposeTracker.DTO.RetrieveTableDetailsDTO;
 import com.xiang.multipurposeTracker.DTO.TableCreationDTO;
 import com.xiang.multipurposeTracker.DTO.TemplateDTO;
+import com.xiang.multipurposeTracker.service.DeleteTableService;
 import com.xiang.multipurposeTracker.service.RetrieveTableService;
 import com.xiang.multipurposeTracker.service.TableCreationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -25,6 +24,8 @@ public class TablesController {
     private TableCreationService tableCreationService;
     @Autowired
     private RetrieveTableService retrieveTableService;
+    @Autowired
+    private DeleteTableService deleteTableService;
 
     @PostMapping("/create")
     public ResponseEntity<String> tableCreate(@RequestBody TableCreationDTO tableCreationDTO) {
@@ -51,6 +52,16 @@ public class TablesController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
+    }
 
+    @PostMapping("/delete")
+    public ResponseEntity<String> tableDelete(@RequestBody int [] tableIDs){
+        try{
+            String deleteTableResult = deleteTableService.deleteTables(tableIDs);
+
+            return ResponseEntity.ok(deleteTableResult);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to delete table" + e.getMessage());
+        }
     }
 }
