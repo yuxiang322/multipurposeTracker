@@ -12,6 +12,6 @@ public interface TemplateTablesRepository extends JpaRepository<TemplateTables, 
     List<TemplateTables> findTemplateTablesByTemplateID(int templateID);
 
     @Modifying
-    @Query("DELETE FROM TemplateTables h WHERE h.tableID = :tableID")
+    @Query("DELETE FROM TemplateTables t WHERE t.tableID = :tableID")
     void deleteByTableID(@Param("tableID") int tableID);
 }
