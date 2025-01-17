@@ -56,7 +56,7 @@ public class RepeatStatusService {
 
             repeatStatusUpdate.setNotificationID(updateRepeatStatus.getNotificationID());
             // Convert String to LocalDate
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/M/yyyy");
             LocalDate parsedDate = LocalDate.parse(updateRepeatStatus.getRepeatStartDate(), dateFormatter);
             repeatStatusUpdate.setRepeatStartDate(parsedDate);
 
