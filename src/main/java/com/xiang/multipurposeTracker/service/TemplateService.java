@@ -106,20 +106,11 @@ public class TemplateService {
             List<TemplateTables> templateTablesList = templateTablesRepository.findTemplateTablesByTemplateID(templateRequest.getTemplateID());
 
             for(TemplateTables currentTemplateTable : templateTablesList){
-                TableDetails tableDetail = tableDetailsRepository.findTableDetailsByTableID(currentTemplateTable.getTableID());
-                if(tableDetail != null){
-                    tableDetailsRepository.delete(tableDetail);
-                }
-
-                List<HeaderDetails> headerDetailsList = headerDetailsRepository.findHeaderDetailsByTableID(currentTemplateTable.getTableID());
-                if(headerDetailsList != null){
-                    headerDetailsRepository.deleteAllInBatch(headerDetailsList);
-                }
-
+                headerDetailsRepository.deleteByTableID(currentTemplateTable.getTableID());
+                tableDetailsRepository.deleteByTableID(currentTemplateTable.getTableID());
             }
             // Delete Template Table
             templateTablesRepository.deleteAllInBatch(templateTablesList);
-
             // Delete template
             templateRepository.delete(template);
 
