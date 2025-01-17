@@ -55,7 +55,7 @@ public class TablesController {
     }
 
     @PostMapping("/delete")
-    public ResponseEntity<String> tableDelete(@RequestBody int [] tableIDs){
+    public ResponseEntity<String> tableDelete(@RequestBody List<Integer> tableIDs){
         try{
             String deleteTableResult = deleteTableService.deleteTables(tableIDs);
 

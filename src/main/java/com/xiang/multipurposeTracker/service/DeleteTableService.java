@@ -18,7 +18,7 @@ public class DeleteTableService {
     @Autowired
     private TableDetailsRepository tableDetailsRepository;
 
-    public String deleteTables(int [] tableIDs){
+    public String deleteTables(List<Integer> tableIDs){
         try{
             for(int tableID : tableIDs){
                 tableDetailsRepository.deleteByTableID(tableID);
