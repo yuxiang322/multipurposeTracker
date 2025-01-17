@@ -1,12 +1,9 @@
 package com.xiang.multipurposeTracker.service;
 
+import com.xiang.multipurposeTracker.DTO.NotificationDTO;
 import com.xiang.multipurposeTracker.DTO.TemplateDTO;
-import com.xiang.multipurposeTracker.entities.Notifications;
-import com.xiang.multipurposeTracker.entities.RepeatStatus;
-import com.xiang.multipurposeTracker.entities.Template;
-import com.xiang.multipurposeTracker.repository.NotificationsRepository;
-import com.xiang.multipurposeTracker.repository.RepeatStatusRepository;
-import com.xiang.multipurposeTracker.repository.TemplateRepository;
+import com.xiang.multipurposeTracker.entities.*;
+import com.xiang.multipurposeTracker.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +21,12 @@ public class TemplateService {
     private NotificationsRepository notificationsRepository;
     @Autowired
     private RepeatStatusRepository repeatStatusRepository;
+    @Autowired
+    private TemplateTablesRepository templateTablesRepository;
+    @Autowired
+    private TableDetailsRepository tableDetailsRepository;
+    @Autowired
+    private HeaderDetailsRepository headerDetailsRepository;
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
@@ -99,11 +102,23 @@ public class TemplateService {
                 // Delete notification
                 notificationsRepository.delete(notification);
             }
-            // Delete Header Detail
 
-            // Delete Table Detail
+            List<TemplateTables> templateTablesList = templateTablesRepository.findTemplateTablesByTemplateID(templateRequest.getTemplateID());
 
+            for(TemplateTables currentTemplateTable : templateTablesList){
+                TableDetails tableDetail = tableDetailsRepository.findTableDetailsByTableID(currentTemplateTable.getTableID());
+                if(tableDetail != null){
+                    tableDetailsRepository.delete(tableDetail);
+                }
+
+                List<HeaderDetails> headerDetailsList = headerDetailsRepository.findHeaderDetailsByTableID(currentTemplateTable.getTableID());
+                if(headerDetailsList != null){
+                    headerDetailsRepository.deleteAllInBatch(headerDetailsList);
+                }
+
+            }
             // Delete Template Table
+            templateTablesRepository.deleteAllInBatch(templateTablesList);
 
             // Delete template
             templateRepository.delete(template);
@@ -113,4 +128,5 @@ public class TemplateService {
             throw new RuntimeException("Failed to delete template. Please try again later.");
         }
     }
+
 }
