@@ -3,6 +3,7 @@ package com.example.multitracker;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -14,11 +15,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.multitracker.api.RetrieveTablesAPI;
+import com.example.multitracker.api.TableManagementAPI;
 import com.example.multitracker.commonUtil.RetrofitClientInstance;
 import com.example.multitracker.dto.RetrieveTableDetailsDTO;
 import com.example.multitracker.dto.TemplateDTO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -146,15 +148,16 @@ public class TemplateDetails extends AppCompatActivity {
     }
 
     private void populateTables() {
-        RetrieveTablesAPI retrieveTableApi = RetrofitClientInstance.getRetrofitInstance().create(RetrieveTablesAPI.class);
+        TableManagementAPI retrieveTableApi = RetrofitClientInstance.getRetrofitInstance().create(TableManagementAPI.class);
         Call<List<RetrieveTableDetailsDTO>> tableList = retrieveTableApi.retrieveTable(templateObject);
         tableList.enqueue(new Callback<List<RetrieveTableDetailsDTO>>() {
             @Override
             public void onResponse(Call<List<RetrieveTableDetailsDTO>> call, Response<List<RetrieveTableDetailsDTO>> response) {
-                if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
+                if (response.isSuccessful() && response.body() != null) {
                     addingTables(response.body());
                 }
             }
+
             @Override
             public void onFailure(Call<List<RetrieveTableDetailsDTO>> call, Throwable t) {
             }
@@ -176,6 +179,9 @@ public class TemplateDetails extends AppCompatActivity {
                 CheckBox tableDeleteCheckbox = tableView.findViewById(R.id.deleteTableCheckbox);
 
                 tableName.setText(table.getTemplateTables().getTableName());
+                tableName.setTag(table);
+
+                tableDeleteCheckbox.setTag(table.getTemplateTables().getTableID());
 
                 tableName.setOnClickListener(v -> {
                     tableDataManagement();
@@ -188,7 +194,6 @@ public class TemplateDetails extends AppCompatActivity {
                 linearTableList.addView(tableView);
             }
         }
-
     }
 
     private void deleteButtonState() {
@@ -214,7 +219,7 @@ public class TemplateDetails extends AppCompatActivity {
         }
     }
 
-    // Remove button
+    // Remove button  CACHING REQUIRED
     private void removeTable() {
         Button removeTable = findViewById(R.id.removeTable);
 
@@ -223,14 +228,44 @@ public class TemplateDetails extends AppCompatActivity {
             new AlertDialog.Builder(this)
                     .setTitle("confirm remove")
                     .setMessage("Are you sure?")
-                    .setPositiveButton("yes",((dialog, which) -> {
+                    .setPositiveButton("yes", ((dialog, which) -> {
                         // run check on current child tables checked from view templateLinearLayout
                         // only remove checks
                         // List of TableID
                         // api delete tableDetails,Headerdetails, templatedetails Delete.
+                        List<Integer> tableIDsDelete = new ArrayList<>();
+                        LinearLayout tablesToDeleteParent = findViewById(R.id.templateTableLinearLayout);
+
+                        for (int i = 0; i < tablesToDeleteParent.getChildCount(); i++) {
+                            View tableToDeleteView = tablesToDeleteParent.getChildAt(i);
+                            CheckBox deleteCheck = tableToDeleteView.findViewById(R.id.deleteTableCheckbox);
+
+                            if (deleteCheck.isChecked()) {
+                                tableIDsDelete.add((Integer) deleteCheck.getTag());
+                            }
+                        }
+                        Log.d("TableDelete", tableIDsDelete.toString()); // test
+
+                        TableManagementAPI tableDelete = RetrofitClientInstance.getRetrofitInstance().create(TableManagementAPI.class);
+                        Call<String> deleteCall = tableDelete.deleteTable(tableIDsDelete);
+                        deleteCall.enqueue(new Callback<String>() {
+                            @Override
+                            public void onResponse(Call<String> call, Response<String> response) {
+                                if (response.isSuccessful()) {
+                                    Toast.makeText(TemplateDetails.this, "Deletion " + response.body(), Toast.LENGTH_SHORT).show();
+                                    populateTables(); // CACHING
+                                    initialUIState();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<String> call, Throwable t) {
+
+                            }
+                        });
 
                     }))
-                    .setNegativeButton("no",((dialog, which) -> {
+                    .setNegativeButton("no", ((dialog, which) -> {
                         dialog.dismiss();
                     }))
                     .show();

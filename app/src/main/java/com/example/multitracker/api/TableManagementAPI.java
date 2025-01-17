@@ -10,8 +10,14 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
-public interface RetrieveTablesAPI {
+public interface TableManagementAPI {
+
+    @POST("api/table/create")
+    Call<String> tableCreation(@Body TableCreationDTO tableCreationDTO);
 
     @POST("api/table/get")
     Call<List<RetrieveTableDetailsDTO>> retrieveTable(@Body TemplateDTO templateID);
+
+    @POST("api/table/delete")
+    Call<String> deleteTable(@Body List<Integer> tableIDs);
 }

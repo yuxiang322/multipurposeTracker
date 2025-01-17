@@ -21,13 +21,11 @@ import yuku.ambilwarna.AmbilWarnaDialog;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.multitracker.api.TableCreationAPI;
+import com.example.multitracker.api.TableManagementAPI;
 import com.example.multitracker.commonUtil.RetrofitClientInstance;
 import com.example.multitracker.dto.HeaderDetailsDTO;
 import com.example.multitracker.dto.TableCreationDTO;
 import com.example.multitracker.dto.TemplateTablesDTO;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -220,7 +218,7 @@ public class CreateTable extends AppCompatActivity {
         tableCreationDTO.setHeaderDetailsList(headerDetailsDTOList);
         tableCreationDTO.setTemplateTables(templateTable);
 
-        TableCreationAPI createTableApi = RetrofitClientInstance.getRetrofitInstance().create(TableCreationAPI.class);
+        TableManagementAPI createTableApi = RetrofitClientInstance.getRetrofitInstance().create(TableManagementAPI.class);
         Call<String> call = createTableApi.tableCreation(tableCreationDTO);
         call.enqueue(new Callback<String>() {
             @Override
