@@ -58,7 +58,7 @@ public class TemplateController {
         try{
             String saveTemplateResponse = templateService.saveTemplateDetails(saveTemplateDetails);
 
-            return ResponseEntity.ok("test");
+            return ResponseEntity.ok(saveTemplateResponse);
         } catch (Exception e) {
 
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to update Details");
