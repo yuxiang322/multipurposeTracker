@@ -28,7 +28,6 @@ public class DeleteTableService {
             }
             return "Deleted";
         } catch (Exception e) {
-
             throw new RuntimeException(e);
         }
     }

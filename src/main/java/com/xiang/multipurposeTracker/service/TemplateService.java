@@ -120,4 +120,21 @@ public class TemplateService {
         }
     }
 
+    // Save template Details
+    @Transactional
+    public String saveTemplateDetails(TemplateDTO saveTemplateDetailsDTO){
+        try{
+
+            Template templateToUpdate = templateRepository.findByTemplateID(saveTemplateDetailsDTO.getTemplateID());
+
+            templateToUpdate.setTemplateName(saveTemplateDetailsDTO.getTemplateName());
+            templateToUpdate.setTemplateDescription(saveTemplateDetailsDTO.getTemplateDescription());
+
+            templateRepository.save(templateToUpdate);
+
+            return "Template details saved.";
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

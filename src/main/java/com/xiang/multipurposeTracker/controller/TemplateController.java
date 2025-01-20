@@ -51,4 +51,17 @@ public class TemplateController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    // Save Template details
+    @PostMapping("/saveTemplateDetails")
+    public ResponseEntity<String> saveTemplateDetails(@RequestBody TemplateDTO saveTemplateDetails){
+        try{
+            String saveTemplateResponse = templateService.saveTemplateDetails(saveTemplateDetails);
+
+            return ResponseEntity.ok("test");
+        } catch (Exception e) {
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to update Details");
+        }
+    }
 }

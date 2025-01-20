@@ -13,6 +13,8 @@ public interface TemplateRepository extends JpaRepository<Template, Integer> {
     List<Template> findByUserUID(String userUID);
 
     Optional<Template> findByTemplateIDAndUserUID(int templateID, String userUID);
+
+    Template findByTemplateID(int templateID);
 }
 
 
