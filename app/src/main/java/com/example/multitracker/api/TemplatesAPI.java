@@ -22,4 +22,8 @@ public interface TemplatesAPI {
     @POST("api/template/deleteTemplate")
     Call<String> deleteTemplate(@Body TemplateDTO templateRequest);
 
+    // save template details
+    @POST("api/template/saveTemplateDetails")
+    Call<String> saveTemplateDetails(@Body TemplateDTO templateDetailsUpdate);
+
 }

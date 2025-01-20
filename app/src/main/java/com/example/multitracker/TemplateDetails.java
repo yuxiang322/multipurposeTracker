@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.multitracker.api.TableManagementAPI;
+import com.example.multitracker.api.TemplatesAPI;
 import com.example.multitracker.commonUtil.RetrofitClientInstance;
 import com.example.multitracker.dto.RetrieveTableDetailsDTO;
 import com.example.multitracker.dto.TemplateDTO;
@@ -59,7 +60,7 @@ public class TemplateDetails extends AppCompatActivity {
     }
 
     private void initialUIState() {
-        Button saveButton = findViewById(R.id.addTables);
+        Button saveButton = findViewById(R.id.saveTemplateDetails);
         Button cancelButton = findViewById(R.id.cancelSaveTemplate);
         Button addTable = findViewById(R.id.addTable);
         Button deleteTable = findViewById(R.id.removeTable);
@@ -70,7 +71,7 @@ public class TemplateDetails extends AppCompatActivity {
     }
 
     private void enableButtons() {
-        Button saveButton = findViewById(R.id.addTables);
+        Button saveButton = findViewById(R.id.saveTemplateDetails);
         Button cancelButton = findViewById(R.id.cancelSaveTemplate);
         Button addTable = findViewById(R.id.addTable);
         saveButton.setVisibility(View.VISIBLE);
@@ -125,14 +126,54 @@ public class TemplateDetails extends AppCompatActivity {
     }
 
     private void saveCancelButtonListener() {
-        Button saveButton = findViewById(R.id.addTables);
+        Button saveButton = findViewById(R.id.saveTemplateDetails);
         Button cancelButton = findViewById(R.id.cancelSaveTemplate);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Only saves Template information.
-                // delete(prompt) and add Table from + button are permanent.
+                EditText templateNameEdit = findViewById(R.id.templateName);
+                EditText templateDescriptionEdit = findViewById(R.id.templateDescription);
+
+                String templateNameUpdate = templateNameEdit.getText().toString().trim();
+                String templateDescriptionUpdate = templateDescriptionEdit.getText().toString().trim();
+
+                if ((!templateNameUpdate.equals(templateObject.getTemplateName())) || !(templateDescriptionUpdate.equals(templateObject.getTemplateDescription()))) {
+                    // Save templateDetails
+                    TemplateDTO updateTemplateDetails = new TemplateDTO();
+                    updateTemplateDetails.setTemplateID(templateID);
+                    updateTemplateDetails.setTemplateName(templateNameUpdate);
+                    updateTemplateDetails.setTemplateDescription(templateDescriptionUpdate);
+
+                    TemplatesAPI saveTemplateDetails = RetrofitClientInstance.getRetrofitInstance().create(TemplatesAPI.class);
+                    Call<String> saveTemplateCall = saveTemplateDetails.saveTemplateDetails(updateTemplateDetails);
+
+                    saveTemplateCall.enqueue(new Callback<String>() {
+                        @Override
+                        public void onResponse(Call<String> call, Response<String> response) {
+                            if (response.isSuccessful()) {
+                                Toast.makeText(TemplateDetails.this, response.body(), Toast.LENGTH_SHORT).show();
+
+                                templateNameEdit.setText(templateNameUpdate);
+                                templateDescriptionEdit.setText(templateDescriptionUpdate);
+                                templateObject.setTemplateName(templateNameUpdate);
+                                templateObject.setTemplateDescription(templateDescriptionUpdate);
+                                stateEditTemplate(false);
+                                initialUIState();
+                            } else {
+                                Toast.makeText(TemplateDetails.this, response.body(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<String> call, Throwable t) {
+
+                        }
+                    });
+
+                } else {
+                    Toast.makeText(TemplateDetails.this, "No changes to save for Template Name or Description", Toast.LENGTH_LONG).show();
+                }
             }
         });
         cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -293,9 +334,8 @@ public class TemplateDetails extends AppCompatActivity {
 
     // Preview of table data
     private void tableDataManagement(RetrieveTableDetailsDTO tableData) {
-        // new layout for managing table data
-        // for adding new values
-        // pass intent to new class TableDataManagement
-        //
+        Intent passTableData = new Intent(this, TableDataManagement.class);
+        passTableData.putExtra("tableData", tableData);
+        startActivity(passTableData);
     }
 }

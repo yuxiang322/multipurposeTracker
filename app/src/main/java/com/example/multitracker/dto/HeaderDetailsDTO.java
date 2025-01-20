@@ -1,6 +1,11 @@
 package com.example.multitracker.dto;
 
-public class HeaderDetailsDTO {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+public class HeaderDetailsDTO implements Parcelable {
     private int headerID;
     private int tableID;
     private String headerName;
@@ -8,7 +13,7 @@ public class HeaderDetailsDTO {
     private String headerTextColour;
     private Boolean textBold;
 
-    public HeaderDetailsDTO() {
+    public HeaderDetailsDTO()  {
     }
 
     public HeaderDetailsDTO(int headerID, int tableID, String headerName, String headerFillColour, String headerTextColour) {
@@ -18,6 +23,28 @@ public class HeaderDetailsDTO {
         this.headerFillColour = headerFillColour;
         this.headerTextColour = headerTextColour;
     }
+
+    protected HeaderDetailsDTO(Parcel in) {
+        headerID = in.readInt();
+        tableID = in.readInt();
+        headerName = in.readString();
+        headerFillColour = in.readString();
+        headerTextColour = in.readString();
+        byte tmpTextBold = in.readByte();
+        textBold = tmpTextBold == 0 ? null : tmpTextBold == 1;
+    }
+
+    public static final Creator<HeaderDetailsDTO> CREATOR = new Creator<HeaderDetailsDTO>() {
+        @Override
+        public HeaderDetailsDTO createFromParcel(Parcel in) {
+            return new HeaderDetailsDTO(in);
+        }
+
+        @Override
+        public HeaderDetailsDTO[] newArray(int size) {
+            return new HeaderDetailsDTO[size];
+        }
+    };
 
     public Boolean getTextBold() {
         return textBold;
@@ -65,5 +92,20 @@ public class HeaderDetailsDTO {
 
     public void setHeaderTextColour(String headerTextColour) {
         this.headerTextColour = headerTextColour;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeInt(headerID);
+        dest.writeInt(tableID);
+        dest.writeString(headerName);
+        dest.writeString(headerFillColour);
+        dest.writeString(headerTextColour);
+        dest.writeByte((byte) (textBold == null ? 0 : textBold ? 1 : 2));
     }
 }
