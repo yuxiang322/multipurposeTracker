@@ -28,7 +28,9 @@ import com.example.multitracker.dto.TableCreationDTO;
 import com.example.multitracker.dto.TemplateTablesDTO;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class CreateTable extends AppCompatActivity {
 
@@ -138,6 +140,7 @@ public class CreateTable extends AppCompatActivity {
             boolean isValid = true;
 
             List<HeaderDetailsDTO> headerDetailsDTOList = new ArrayList<>();
+            Set<String> headerNameSet = new HashSet<>();
 
             String tableNameFlag = tableName.getText().toString().trim();
             if (tableNameFlag.isEmpty()) {
@@ -168,6 +171,12 @@ public class CreateTable extends AppCompatActivity {
 
                 if (headerName.isEmpty()) {
                     headerNameTextView.setError("Column name is required");
+                    isValid = false;
+                    break;
+                }
+
+                if (!headerNameSet.add(headerName)) {
+                    headerNameTextView.setError("Duplicate column name");
                     isValid = false;
                     break;
                 }
