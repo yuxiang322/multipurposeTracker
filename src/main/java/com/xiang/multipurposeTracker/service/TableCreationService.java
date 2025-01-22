@@ -15,10 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class TableCreationService {
@@ -53,11 +50,11 @@ public class TableCreationService {
 
     public void insertTableDetails(int tableID, List<HeaderDetailsDTO> headerDetailsDTOList) {
         try {
-            Map<String, List<String>> headerDataMap = new HashMap<>();
+            Map<String, List<String>> headerDataMap = new LinkedHashMap<>();
 
             for (HeaderDetailsDTO currentHeaderDetails : headerDetailsDTOList) {
                 String headerName = currentHeaderDetails.getHeaderName();
-                headerDataMap.putIfAbsent(headerName, new ArrayList<>());
+                headerDataMap.put(headerName, new ArrayList<>());
             }
 
             ObjectMapper headerNamesMapper = new ObjectMapper();
