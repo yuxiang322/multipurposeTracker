@@ -188,6 +188,7 @@ public class TemplateDetails extends AppCompatActivity {
         });
     }
 
+    // Caching solve real time sync..
     private void populateTables() {
         TableManagementAPI retrieveTableApi = RetrofitClientInstance.getRetrofitInstance().create(TableManagementAPI.class);
         Call<List<RetrieveTableDetailsDTO>> tableList = retrieveTableApi.retrieveTable(templateObject);
@@ -292,8 +293,8 @@ public class TemplateDetails extends AppCompatActivity {
                             public void onResponse(Call<String> call, Response<String> response) {
                                 if (response.isSuccessful()) {
                                     Toast.makeText(TemplateDetails.this, "Deletion " + response.body(), Toast.LENGTH_SHORT).show();
-                                    populateTables(); // CACHING
                                     initialUIState();
+                                    populateTables();// CACHING
                                 }
                             }
 

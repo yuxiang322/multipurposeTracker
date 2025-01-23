@@ -2,6 +2,7 @@ package com.example.multitracker.api;
 
 import com.example.multitracker.dto.RetrieveTableDetailsDTO;
 import com.example.multitracker.dto.TableCreationDTO;
+import com.example.multitracker.dto.TableDetailsDTO;
 import com.example.multitracker.dto.TemplateDTO;
 
 import java.util.List;
@@ -20,4 +21,7 @@ public interface TableManagementAPI {
 
     @POST("api/table/delete")
     Call<String> deleteTable(@Body List<Integer> tableIDs);
+
+    @POST("api/table/save")
+    Call<String> saveTableData(@Body TableDetailsDTO jsonDataUpdate);
 }
