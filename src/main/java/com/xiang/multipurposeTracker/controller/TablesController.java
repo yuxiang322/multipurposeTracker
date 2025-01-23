@@ -2,9 +2,11 @@ package com.xiang.multipurposeTracker.controller;
 
 import com.xiang.multipurposeTracker.DTO.RetrieveTableDetailsDTO;
 import com.xiang.multipurposeTracker.DTO.TableCreationDTO;
+import com.xiang.multipurposeTracker.DTO.TableDetailsDTO;
 import com.xiang.multipurposeTracker.DTO.TemplateDTO;
 import com.xiang.multipurposeTracker.service.DeleteTableService;
 import com.xiang.multipurposeTracker.service.RetrieveTableService;
+import com.xiang.multipurposeTracker.service.SaveTableDataService;
 import com.xiang.multipurposeTracker.service.TableCreationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,6 +28,8 @@ public class TablesController {
     private RetrieveTableService retrieveTableService;
     @Autowired
     private DeleteTableService deleteTableService;
+    @Autowired
+    private SaveTableDataService saveTableDataService;
 
     @PostMapping("/create")
     public ResponseEntity<String> tableCreate(@RequestBody TableCreationDTO tableCreationDTO) {
@@ -62,6 +66,17 @@ public class TablesController {
             return ResponseEntity.ok(deleteTableResult);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to delete table" + e.getMessage());
+        }
+    }
+
+    @PostMapping("/save")
+    public ResponseEntity<String> tableDataSave(@RequestBody TableDetailsDTO jsonDataUpdate){
+        try{
+            String saveTableData = saveTableDataService.saveTableData(jsonDataUpdate);
+
+            return ResponseEntity.ok(saveTableData);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to save data" + e.getMessage());
         }
     }
 }
