@@ -32,7 +32,6 @@ public class TemplateDetails extends AppCompatActivity {
 
     private TemplateDTO templateObject;
     private int templateID;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

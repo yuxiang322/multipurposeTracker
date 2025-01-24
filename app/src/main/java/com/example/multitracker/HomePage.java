@@ -97,7 +97,7 @@ public class HomePage extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        // import
+        // import/share
         importButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -234,4 +234,24 @@ public class HomePage extends AppCompatActivity {
                 .setNegativeButton(android.R.string.no, null)
                 .show();
     }
+
+    // share
+    // update Sharing Table UPDATE DTO and backend Entity
+//    CREATE TABLE Share_Table (
+//            SharingCode NVARCHAR(255) PRIMARY KEY,
+//    TemplateID INT NOT NULL,
+//    TemplateDetails NVARCHAR(MAX),
+//    ExpirationDate DATETIME,
+//    FOREIGN KEY (TemplateID) REFERENCES Template(TemplateID)
+//            );
+    // Share is clicked
+
+    // backend -> templateID to check for existing sharingCode
+    // if templateID exist -> Update only TemplateDetails, return sharingCode
+
+    // else(case of code expiration deleted) -> generate uid, process current template details, -> save sharingcode, templtaedetails, templateID, ExpirationDa
+    // return sharing code
+
+    // cron job to delete records from sharing table, pass the expiration date. Each code 30days expiration
+
 }
