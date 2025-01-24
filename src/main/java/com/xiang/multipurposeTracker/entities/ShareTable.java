@@ -2,46 +2,28 @@ package com.xiang.multipurposeTracker.entities;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "ShareTable")
 public class ShareTable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ShareID")
-    private int shareID;
-    @Column(name = "TemplateID")
-    private int templateID;
-    @Column(name = "SharingCode")
+    @Column(name = "Sharingcode")
     private String sharingCode;
-    @Column(name = "SharingStatus")
-    private String sharingStatus;
-    @Column(name = "TemplateDetails")
+    @Column(name = "Templateid")
+    private int templateID;
+    @Column(name = "Templatedetails")
     private String templateDetails;
+    @Column(name = "Expirationdate")
+    private LocalDateTime expirationDate;
 
     public ShareTable(){}
 
-    public ShareTable(int shareID, int templateID, String sharingCode, String sharingStatus, String templateDetails) {
-        this.shareID = shareID;
-        this.templateID = templateID;
+    public ShareTable(String sharingCode, int templateID, String templateDetails, LocalDateTime expirationDate) {
         this.sharingCode = sharingCode;
-        this.sharingStatus = sharingStatus;
-        this.templateDetails = templateDetails;
-    }
-
-    public int getShareID() {
-        return shareID;
-    }
-
-    public void setShareID(int shareID) {
-        this.shareID = shareID;
-    }
-
-    public int getTemplateID() {
-        return templateID;
-    }
-
-    public void setTemplateID(int templateID) {
         this.templateID = templateID;
+        this.templateDetails = templateDetails;
+        this.expirationDate = expirationDate;
     }
 
     public String getSharingCode() {
@@ -52,12 +34,12 @@ public class ShareTable {
         this.sharingCode = sharingCode;
     }
 
-    public String getSharingStatus() {
-        return sharingStatus;
+    public int getTemplateID() {
+        return templateID;
     }
 
-    public void setSharingStatus(String sharingStatus) {
-        this.sharingStatus = sharingStatus;
+    public void setTemplateID(int templateID) {
+        this.templateID = templateID;
     }
 
     public String getTemplateDetails() {
@@ -66,5 +48,13 @@ public class ShareTable {
 
     public void setTemplateDetails(String templateDetails) {
         this.templateDetails = templateDetails;
+    }
+
+    public LocalDateTime getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(LocalDateTime expirationDate) {
+        this.expirationDate = expirationDate;
     }
 }
