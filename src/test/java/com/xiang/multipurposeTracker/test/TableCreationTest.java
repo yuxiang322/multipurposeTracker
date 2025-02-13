@@ -6,14 +6,16 @@ import com.xiang.multipurposeTracker.repository.TableDetailsRepository;
 import com.xiang.multipurposeTracker.service.TableCreationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
+@ExtendWith(MockitoExtension.class)
 public class TableCreationTest {
     @InjectMocks
     private TableCreationService tableCreationService;
@@ -25,9 +27,10 @@ public class TableCreationTest {
     private List<HeaderDetailsDTO> headerDetailsDTOList;
 
     @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
-
+    public void setUp(TestInfo testInfo) {
+//        if(testInfo.get){
+//
+//        }
         headerDetailsDTOList = new ArrayList<>();
         headerDetailsDTOList.add(new HeaderDetailsDTO(1, 1, "Head1", "color1", "colour1", true));
         headerDetailsDTOList.add(new HeaderDetailsDTO(1, 1, "Head2", "color2", "colour2", false));
