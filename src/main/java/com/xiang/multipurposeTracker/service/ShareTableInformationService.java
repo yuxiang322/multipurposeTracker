@@ -104,8 +104,10 @@ public class ShareTableInformationService {
                 ShareTable updateShare = new ShareTable();
 
                 updateShare.setSharingCode(checkExistingShareInfo.getSharingCode());
+                updateShare.setTemplateID(checkExistingShareInfo.getTemplateID());
+                updateShare.setExpirationDate(checkExistingShareInfo.getExpirationDate());
                 updateShare.setTemplateDetails(shareInfoJson);
-                updateShare.setTemplateID(templateId);
+
                 shareTableRepository.save(updateShare);
             }
 
