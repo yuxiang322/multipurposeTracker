@@ -105,6 +105,7 @@ public class ShareTableInformationService {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         } catch (Exception e) {
+            logger.info("Exception?" + e.getMessage());
             throw new RuntimeException(e);
         }
     }
