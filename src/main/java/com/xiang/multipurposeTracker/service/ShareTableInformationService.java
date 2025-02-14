@@ -9,6 +9,7 @@ import com.xiang.multipurposeTracker.repository.CustomShareInfoRepository;
 import com.xiang.multipurposeTracker.repository.ShareTableRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -23,6 +24,7 @@ public class ShareTableInformationService {
     @Autowired
     private CustomShareInfoRepository customShareInfoRepository;
 
+    @Transactional
     public ShareTableDTO processShareInformation(Integer templateId) {
 
         try {
@@ -97,25 +99,25 @@ public class ShareTableInformationService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        // import
-        // Custom DTO for tempalteDetails
-        // Template: 1
-        // Array of Table
-        // Table 1:
-        // Array of HeaderDetails
-        // TableDetails
-        // Table 2:
-        // Array of HeaderDetails
-        // TableDetails String of jdata.
-
-        // Custom repo interface extends in sharetablerepo
-        // public class implement custom repo and override method of custom repo to return the needed data
-        // call the method here using sharetablerepo.
     }
 
     public CustomShareInfoDTO getShareInfoDetails(int templateId) {
         return customShareInfoRepository.getShareInfoDetails(templateId);
     }
 
+    // import
+    // Custom DTO for tempalteDetails
+    // Template: 1
+    // Array of Table
+    // Table 1:
+    // Array of HeaderDetails
+    // TableDetails
+    // Table 2:
+    // Array of HeaderDetails
+    // TableDetails String of jdata.
+
+    // Custom repo interface extends in sharetablerepo
+    // public class implement custom repo and override method of custom repo to return the needed data
+    // call the method here using sharetablerepo.
 
 }
