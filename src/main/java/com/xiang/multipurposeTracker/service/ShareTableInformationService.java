@@ -26,27 +26,27 @@ public class ShareTableInformationService {
     public ShareTableDTO processShareInformation(Integer templateId) {
 
         try {
-            // check for tempalteid in sharetable
             ShareTable existingShareInfo = shareTableRepository.findByTemplateID(templateId);
 
+            ShareTableDTO returnShareInfoExist = null;
+
             if (existingShareInfo != null) {
-                ShareTableDTO returnShareInfoExist = new ShareTableDTO();
+                returnShareInfoExist = new ShareTableDTO();
                 returnShareInfoExist.setSharingCode(existingShareInfo.getSharingCode());
+            } else {
 
-                return returnShareInfoExist;
+                String generatedShareCode = generateShareCode(templateId);
+                LocalDateTime expirationDate = LocalDateTime.now().plusDays(60);
+
+                ShareTable saveShareInfo = new ShareTable();
+                saveShareInfo.setSharingCode(generatedShareCode);
+                saveShareInfo.setTemplateID(templateId);
+                saveShareInfo.setExpirationDate(expirationDate);
+
+                shareTableRepository.save(saveShareInfo);
+
+                returnShareInfoExist = new ShareTableDTO(generatedShareCode, templateId, expirationDate);
             }
-
-            String generatedShareCode = generateShareCode(templateId);
-            LocalDateTime expirationDate = LocalDateTime.now().plusDays(60);
-
-            ShareTable saveShareInfo = new ShareTable();
-            saveShareInfo.setSharingCode(generatedShareCode);
-            saveShareInfo.setTemplateID(templateId);
-            saveShareInfo.setExpirationDate(expirationDate);
-
-            shareTableRepository.save(saveShareInfo);
-
-            ShareTableDTO returnShareInfo = new ShareTableDTO(generatedShareCode, templateId, expirationDate);
 
             CompletableFuture.runAsync(() -> {
                 try {
@@ -56,7 +56,8 @@ public class ShareTableInformationService {
                 }
             });
 
-            return returnShareInfo;
+            return returnShareInfoExist;
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
