@@ -102,7 +102,7 @@ public class ShareTableInformationService {
 
             if(checkExistingShareInfo != null){
 
-                checkExistingShareInfo.setSharingCode(shareInfoJson);
+                checkExistingShareInfo.setTemplateDetails(shareInfoJson);
 
                 shareTableRepository.save(checkExistingShareInfo);
             }
