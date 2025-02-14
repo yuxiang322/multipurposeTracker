@@ -25,7 +25,7 @@ public class CustomShareInfoRepositoryImpl implements CustomShareInfoRepository 
 
         CustomShareInfoDTO shareInfoReturn = new CustomShareInfoDTO();
 
-        String shareInfoSql = "SELECT t.TemplateName, t.TemplateDescription, tab.TableID AS tab_TableID, tab.TableName, " +
+        String shareInfoSql = "SELECT t.TemplateName, t.Description, tab.TableID AS tab_TableID, tab.TableName, " +
                 "head.TableID AS head_TableID, head.HeaderName, head.HeaderFillColour, head.HeaderTextColour, head.TextBold, " +
                 "td.TableID AS td_TableID, td.JsonData FROM Template t " +
                 "JOIN Template_Tables tab ON t.TemplateID = tab.TemplateID " +
@@ -40,7 +40,7 @@ public class CustomShareInfoRepositoryImpl implements CustomShareInfoRepository 
             if (!result.isEmpty()) {
                 Map<String, Object> firstRow = result.get(0);
                 shareInfoReturn.setTemplateName(firstRow.get("TemplateName") != null ? firstRow.get("TemplateName").toString() : null);
-                shareInfoReturn.setTemplateDescription(firstRow.get("TemplateDescription") != null ? firstRow.get("TemplateDescription").toString() : null);
+                shareInfoReturn.setTemplateDescription(firstRow.get("Description") != null ? firstRow.get("Description").toString() : null);
             }
 
             List<TemplateTablesDTO> templateTablesList = new ArrayList<>();
