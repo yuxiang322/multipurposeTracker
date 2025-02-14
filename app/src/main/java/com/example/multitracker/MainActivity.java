@@ -99,12 +99,6 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-
-                // Show button and hide progress
-                loginButton.setVisibility(View.VISIBLE);
-                registerButton.setVisibility(View.VISIBLE);
-                progressBar.setVisibility(View.GONE);
-
                 if (response.isSuccessful()) {
                     String token = response.body();
                     Toast.makeText(MainActivity.this, "Login successful!", Toast.LENGTH_LONG).show();
@@ -120,11 +114,16 @@ public class MainActivity extends AppCompatActivity {
                     }
                     Toast.makeText(MainActivity.this, "Error: " + response.code() + " - " + errorBody, Toast.LENGTH_LONG).show();
                 }
+                // Show button and hide progress
+                loginButton.setVisibility(View.VISIBLE);
+                registerButton.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
             }
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 // Re-enable the button and hide progress
-                loginButton.setEnabled(true);
+                loginButton.setVisibility(View.VISIBLE);
+                registerButton.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
                 Toast.makeText(MainActivity.this, "An error occurred: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }

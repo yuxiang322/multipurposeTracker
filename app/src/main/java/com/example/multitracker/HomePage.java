@@ -92,7 +92,6 @@ public class HomePage extends AppCompatActivity {
         accountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle Account button click
                 Intent intent = new Intent(HomePage.this, AccountDetails.class);
                 startActivity(intent);
             }
@@ -101,7 +100,6 @@ public class HomePage extends AppCompatActivity {
         importButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle Import button click
                 Intent intent = new Intent(HomePage.this, ImportTemplate.class);
                 startActivity(intent);
             }
@@ -110,7 +108,6 @@ public class HomePage extends AppCompatActivity {
         addTemplateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle Add Template button click
                 Intent intent = new Intent(HomePage.this, CreateTemplate.class);
                 startActivity(intent);
             }
@@ -125,7 +122,6 @@ public class HomePage extends AppCompatActivity {
             }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // Filter templates as the user types
                 filterTemplates(s.toString());
             }
             @Override
@@ -137,13 +133,11 @@ public class HomePage extends AppCompatActivity {
         List<TemplateDTO> filteredTemplates = new ArrayList<>();
 
         for (TemplateDTO template : allTemplates) {
-            // Check if the template name or description contains the keyword
             if (template.getTemplateName().toLowerCase().contains(keyword.toLowerCase()) ||
                     template.getTemplateDescription().toLowerCase().contains(keyword.toLowerCase())) {
                 filteredTemplates.add(template);
             }
         }
-        // Update with the filtered templates
         populateScrollViewWithTemplates(filteredTemplates);
     }
     private void addTemplates() {
@@ -189,6 +183,7 @@ public class HomePage extends AppCompatActivity {
             TextView templateDescription = templateView.findViewById(R.id.templateDescription);
             Button deleteButton = templateView.findViewById(R.id.deleteButton);
             Button viewDetails = templateView.findViewById(R.id.viewDetailsButton);
+            ImageButton shareButton = templateView.findViewById(R.id.templateShareButton);
 
             templateName.setText(template.getTemplateName());
             templateDescription.setText(template.getTemplateDescription());
@@ -202,7 +197,10 @@ public class HomePage extends AppCompatActivity {
                 intent.putExtra("TEMPLATE_KEY", template);
                 startActivity(intent);
             });
-            // Add the inflated view to the LinearLayout inside the ScrollView
+
+            shareButton.setOnClickListener(v -> {
+                shareTemplate(template);
+            });
             scrollViewLinearLayout.addView(templateView);
         }
     }
@@ -235,23 +233,13 @@ public class HomePage extends AppCompatActivity {
                 .show();
     }
 
-    // share
-    // update Sharing Table UPDATE DTO and backend Entity
-//    CREATE TABLE Share_Table (
-//            SharingCode NVARCHAR(255) PRIMARY KEY,
-//    TemplateID INT NOT NULL,
-//    TemplateDetails NVARCHAR(MAX),
-//    ExpirationDate DATETIME,
-//    FOREIGN KEY (TemplateID) REFERENCES Template(TemplateID)
-//            );
-    // Share is clicked
+    private void shareTemplate(TemplateDTO templateShared){
+        TemplateShare dialogFrag = new TemplateShare();
 
-    // backend -> templateID to check for existing sharingCode
-    // if templateID exist -> Update only TemplateDetails, return sharingCode
+        Bundle args = new Bundle();
+        args.putParcelable("shareTemplate", templateShared);
+        dialogFrag.setArguments(args);
 
-    // else(case of code expiration deleted) -> generate uid, process current template details, -> save sharingcode, templtaedetails, templateID, ExpirationDa
-    // return sharing code
-
-    // cron job to delete records from sharing table, pass the expiration date. Each code 30days expiration
-
+        dialogFrag.show(getSupportFragmentManager(),null);
+    }
 }
