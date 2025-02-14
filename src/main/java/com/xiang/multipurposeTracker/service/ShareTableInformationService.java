@@ -65,6 +65,12 @@ public class ShareTableInformationService {
                     logger.error("Error in async task: " + e.getMessage());
                     throw new RuntimeException(e);
                 }
+            }).whenComplete((result, ex) -> {
+                if (ex != null) {
+                    logger.error("Async task failed with exception: " + ex.getMessage(), ex);
+                } else {
+                    logger.info("Async task completed successfully.");
+                }
             });
 
             logger.info("Returned ShareCode: " + returnShareInfoExist.getSharingCode());
