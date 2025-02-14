@@ -101,14 +101,10 @@ public class ShareTableInformationService {
             ShareTable checkExistingShareInfo = shareTableRepository.findByTemplateID(templateId);
 
             if(checkExistingShareInfo != null){
-                ShareTable updateShare = new ShareTable();
 
-                updateShare.setSharingCode(checkExistingShareInfo.getSharingCode());
-                updateShare.setTemplateID(checkExistingShareInfo.getTemplateID());
-                updateShare.setExpirationDate(checkExistingShareInfo.getExpirationDate());
-                updateShare.setTemplateDetails(shareInfoJson);
+                checkExistingShareInfo.setSharingCode(shareInfoJson);
 
-                shareTableRepository.save(updateShare);
+                shareTableRepository.save(checkExistingShareInfo);
             }
 
         } catch (JsonProcessingException e) {
