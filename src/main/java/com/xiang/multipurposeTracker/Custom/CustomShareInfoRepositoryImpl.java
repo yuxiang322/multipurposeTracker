@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Objects;
 
 @Repository
-public class CustomShareInfoRepo implements CustomShareInfoRepository {
+public class CustomShareInfoRepositoryImpl implements CustomShareInfoRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
