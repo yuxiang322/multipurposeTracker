@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-public interface ShareTableRepository extends JpaRepository<ShareTable, String>, CustomShareInfoRepository {
+public interface ShareTableRepository extends JpaRepository<ShareTable, String> {
     ShareTable findByTemplateId(int templateId);
 
     @Modifying

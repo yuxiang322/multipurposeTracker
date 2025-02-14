@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xiang.multipurposeTracker.DTO.CustomShareInfoDTO;
 import com.xiang.multipurposeTracker.DTO.ShareTableDTO;
 import com.xiang.multipurposeTracker.entities.ShareTable;
+import com.xiang.multipurposeTracker.repository.CustomShareInfoRepository;
 import com.xiang.multipurposeTracker.repository.ShareTableRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,8 @@ public class ShareTableInformationService {
     @Autowired
     private ShareTableRepository shareTableRepository;
 
+    @Autowired
+    private CustomShareInfoRepository customShareInfoRepository;
 
     public ShareTableDTO processShareInformation(Integer templateId) {
 
@@ -106,7 +109,7 @@ public class ShareTableInformationService {
     }
 
     public CustomShareInfoDTO getShareInfoDetails(int templateId) {
-        return shareTableRepository.getShareInfoDetails(templateId);
+        return customShareInfoRepository.getShareInfoDetails(templateId);
     }
 
 
