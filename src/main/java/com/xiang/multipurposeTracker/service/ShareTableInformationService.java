@@ -7,6 +7,8 @@ import com.xiang.multipurposeTracker.DTO.ShareTableDTO;
 import com.xiang.multipurposeTracker.entities.ShareTable;
 import com.xiang.multipurposeTracker.repository.CustomShareInfoRepository;
 import com.xiang.multipurposeTracker.repository.ShareTableRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,17 +26,19 @@ public class ShareTableInformationService {
     @Autowired
     private CustomShareInfoRepository customShareInfoRepository;
 
+    private static final Logger logger = LoggerFactory.getLogger(ShareTableInformationService.class);
+
     @Transactional
     public ShareTableDTO processShareInformation(Integer templateId) {
 
         try {
             ShareTable existingShareInfo = shareTableRepository.findByTemplateID(templateId);
 
-            ShareTableDTO returnShareInfoExist = null;
+            ShareTableDTO returnShareInfoExist = new ShareTableDTO();
 
             if (existingShareInfo != null) {
-                returnShareInfoExist = new ShareTableDTO();
                 returnShareInfoExist.setSharingCode(existingShareInfo.getSharingCode());
+                logger.info("Getting existing sharing code.");
             } else {
 
                 String generatedShareCode = generateShareCode(templateId);
@@ -47,7 +51,10 @@ public class ShareTableInformationService {
 
                 shareTableRepository.save(saveShareInfo);
 
-                returnShareInfoExist = new ShareTableDTO(generatedShareCode, templateId, expirationDate);
+                returnShareInfoExist.setSharingCode(generatedShareCode);
+                returnShareInfoExist.setTemplateID(templateId);
+                returnShareInfoExist.setExpirationDate(expirationDate);
+                logger.info("Creating new sharing code.");
             }
 
             CompletableFuture.runAsync(() -> {
@@ -58,8 +65,8 @@ public class ShareTableInformationService {
                 }
             });
 
+            logger.info("Returned ShareCode: " + returnShareInfoExist.getSharingCode());
             return returnShareInfoExist;
-
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -75,14 +82,14 @@ public class ShareTableInformationService {
             CustomShareInfoDTO shareInfo = getShareInfoDetails(templateId);
 
             if (shareInfo == null) {
-                System.err.println("Error: Share info is null for templateId: " + templateId);
+                logger.info("Error: Share info is null for templateId: " + templateId);
                 return;
             }
 
             // json
             ObjectMapper shareInfoMapper = new ObjectMapper();
             String shareInfoJson = shareInfoMapper.writeValueAsString(shareInfo);
-            System.out.println("Generated json: " + shareInfoJson);
+            logger.info("Generated json: {}", shareInfoJson);
 
             ShareTable checkExistingShareInfo = shareTableRepository.findByTemplateID(templateId);
 
