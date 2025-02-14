@@ -87,14 +87,12 @@ public class ShareTableInformationService {
     private void updateShareTable(int templateId) {
 
         try {
-            logger.info("is running UpdateShareTable");
             CustomShareInfoDTO shareInfo = getShareInfoDetails(templateId);
 
             if (shareInfo == null) {
                 logger.info("Error: Share info is null for templateId: " + templateId);
                 return;
             }
-            logger.info("Share info not null.. ");
             // json
             ObjectMapper shareInfoMapper = new ObjectMapper();
             String shareInfoJson = shareInfoMapper.writeValueAsString(shareInfo);
@@ -107,6 +105,7 @@ public class ShareTableInformationService {
 
                 updateShare.setSharingCode(checkExistingShareInfo.getSharingCode());
                 updateShare.setTemplateDetails(shareInfoJson);
+                updateShare.setTemplateID(templateId);
                 shareTableRepository.save(updateShare);
             }
 
@@ -119,7 +118,6 @@ public class ShareTableInformationService {
     }
 
     public CustomShareInfoDTO getShareInfoDetails(int templateId) {
-        logger.info("is running customsql getShareInfoDetails");
         return customShareInfoRepository.getShareInfoDetails(templateId);
     }
 
