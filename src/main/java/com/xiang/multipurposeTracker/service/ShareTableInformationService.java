@@ -81,10 +81,14 @@ public class ShareTableInformationService {
             String shareInfoJson = shareInfoMapper.writeValueAsString(shareInfo);
             System.out.println("Generated json: " + shareInfoJson);
 
-            int result = shareTableRepository.updateShareInfoJson(templateId, shareInfoJson);
+            ShareTable checkExistingShareInfo = shareTableRepository.findByTemplateID(templateId);
 
-            if (result < 0) {
-                System.err.println("Record not updated.");
+            if(checkExistingShareInfo != null){
+                ShareTable updateShare = new ShareTable();
+
+                updateShare.setSharingCode(checkExistingShareInfo.getSharingCode());
+                updateShare.setTemplateDetails(shareInfoJson);
+                shareTableRepository.save(updateShare);
             }
 
         } catch (JsonProcessingException e) {
