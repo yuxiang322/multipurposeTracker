@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface ShareTableRepository extends JpaRepository<ShareTable, String> {
-    ShareTable findByTemplateId(int templateId);
+    ShareTable findByTemplateID(int templateId);
 
     @Modifying
     @Transactional

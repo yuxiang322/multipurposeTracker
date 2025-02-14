@@ -27,7 +27,7 @@ public class ShareTableInformationService {
 
         try {
             // check for tempalteid in sharetable
-            ShareTable existingShareInfo = shareTableRepository.findByTemplateId(templateId);
+            ShareTable existingShareInfo = shareTableRepository.findByTemplateID(templateId);
 
             if (existingShareInfo != null) {
                 ShareTableDTO returnShareInfoExist = new ShareTableDTO();
