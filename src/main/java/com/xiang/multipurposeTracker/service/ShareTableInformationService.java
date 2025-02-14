@@ -58,6 +58,7 @@ public class ShareTableInformationService {
             }
 
             CompletableFuture.runAsync(() -> {
+                logger.info("Is this even running?");
                 try {
                     updateShareTable(templateId);
                 } catch (Exception e) {
@@ -85,7 +86,7 @@ public class ShareTableInformationService {
                 logger.info("Error: Share info is null for templateId: " + templateId);
                 return;
             }
-
+            logger.info("Share info not null.. ");
             // json
             ObjectMapper shareInfoMapper = new ObjectMapper();
             String shareInfoJson = shareInfoMapper.writeValueAsString(shareInfo);
