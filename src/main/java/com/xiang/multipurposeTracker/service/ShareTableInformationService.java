@@ -62,6 +62,7 @@ public class ShareTableInformationService {
                 try {
                     updateShareTable(templateId);
                 } catch (Exception e) {
+                    logger.error("Error in async task: " + e.getMessage());
                     throw new RuntimeException(e);
                 }
             });
