@@ -12,7 +12,7 @@ public interface ShareTableRepository extends JpaRepository<ShareTable, String>,
 
     @Modifying
     @Transactional
-    @Query("UPDATE Share_Table s SET s.TemplateDetails = :shareInfoJson WHERE s.templateID = :templateId ")
+    @Query("UPDATE ShareTable s SET s.TemplateDetails = :shareInfoJson WHERE s.templateID = :templateId ")
     int updateShareInfoJson(@Param("TemplateID") int templateId, @Param("shareInfoJson") String shareInfoJson);
 }
 
