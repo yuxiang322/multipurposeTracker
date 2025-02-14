@@ -58,7 +58,7 @@ public class ShareTableInformationService {
             }
 
             CompletableFuture.runAsync(() -> {
-                logger.info("Is this even running?");
+                logger.info("Runasync");
                 try {
                     updateShareTable(templateId);
                 } catch (Exception e) {
@@ -81,6 +81,7 @@ public class ShareTableInformationService {
     private void updateShareTable(int templateId) {
 
         try {
+            logger.info("is running UpdateShareTable");
             CustomShareInfoDTO shareInfo = getShareInfoDetails(templateId);
 
             if (shareInfo == null) {
@@ -112,6 +113,7 @@ public class ShareTableInformationService {
     }
 
     public CustomShareInfoDTO getShareInfoDetails(int templateId) {
+        logger.info("is running customsql getShareInfoDetails");
         return customShareInfoRepository.getShareInfoDetails(templateId);
     }
 
