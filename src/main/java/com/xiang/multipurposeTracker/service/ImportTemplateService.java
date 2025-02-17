@@ -38,7 +38,7 @@ public class ImportTemplateService {
         try{
             String userUID = importTemplateDTO.getUserUID();
             String shareCode = importTemplateDTO.getShareCode();
-            String result = "No records found for sharecode.";
+            String result = "Invalid Code";
 
             // Get templateDetails from share table
             ShareTable existShareTable = shareTableRepository.findBySharingCode(shareCode);
