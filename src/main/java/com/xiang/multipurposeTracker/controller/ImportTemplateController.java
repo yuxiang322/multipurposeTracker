@@ -23,7 +23,7 @@ public class ImportTemplateController {
             String result = importTemplateService.importTemplate(importTemplateDTO);
 
             if(result.equals("No records found for sharecode.")){
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
             }
 
             return ResponseEntity.ok("Success");
