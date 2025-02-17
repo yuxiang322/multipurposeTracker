@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d1db8eb0-4824-475c-982c-3f60315432ee" name="Changes" comment="1. Sharing Code Entity object updated with table &#10;&#10;** POST -&gt; DELETE for delete apis**">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/DTO/ImportTemplateDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/controller/ImportTemplateController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/service/ImportTemplateService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/db/sqlReference.sql" afterDir="false" />
+    <list default="true" id="d1db8eb0-4824-475c-982c-3f60315432ee" name="Changes" comment="1. Import&#10;&#10;** POST -&gt; DELETE for delete apis**">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/repository/ShareTableRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/repository/ShareTableRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/service/ImportTemplateService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/service/ImportTemplateService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -126,22 +122,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1723333130686</updated>
-    </task>
-    <task id="LOCAL-00013" summary="6th commit&#10;1. Registration and login">
-      <option name="closed" value="true" />
-      <created>1724045333975</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1724045333975</updated>
-    </task>
-    <task id="LOCAL-00014" summary="7th commit&#10;1. Homepage, Create Template, Account details editing Controllers and Services">
-      <option name="closed" value="true" />
-      <created>1727383091119</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1727383091119</updated>
     </task>
     <task id="LOCAL-00015" summary="8th commit&#10;1. Test deployment onto Server">
       <option name="closed" value="true" />
@@ -519,7 +499,23 @@
       <option name="project" value="LOCAL" />
       <updated>1739520303065</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="1. Import&#10;&#10;** POST -&gt; DELETE for delete apis**">
+      <option name="closed" value="true" />
+      <created>1739788013917</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1739788013917</updated>
+    </task>
+    <task id="LOCAL-00063" summary="1. Import&#10;&#10;** POST -&gt; DELETE for delete apis**">
+      <option name="closed" value="true" />
+      <created>1739788312838</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1739788312839</updated>
+    </task>
+    <option name="localTasksCounter" value="64" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -538,6 +534,7 @@
     <MESSAGE value="1. Table retrieval&#10;&#10;** // TABLE DELETION. TemplateTable, HeaderDetails, TableDetails&#10;TemplateService.java **" />
     <MESSAGE value="1. Deletion of Template logic update&#10;2. Notification/RepeatStatus logic update&#10;3. Delete Table &#10;&#10;** POST -&gt; DELETE for delete apis**" />
     <MESSAGE value="1. Sharing Code Entity object updated with table &#10;&#10;** POST -&gt; DELETE for delete apis**" />
-    <option name="LAST_COMMIT_MESSAGE" value="1. Sharing Code Entity object updated with table &#10;&#10;** POST -&gt; DELETE for delete apis**" />
+    <MESSAGE value="1. Import&#10;&#10;** POST -&gt; DELETE for delete apis**" />
+    <option name="LAST_COMMIT_MESSAGE" value="1. Import&#10;&#10;** POST -&gt; DELETE for delete apis**" />
   </component>
 </project>

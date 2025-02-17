@@ -47,8 +47,8 @@ public class ImportTemplateService {
                 String templateDetailsForImport = existShareTable.getTemplateDetails();
 
                 // Mapping, TemplateTable, headerDetails, TableDetails
-                String templateName = "Null";
-                String TemplateDescription = "Null";
+                //String templateName = "Null";
+                //String TemplateDescription = "Null";
                 Map<Integer, List<TemplateTablesDTO>> templateTablesDTOHashMap = new HashMap<>();
                 Map<Integer, List<HeaderDetailsDTO>> headerDetailsDTOHashMap= new HashMap<>();
                 Map<Integer, List<TableDetailsDTO>> tableDetailsDTOHashMap = new HashMap<>();
@@ -65,8 +65,8 @@ public class ImportTemplateService {
                 // Template creation
                 TemplateDTO templateDTO = new TemplateDTO();
                 templateDTO.setUserUID(userUID);
-                templateDTO.setTemplateName(templateName);
-                templateDTO.setTemplateDescription(TemplateDescription);
+                //templateDTO.setTemplateName(templateName);
+                //templateDTO.setTemplateDescription(TemplateDescription);
                 templateDTO.setDateCreated(LocalDateTime.now());
                 //templateService.createTemplate(templateDTO);
 
