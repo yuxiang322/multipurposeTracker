@@ -41,7 +41,7 @@ public class ImportTemplateService {
             String result = "No records found for sharecode.";
 
             // Get templateDetails from share table
-            ShareTable existShareTable = shareTableRepository.findBySharingcode(shareCode);
+            ShareTable existShareTable = shareTableRepository.findBySharingCode(shareCode);
 
             if(existShareTable != null){
                 String templateDetailsForImport = existShareTable.getTemplateDetails();
