@@ -8,5 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ShareTableRepository extends JpaRepository<ShareTable, String> {
     ShareTable findByTemplateID(int templateId);
+
+    ShareTable findBySharingcode(String shareCode);
 }
 
