@@ -17,7 +17,7 @@ public class ImportTemplateController {
     private ImportTemplateService importTemplateService;
 
     @PostMapping("/template")
-    ResponseEntity<String> importTemplate(@RequestBody ImportTemplateDTO importTemplateDTO){
+    public ResponseEntity<String> importTemplate(@RequestBody ImportTemplateDTO importTemplateDTO){
         try{
 
             String result = importTemplateService.importTemplate(importTemplateDTO);
