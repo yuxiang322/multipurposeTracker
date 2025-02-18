@@ -1,18 +1,18 @@
 package com.xiang.multipurposeTracker.DTO;
 
 public class ImportTemplateDTO {
-    private String UserUID;
+    private String userUID;
     private String shareCode;
 
     public ImportTemplateDTO(){
     }
 
     public String getUserUID() {
-        return UserUID;
+        return userUID;
     }
 
     public void setUserUID(String userUID) {
-        UserUID = userUID;
+        this.userUID = userUID;
     }
 
     public String getShareCode() {
