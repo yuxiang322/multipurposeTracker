@@ -28,6 +28,8 @@ public class TemplateService {
     private TableDetailsRepository tableDetailsRepository;
     @Autowired
     private HeaderDetailsRepository headerDetailsRepository;
+    @Autowired
+    private ShareTableRepository shareTableRepository;
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(TemplateService.class);
@@ -105,6 +107,9 @@ public class TemplateService {
                 // Delete notification
                 notificationsRepository.delete(notification);
             }
+
+            // Delete Share
+            shareTableRepository.deleteByTemplateID(template.getTemplateID());
 
             List<TemplateTables> templateTablesList = templateTablesRepository.findTemplateTablesByTemplateID(templateRequest.getTemplateID());
 
