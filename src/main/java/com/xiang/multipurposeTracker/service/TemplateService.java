@@ -61,6 +61,7 @@ public class TemplateService {
             template.setDateCreated(dateCreated);
             // Save
             Template savedTemplate = templateRepository.save(template);
+            String templateIDString = String.valueOf(savedTemplate.getTemplateID());
 
             // Create Notification
             Notifications notification = new Notifications();
@@ -75,7 +76,7 @@ public class TemplateService {
             repeatStatus.setNotificationID(savedNotification.getNotificationID());
             repeatStatusRepository.save(repeatStatus);
 
-            return "Template created successfully";
+            return templateIDString;
         } catch (Exception e) {
             throw new RuntimeException("Failed to create template. Please try again later.");
         }
