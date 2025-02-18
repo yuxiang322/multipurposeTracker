@@ -124,14 +124,6 @@
       <option name="presentableId" value="Default" />
       <updated>1723333130686</updated>
     </task>
-    <task id="LOCAL-00025" summary="1. Table Details Json Data structure test">
-      <option name="closed" value="true" />
-      <created>1736834040185</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1736834040185</updated>
-    </task>
     <task id="LOCAL-00026" summary="1. Table Details Json Data structure test">
       <option name="closed" value="true" />
       <created>1736835242898</created>
@@ -516,7 +508,15 @@
       <option name="project" value="LOCAL" />
       <updated>1739808478744</updated>
     </task>
-    <option name="localTasksCounter" value="74" />
+    <task id="LOCAL-00074" summary="1. Import&#10;&#10;** POST -&gt; DELETE for delete apis**">
+      <option name="closed" value="true" />
+      <created>1739907532474</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1739907532475</updated>
+    </task>
+    <option name="localTasksCounter" value="75" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

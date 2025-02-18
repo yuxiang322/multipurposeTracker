@@ -40,6 +40,7 @@ public class ImportTemplateService {
 
         try {
             String userUID = importTemplateDTO.getUserUID();
+            logger.info("My user UID empty?: " + userUID);
             String shareCode = importTemplateDTO.getShareCode();
             String result = "Invalid Code";
 

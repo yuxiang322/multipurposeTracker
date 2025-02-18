@@ -4,6 +4,7 @@ import com.xiang.multipurposeTracker.DTO.NotificationDTO;
 import com.xiang.multipurposeTracker.DTO.TemplateDTO;
 import com.xiang.multipurposeTracker.entities.*;
 import com.xiang.multipurposeTracker.repository.*;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +30,7 @@ public class TemplateService {
     private HeaderDetailsRepository headerDetailsRepository;
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(TemplateService.class);
     public List<TemplateDTO> getTemplatesByUserUID(String userUID) {
         try {
             List<Template> templates = templateRepository.findByUserUID(userUID);
@@ -55,6 +56,7 @@ public class TemplateService {
             template.setTemplateName(templateRequest.getTemplateName());
             template.setTemplateDescription(templateRequest.getTemplateDescription());
             template.setUserUID(templateRequest.getUserUID());
+            logger.info("TemplateService My user UID empty?: " + template.getUserUID());
 
             // Convert dateCreated String to LocalDateTime
             LocalDateTime dateCreated = templateRequest.getDateCreatedAsLocalDateTime();
