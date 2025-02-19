@@ -28,6 +28,8 @@ public class TemplateShare extends DialogFragment {
     private ShareTableDTO sharedInfo;
     private DialogFragment dialogFragment;
 
+    private TextView shareCode;
+
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -35,13 +37,12 @@ public class TemplateShare extends DialogFragment {
         View customDialogView = getActivity().getLayoutInflater().inflate(R.layout.template_share_popup, null);
         templateShared = getArguments().getParcelable("shareTemplate");
 
-        TextView shareCode = customDialogView.findViewById(R.id.shareCodeText);
+        shareCode = customDialogView.findViewById(R.id.shareCodeText);
 
         shareCode.setText("Loading...");
 
         if (getArguments() != null) {
             templateShared = (TemplateDTO) getArguments().getParcelable("shareTemplate");
-
             shareInfoAPI(shareCode);
         }
 

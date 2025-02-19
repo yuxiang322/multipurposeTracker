@@ -24,11 +24,11 @@
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:enabled="false"
+                android:inputType="text"
                 android:text="Template"
-                android:textSize="20dp"
                 android:textColor="@color/black"
-                android:textStyle="bold"
-                android:inputType="text"/>
+                android:textSize="20dp"
+                android:textStyle="bold" />
         </ScrollView>
 
         <ScrollView
@@ -60,8 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="10dp">
-            </LinearLayout>
+                android:padding="10dp"></LinearLayout>
         </ScrollView>
 
         <Button
@@ -125,5 +124,14 @@
         android:text="Notification"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/previewButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Preview"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

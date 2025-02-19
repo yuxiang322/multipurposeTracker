@@ -3,6 +3,7 @@ package com.example.multitracker;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +33,8 @@ public class TemplateDetails extends AppCompatActivity {
 
     private TemplateDTO templateObject;
     private int templateID;
+    private List<RetrieveTableDetailsDTO> currentTemplateFullDetails = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +52,8 @@ public class TemplateDetails extends AppCompatActivity {
         addTableButton();
         // rmove table
         removeTable();
+        // preview export button setup
+        previewExportSetup();
     }
 
     @Override
@@ -63,19 +68,23 @@ public class TemplateDetails extends AppCompatActivity {
         Button cancelButton = findViewById(R.id.cancelSaveTemplate);
         Button addTable = findViewById(R.id.addTable);
         Button deleteTable = findViewById(R.id.removeTable);
+        Button previewButton = findViewById(R.id.previewButton);
         saveButton.setVisibility(View.GONE);
         cancelButton.setVisibility(View.GONE);
         addTable.setVisibility(View.GONE);
         deleteTable.setVisibility(View.GONE);
+        previewButton.setVisibility(View.VISIBLE);
     }
 
-    private void enableButtons() {
+    private void enableDisableButtons() {
         Button saveButton = findViewById(R.id.saveTemplateDetails);
         Button cancelButton = findViewById(R.id.cancelSaveTemplate);
         Button addTable = findViewById(R.id.addTable);
+        Button previewButton = findViewById(R.id.previewButton);
         saveButton.setVisibility(View.VISIBLE);
         cancelButton.setVisibility(View.VISIBLE);
         addTable.setVisibility(View.VISIBLE);
+        previewButton.setVisibility(View.GONE);
     }
 
     private void stateEditTemplate(Boolean editTextFlag) {
@@ -90,7 +99,7 @@ public class TemplateDetails extends AppCompatActivity {
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                enableButtons();
+                enableDisableButtons();
                 // Enable Edit text template name and description
                 stateEditTemplate(true);
             }
@@ -187,6 +196,17 @@ public class TemplateDetails extends AppCompatActivity {
         });
     }
 
+    // Preview export
+    private void previewExportSetup(){
+        Button previewButton = findViewById(R.id.previewButton);
+
+        previewButton.setOnClickListener(v -> {
+            Intent previewData = new Intent(this, PreviewExport.class);
+            previewData.putExtra("previewData", (Parcelable) currentTemplateFullDetails);
+            startActivity(previewData);
+        });
+    }
+
     // Caching solve real time sync..
     private void populateTables() {
         TableManagementAPI retrieveTableApi = RetrofitClientInstance.getRetrofitInstance().create(TableManagementAPI.class);
@@ -196,9 +216,9 @@ public class TemplateDetails extends AppCompatActivity {
             public void onResponse(Call<List<RetrieveTableDetailsDTO>> call, Response<List<RetrieveTableDetailsDTO>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     addingTables(response.body());
+                    currentTemplateFullDetails.addAll(response.body());
                 }
             }
-
             @Override
             public void onFailure(Call<List<RetrieveTableDetailsDTO>> call, Throwable t) {
             }
@@ -332,10 +352,14 @@ public class TemplateDetails extends AppCompatActivity {
         descriptionEditText.setText(templateDTO.getTemplateDescription());
     }
 
-    // Preview of table data
+    // table data
     private void tableDataManagement(RetrieveTableDetailsDTO tableData) {
         Intent passTableData = new Intent(this, TableDataManagement.class);
         passTableData.putExtra("tableData", tableData);
         startActivity(passTableData);
     }
+
+    // Preview export
+
+
 }
