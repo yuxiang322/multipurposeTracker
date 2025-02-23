@@ -202,7 +202,9 @@ public class TemplateDetails extends AppCompatActivity {
 
         previewButton.setOnClickListener(v -> {
             Intent previewData = new Intent(this, PreviewExport.class);
-            previewData.putExtra("previewData", (Parcelable) currentTemplateFullDetails);
+            previewData.putParcelableArrayListExtra("previewData", (ArrayList<? extends Parcelable>) currentTemplateFullDetails);
+            previewData.putExtra("previewTemplateData", templateObject);
+            Log.d("previewOfData", "TEMPLATE DETAILS PAGE arraylist: " + currentTemplateFullDetails.size());
             startActivity(previewData);
         });
     }
@@ -216,6 +218,7 @@ public class TemplateDetails extends AppCompatActivity {
             public void onResponse(Call<List<RetrieveTableDetailsDTO>> call, Response<List<RetrieveTableDetailsDTO>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     addingTables(response.body());
+                    currentTemplateFullDetails.clear();
                     currentTemplateFullDetails.addAll(response.body());
                 }
             }
@@ -358,8 +361,4 @@ public class TemplateDetails extends AppCompatActivity {
         passTableData.putExtra("tableData", tableData);
         startActivity(passTableData);
     }
-
-    // Preview export
-
-
 }

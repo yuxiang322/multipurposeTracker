@@ -58,7 +58,7 @@ public class TableDataManagement extends AppCompatActivity {
     }
 
     // initialize dataMap
-    private void iniDataMap(){
+    private void iniDataMap() {
         Gson gson = new Gson();
         Type type = new TypeToken<Map<String, List<String>>>() {
         }.getType();
@@ -66,7 +66,7 @@ public class TableDataManagement extends AppCompatActivity {
     }
 
     // add data
-    private void addData(){
+    private void addData() {
         Button addDataButton = findViewById(R.id.tableDataAddButton);
 
         addDataButton.setOnClickListener(v -> {
@@ -75,7 +75,7 @@ public class TableDataManagement extends AppCompatActivity {
 
             LinearLayout tableDataContainer = addTableDataView.findViewById(R.id.addDataContainer);
 
-            for(String headerName : dataMap.keySet()){
+            for (String headerName : dataMap.keySet()) {
                 View inputView = tableDataAdd.inflate(R.layout.table_data_inputs_field, tableDataContainer, false);
 
                 TextView headerNameText = inputView.findViewById(R.id.tableDataAddName);
@@ -86,9 +86,9 @@ public class TableDataManagement extends AppCompatActivity {
 
             AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
             alertBuilder.setView(addTableDataView);
-            alertBuilder.setPositiveButton("Add",(dialog,which) -> {
+            alertBuilder.setPositiveButton("Add", (dialog, which) -> {
 
-                for(int i = 0; i < tableDataContainer.getChildCount(); i++){
+                for (int i = 0; i < tableDataContainer.getChildCount(); i++) {
                     View tempViewDataContainer = tableDataContainer.getChildAt(i);
                     TextView tempHeaderName = tempViewDataContainer.findViewById(R.id.tableDataAddName);
                     EditText dataAddEdit = tempViewDataContainer.findViewById(R.id.tableDataAddEdit);
@@ -100,14 +100,14 @@ public class TableDataManagement extends AppCompatActivity {
 
                     tempDataList.add(dataAdd.isEmpty() ? null : dataAdd);
 
-                    dataMap.put(headerKey,tempDataList);
+                    dataMap.put(headerKey, tempDataList);
                 }
                 saveFlag = true;
                 populateTableLayout();
                 dialog.dismiss();
             });
 
-            alertBuilder.setNegativeButton("Cancel",(dialog,which) ->{
+            alertBuilder.setNegativeButton("Cancel", (dialog, which) -> {
                 dialog.dismiss();
             });
             alertBuilder.create().show();
@@ -115,12 +115,12 @@ public class TableDataManagement extends AppCompatActivity {
     }
 
     // save data
-    private void saveData(){
+    private void saveData() {
 
         Button saveData = findViewById(R.id.tableDataSaveButton);
 
-        saveData.setOnClickListener(v ->{
-            if(saveFlag){
+        saveData.setOnClickListener(v -> {
+            if (saveFlag) {
                 // map json dataMap
                 // Api call save
                 Gson gson = new Gson();
@@ -137,12 +137,12 @@ public class TableDataManagement extends AppCompatActivity {
                 dataSaveCall.enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
-                        if(response.isSuccessful()){
+                        if (response.isSuccessful()) {
                             // confirm new data to main data holder
                             retrieveTableDetailsObject.getTableDetails().setJsonData(saveDataJson);
                             iniDataMap();
                             Toast.makeText(TableDataManagement.this, "Status:" + response.body(), Toast.LENGTH_SHORT).show();
-                        }else{
+                        } else {
                             // rollback the dataMap with current data
                             iniDataMap();
                             populateTableLayout();
@@ -155,7 +155,7 @@ public class TableDataManagement extends AppCompatActivity {
                     }
                 });
 
-            }else{
+            } else {
                 Toast.makeText(TableDataManagement.this, "No new data added", Toast.LENGTH_SHORT).show();
             }
 
