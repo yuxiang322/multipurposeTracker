@@ -129,7 +129,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="30dp"
             android:paddingBottom="10dp"
-            android:text="Repeat Interval Report"
+            android:text="Report Repeat Interval"
             android:textSize="30dp" />
 
         <LinearLayout
