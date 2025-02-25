@@ -70,8 +70,6 @@ public class CreateTemplate extends AppCompatActivity {
             descriptionEditText.requestFocus();
             return;
         }
-        Toast.makeText(this, "Template added successfully", Toast.LENGTH_SHORT).show();
-
         // Create the TemplateDTO object to send in the API request
         TemplateDTO templateRequest = new TemplateDTO();
         templateRequest.setTemplateName(name);

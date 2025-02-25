@@ -21,7 +21,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Notification "
+                android:text="Notification Alert"
                 android:textSize="20dp" />
 
             <androidx.appcompat.widget.SwitchCompat
@@ -29,30 +29,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Email: "
-                android:textSize="20dp" />
-
-            <EditText
-                android:id="@+id/notificationEmail"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:enabled="false"
-                android:inputType="text"/>
-
-            <CheckBox
-                android:id="@+id/emailCheckbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <LinearLayout
@@ -71,7 +47,7 @@
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:enabled="false"
-                android:inputType="text"/>
+                android:inputType="text" />
 
         </LinearLayout>
 
@@ -104,7 +80,8 @@
 
         </LinearLayout>
 
-        <!-->Need another Notification Timer<-->
+        <!-->Timer dropdown for user to select the timing
+        Selection of day<-->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -113,24 +90,118 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Time: "
+                android:text="Interval Time "
                 android:textSize="20dp" />
+
             <EditText
-                android:id="@+id/NotificationTime"
+                android:id="@+id/notificationInterval"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:inputType="none"
-                android:focusable="false"/>
+                android:focusable="false"
+                android:inputType="none" />
         </LinearLayout>
-
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="30dp"
-            android:paddingBottom="10dp"
-            android:text="Report Repeat Interval"
-            android:textSize="30dp" />
+            android:layout_marginBottom="8dp"
+            android:text="Select Days:"
+            android:textSize="18sp" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroupDays"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipSpacingHorizontal="8dp"
+            app:singleSelection="false">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipMonday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:text="Mon" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipTuesday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:text="Tue" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipWednesday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:text="Wed" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipThursday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:text="Thu" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipFriday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:text="Fri" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipSaturday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:text="Sat" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipSunday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:text="Sun" />
+        </com.google.android.material.chip.ChipGroup>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Report "
+                android:textSize="20dp" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/reportSwitchCompat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email: "
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/notificationEmail"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:inputType="text" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -144,11 +215,11 @@
                 android:textSize="20dp" />
 
             <EditText
-                android:id="@+id/repeatStatusStartDate"
+                android:id="@+id/reportStatusStartDate"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:inputType="none"
-                android:focusable="false"/>
+                android:focusable="false"
+                android:inputType="none" />
         </LinearLayout>
 
         <LinearLayout
@@ -163,11 +234,11 @@
                 android:textSize="20dp" />
 
             <EditText
-                android:id="@+id/repeatStatusTime"
+                android:id="@+id/reportStatusTime"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:inputType="none"
-                android:focusable="false"/>
+                android:focusable="false"
+                android:inputType="none" />
         </LinearLayout>
 
         <LinearLayout
@@ -189,47 +260,13 @@
 
             <!-- EditText for custom interval, initially hidden -->
             <EditText
-                android:id="@+id/custom_interval_edittext"
+                android:id="@+id/reportCustomInterval"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:inputType="number"
                 android:hint="Enter interval in minutes"
+                android:inputType="number"
                 android:visibility="gone" />
         </LinearLayout>
-
-        <!--        <LinearLayout-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:orientation="horizontal">-->
-
-        <!--            <TextView-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:text="Repetition"-->
-        <!--                android:textSize="20dp" />-->
-
-        <!--            <Button-->
-        <!--                android:id="@+id/buttonMinus"-->
-        <!--                android:layout_width="40dp"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:text="-"-->
-        <!--                android:layout_marginStart="10dp"-->
-        <!--                android:layout_marginEnd="10dp"/>-->
-        <!--            <TextView-->
-        <!--                android:id="@+id/quantityText"-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:text="0"-->
-        <!--                android:textSize="20sp"-->
-        <!--                android:gravity="center"-->
-        <!--                android:layout_marginEnd="10dp"/>-->
-        <!--            <Button-->
-        <!--                android:id="@+id/buttonPlus"-->
-        <!--                android:layout_width="40dp"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:text="+"/>-->
-        <!--        </LinearLayout>-->
-
     </LinearLayout>
 
     <LinearLayout
