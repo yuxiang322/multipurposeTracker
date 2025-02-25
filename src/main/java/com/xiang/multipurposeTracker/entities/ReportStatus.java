@@ -1,18 +1,21 @@
 package com.xiang.multipurposeTracker.entities;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 @Entity
-@Table(name = "RepeatStatus")
-public class RepeatStatus {
+@Table(name = "ReportStatus")
+public class ReportStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Repeatid")
     private int repeatID;
     @Column(name = "Notificationid")
     private int notificationID;
+    @Column(name = "Reportflag")
+    private Boolean reportFlag;
     @Column(name = "Repeatinterval")
     private String repeatInterval;
     @Column(name = "Repeatstartdate")
@@ -22,15 +25,7 @@ public class RepeatStatus {
     @Column(name = "Repeatintervaltype")
     private String repeatIntervalType;
 
-    public RepeatStatus(){}
-
-    public RepeatStatus(int repeatID, int notificationID, String repeatInterval, LocalDate repeatStartDate, LocalTime repeatStartTime, String repeatIntervalType) {
-        this.repeatID = repeatID;
-        this.notificationID = notificationID;
-        this.repeatInterval = repeatInterval;
-        this.repeatStartDate = repeatStartDate;
-        this.repeatStartTime = repeatStartTime;
-        this.repeatIntervalType = repeatIntervalType;
+    public ReportStatus() {
     }
 
     public int getRepeatID() {
@@ -47,6 +42,14 @@ public class RepeatStatus {
 
     public void setNotificationID(int notificationID) {
         this.notificationID = notificationID;
+    }
+
+    public Boolean getReportFlag() {
+        return reportFlag;
+    }
+
+    public void setReportFlag(Boolean reportFlag) {
+        this.reportFlag = reportFlag;
     }
 
     public String getRepeatInterval() {

@@ -1,6 +1,5 @@
 package com.xiang.multipurposeTracker.service;
 
-import com.xiang.multipurposeTracker.DTO.NotificationDTO;
 import com.xiang.multipurposeTracker.DTO.TemplateDTO;
 import com.xiang.multipurposeTracker.entities.*;
 import com.xiang.multipurposeTracker.repository.*;
@@ -21,7 +20,7 @@ public class TemplateService {
     @Autowired
     private NotificationsRepository notificationsRepository;
     @Autowired
-    private RepeatStatusRepository repeatStatusRepository;
+    private ReportStatusRepository reportStatusRepository;
     @Autowired
     private TemplateTablesRepository templateTablesRepository;
     @Autowired
@@ -75,10 +74,10 @@ public class TemplateService {
             // Save
             Notifications savedNotification = notificationsRepository.save(notification);
 
-            // Create Repeat Status
-            RepeatStatus repeatStatus = new RepeatStatus();
-            repeatStatus.setNotificationID(savedNotification.getNotificationID());
-            repeatStatusRepository.save(repeatStatus);
+            // Create Report Status
+            ReportStatus reportStatus = new ReportStatus();
+            reportStatus.setNotificationID(savedNotification.getNotificationID());
+            reportStatusRepository.save(reportStatus);
 
             return templateIDString;
         } catch (Exception e) {
@@ -102,7 +101,7 @@ public class TemplateService {
 
             if (notification != null) {
                 // Delete RepeatStatus
-                repeatStatusRepository.deleteByNotificationID(notification.getNotificationID());
+                reportStatusRepository.deleteByNotificationID(notification.getNotificationID());
 
                 // Delete notification
                 notificationsRepository.delete(notification);

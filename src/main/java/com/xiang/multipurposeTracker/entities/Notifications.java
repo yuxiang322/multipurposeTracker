@@ -2,6 +2,9 @@ package com.xiang.multipurposeTracker.entities;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 @Entity
 @Table(name = "Notifications")
 public class Notifications {
@@ -19,20 +22,14 @@ public class Notifications {
     private Boolean smsFlag;
     @Column(name = "Whatsappflag")
     private Boolean whatsAppFlag;
-    @Column(name = "Emailflag")
-    private Boolean emailFlag;
+    @Column(name = "Repeatstartdate")
+    private LocalDate repeatStartDate;
+    @Column(name = "Repeatstarttime")
+    private LocalTime repeatStartTime;
+    @Column(name = "Repeatdays")
+    private String repeatDays;
 
     public Notifications(){}
-
-    public Notifications(int notificationID, Integer templateID, String userUID, Boolean notificationFlag, Boolean smsFlag, Boolean whatsAppFlag, Boolean emailFlag) {
-        this.notificationID = notificationID;
-        this.templateID = templateID;
-        this.userUID = userUID;
-        this.notificationFlag = notificationFlag;
-        this.smsFlag = smsFlag;
-        this.whatsAppFlag = whatsAppFlag;
-        this.emailFlag = emailFlag;
-    }
 
     public int getNotificationID() {
         return notificationID;
@@ -82,11 +79,27 @@ public class Notifications {
         this.whatsAppFlag = whatsAppFlag;
     }
 
-    public Boolean getEmailFlag() {
-        return emailFlag;
+    public LocalDate getRepeatStartDate() {
+        return repeatStartDate;
     }
 
-    public void setEmailFlag(Boolean emailFlag) {
-        this.emailFlag = emailFlag;
+    public void setRepeatStartDate(LocalDate repeatStartDate) {
+        this.repeatStartDate = repeatStartDate;
+    }
+
+    public LocalTime getRepeatStartTime() {
+        return repeatStartTime;
+    }
+
+    public void setRepeatStartTime(LocalTime repeatStartTime) {
+        this.repeatStartTime = repeatStartTime;
+    }
+
+    public String getRepeatDays() {
+        return repeatDays;
+    }
+
+    public void setRepeatDays(String repeatDays) {
+        this.repeatDays = repeatDays;
     }
 }

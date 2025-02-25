@@ -59,15 +59,18 @@ CREATE TABLE Notifications (
     NotificationFlag BIT,
     SMSFlag BIT,
     WhatsAppFlag BIT,
-    EmailFlag BIT,
+	RepeatStartDate DATE,
+    RepeatStartTime TIME,
+	RepeatDays NVARCHAR(128),
     FOREIGN KEY (TemplateID) REFERENCES Template(TemplateID),
     FOREIGN KEY (UserUID) REFERENCES User_Details(UserUID)
 );
 
--- RepeatStatus Table
-CREATE TABLE Repeat_Status (
+-- ReportStatus Table
+CREATE TABLE Report_Status (
     RepeatID INT IDENTITY(1,1) PRIMARY KEY,
     NotificationID INT NULL,
+	ReportFlag BIT,
     RepeatInterval NVARCHAR(255),
     RepeatStartDate DATE,
     RepeatStartTime TIME,
@@ -85,23 +88,19 @@ CREATE TABLE Share_Table (
 );
 
 
+DROP TABLE Report_Status;
+DROP TABLE Notifications;
+DROP TABLE Share_Table;
+DROP TABLE Table_Details;
+DROP TABLE Header_Details;
+DROP TABLE Template_Tables;
+DROP TABLE Template;
+DROP TABLE User_Credentials;
+DROP TABLE User_Details;
 
 
-
-DROP TABLE IF EXISTS Repeat_Status;
-DROP TABLE IF EXISTS Notifications;
-DROP TABLE IF EXISTS Share_Table;
-DROP TABLE IF EXISTS Table_Details;
-DROP TABLE IF EXISTS Header_Details;
-DROP TABLE IF EXISTS Template_Tables;
-DROP TABLE IF EXISTS Template;
-DROP TABLE IF EXISTS User_Credentials;
-DROP TABLE IF EXISTS User_Details;
-
-
-
--- RepeatStatus Table
-DELETE FROM Repeat_Status WHERE NotificationID IS NOT NULL;
+-- ReportStatus Table
+DELETE FROM Report_Status WHERE NotificationID IS NOT NULL;
 
 -- ShareTable Table
 DELETE FROM Share_Table WHERE TemplateID IS NOT NULL;

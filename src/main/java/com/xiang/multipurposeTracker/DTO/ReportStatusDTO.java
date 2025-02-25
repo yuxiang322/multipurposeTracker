@@ -1,24 +1,16 @@
 package com.xiang.multipurposeTracker.DTO;
 
 
-public class RepeatStatusDTO {
-
+public class ReportStatusDTO {
     private int repeatID;
     private int notificationID;
+    private Boolean reportFlag;
     private String repeatInterval;
     private String repeatStartDate;
     private String repeatStartTime;
     private String repeatIntervalType;
 
-    public RepeatStatusDTO(){}
-
-    public RepeatStatusDTO(int repeatID, int notificationID, String repeatInterval, String repeatStartDate, String repeatStartTime, String repeatIntervalType) {
-        this.repeatID = repeatID;
-        this.notificationID = notificationID;
-        this.repeatInterval = repeatInterval;
-        this.repeatStartDate = repeatStartDate;
-        this.repeatStartTime = repeatStartTime;
-        this.repeatIntervalType = repeatIntervalType;
+    public ReportStatusDTO() {
     }
 
     public int getRepeatID() {
@@ -35,6 +27,14 @@ public class RepeatStatusDTO {
 
     public void setNotificationID(int notificationID) {
         this.notificationID = notificationID;
+    }
+
+    public Boolean getReportFlag() {
+        return reportFlag;
+    }
+
+    public void setReportFlag(Boolean reportFlag) {
+        this.reportFlag = reportFlag;
     }
 
     public String getRepeatInterval() {
@@ -69,3 +69,4 @@ public class RepeatStatusDTO {
         this.repeatIntervalType = repeatIntervalType;
     }
 }
+
