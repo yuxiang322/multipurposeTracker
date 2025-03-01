@@ -3,6 +3,8 @@ package com.xiang.multipurposeTracker.service;
 import com.xiang.multipurposeTracker.DTO.ReportStatusDTO;
 import com.xiang.multipurposeTracker.entities.ReportStatus;
 import com.xiang.multipurposeTracker.repository.ReportStatusRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +19,7 @@ public class ReportStatusService {
 
     @Autowired
     private ReportStatusRepository reportStatusRepository;
+    private static final Logger logger = LoggerFactory.getLogger(ReportStatusService.class);
 
     public ReportStatusDTO getReportStatus(int notificationID) {
         try {
@@ -49,7 +52,7 @@ public class ReportStatusService {
             Optional<ReportStatus> existingReport = reportStatusRepository.findByReportID(reportStatusUpdate.getReportID());
 
             existingReport.ifPresent(report -> {
-
+                logger.info("Report Exist....");
                 report.setReportFlag(reportStatusUpdate.getReportFlag());
                 report.setRepeatInterval(reportStatusUpdate.getRepeatInterval());
                 report.setRepeatIntervalType(reportStatusUpdate.getRepeatIntervalType());

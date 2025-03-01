@@ -4,6 +4,8 @@ import com.xiang.multipurposeTracker.DTO.NotificationDTO;
 import com.xiang.multipurposeTracker.DTO.TemplateDTO;
 import com.xiang.multipurposeTracker.entities.Notifications;
 import com.xiang.multipurposeTracker.repository.NotificationsRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +20,7 @@ public class NotificationService {
 
     @Autowired
     private NotificationsRepository notificationRepository;
-
+    private static final Logger logger = LoggerFactory.getLogger(NotificationService.class);
     public NotificationDTO getNotification(TemplateDTO templateDTO) {
         try {
             NotificationDTO responseNotification = new NotificationDTO();
@@ -52,7 +54,7 @@ public class NotificationService {
             Optional<Notifications> existingNotification = notificationRepository.findNotificationByNotificationID(notificationUpdate.getNotificationID());
 
             existingNotification.ifPresent(notification -> {
-
+                logger.info("Notification Exist....");
                 notification.setNotificationFlag(notificationUpdate.getNotificationFlag());
                 notification.setSmsFlag(notificationUpdate.getSmsFlag());
                 notification.setWhatsAppFlag(notificationUpdate.getWhatsAppFlag());

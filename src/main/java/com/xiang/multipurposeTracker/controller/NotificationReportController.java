@@ -6,6 +6,9 @@ import com.xiang.multipurposeTracker.DTO.ReportStatusDTO;
 import com.xiang.multipurposeTracker.DTO.TemplateDTO;
 import com.xiang.multipurposeTracker.service.NotificationService;
 import com.xiang.multipurposeTracker.service.ReportStatusService;
+import com.xiang.multipurposeTracker.service.ShareTableInformationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +26,8 @@ public class NotificationReportController {
     private NotificationService notificationService;
     @Autowired
     private ReportStatusService reportStatusService;
+
+    private static final Logger logger = LoggerFactory.getLogger(NotificationReportController.class);
 
     @PostMapping("/getNotificationReport")
     public ResponseEntity<NotificationReportDTO> getNotification(@RequestBody TemplateDTO templateID){
@@ -48,7 +53,7 @@ public class NotificationReportController {
 
         Boolean notificationResponse = notificationService.updateNotification(changeNotification.getNotificationDTO());
         Boolean reportResponse = reportStatusService.updateReport(changeNotification.getReportStatusDTO());
-
+        logger.info("Notification boolean: " + notificationResponse.toString() + "\n Report Boolean: " + reportResponse.toString());
         if(notificationResponse && reportResponse){
             return ResponseEntity.ok("Updated");
         }else{
