@@ -11,7 +11,7 @@ public interface ReportStatusRepository extends JpaRepository<ReportStatus, Inte
 
     ReportStatus findByNotificationID(int notificationID);
 
-    Optional<ReportStatus> findByRepeatID(int repeatID);
+    Optional<ReportStatus> findByReportID(int reportID);
 
     void deleteByNotificationID(int notificationID);
 }

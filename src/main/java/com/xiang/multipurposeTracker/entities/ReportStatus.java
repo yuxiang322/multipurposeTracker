@@ -10,8 +10,8 @@ import java.time.LocalTime;
 public class ReportStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Repeatid")
-    private int repeatID;
+    @Column(name = "Reportid")
+    private int reportID;
     @Column(name = "Notificationid")
     private int notificationID;
     @Column(name = "Reportflag")
@@ -28,12 +28,12 @@ public class ReportStatus {
     public ReportStatus() {
     }
 
-    public int getRepeatID() {
-        return repeatID;
+    public int getReportID() {
+        return reportID;
     }
 
-    public void setRepeatID(int repeatID) {
-        this.repeatID = repeatID;
+    public void setReportID(int reportID) {
+        this.reportID = reportID;
     }
 
     public int getNotificationID() {

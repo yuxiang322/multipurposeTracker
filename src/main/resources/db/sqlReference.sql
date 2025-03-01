@@ -68,7 +68,7 @@ CREATE TABLE Notifications (
 
 -- ReportStatus Table
 CREATE TABLE Report_Status (
-    RepeatID INT IDENTITY(1,1) PRIMARY KEY,
+    ReportID INT IDENTITY(1,1) PRIMARY KEY,
     NotificationID INT NULL,
 	ReportFlag BIT,
     RepeatInterval NVARCHAR(255),

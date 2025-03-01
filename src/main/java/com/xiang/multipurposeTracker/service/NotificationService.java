@@ -1,13 +1,73 @@
 package com.xiang.multipurposeTracker.service;
 
+import com.xiang.multipurposeTracker.DTO.NotificationDTO;
+import com.xiang.multipurposeTracker.DTO.TemplateDTO;
+import com.xiang.multipurposeTracker.entities.Notifications;
 import com.xiang.multipurposeTracker.repository.NotificationsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Service
 public class NotificationService {
 
     @Autowired
     private NotificationsRepository notificationRepository;
+
+    public NotificationDTO getNotification(TemplateDTO templateDTO) {
+        try {
+            NotificationDTO responseNotification = new NotificationDTO();
+
+            Notifications notification = notificationRepository.findNotificationByTemplateID(templateDTO.getTemplateID());
+
+            if (notification != null) {
+                responseNotification.setNotificationID(notification.getNotificationID());
+                responseNotification.setNotificationFlag(notification.getNotificationFlag());
+                responseNotification.setSmsFlag(notification.getSmsFlag());
+                responseNotification.setWhatsAppFlag(notification.getWhatsAppFlag());
+                responseNotification.setRepeatStartDate(notification.getRepeatStartDate().toString());
+                responseNotification.setRepeatStartTime(notification.getRepeatStartTime().toString());
+                responseNotification.setRepeatDays(notification.getRepeatDays());
+                responseNotification.setTemplateID(notification.getTemplateID());
+                return responseNotification;
+            }
+
+            return null;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // updating
+    @Transactional
+    public Boolean updateNotification(NotificationDTO notificationUpdate) {
+        AtomicBoolean isUpdated = new AtomicBoolean(false);
+
+        try {
+            Optional<Notifications> existingNotification = notificationRepository.findNotificationByNotificationID(notificationUpdate.getNotificationID());
+
+            existingNotification.ifPresent(notification -> {
+
+                notification.setNotificationFlag(notificationUpdate.getNotificationFlag());
+                notification.setSmsFlag(notificationUpdate.getSmsFlag());
+                notification.setWhatsAppFlag(notificationUpdate.getWhatsAppFlag());
+                notification.setRepeatDays(notificationUpdate.getRepeatDays());
+                notification.setRepeatStartDate(LocalDate.parse(notificationUpdate.getRepeatStartDate()));
+                notification.setRepeatStartTime(LocalTime.parse(notificationUpdate.getRepeatStartTime()));
+
+                notificationRepository.save(notification);
+                isUpdated.set(true);
+            });
+
+            return isUpdated.get();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }
