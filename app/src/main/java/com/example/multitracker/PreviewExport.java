@@ -87,7 +87,6 @@ public class PreviewExport extends AppCompatActivity {
         if (previewData != null) {
             Log.d("previewOfData", "Size of PREVIEWDATA: " + previewData.size());
             templateFullDetails.addAll(previewData);
-            Log.d("previewOfData", "TableData PREVIEWDATA: " + previewData.get(3).getTableDetails().getJsonData());
         }
     }
 

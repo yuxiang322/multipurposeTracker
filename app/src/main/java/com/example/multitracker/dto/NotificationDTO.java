@@ -2,53 +2,16 @@ package com.example.multitracker.dto;
 
 public class NotificationDTO {
     private int notificationID;
-
     private Integer templateID;
-
     private String userUID;
-
     private Boolean notificationFlag;
-
     private Boolean smsFlag;
-
     private Boolean whatsAppFlag;
-
-    private Boolean emailFlag;
-
-    // Add another variable for notification Time
-    private String notificationTimer;
+    private String repeatStartDate;
+    private String repeatStartTime;
+    private String repeatDays;
 
     public NotificationDTO(){}
-
-    public NotificationDTO(int notificationID, Integer templateID, String userUID, Boolean notificationFlag, Boolean smsFlag, Boolean whatsAppFlag, Boolean emailFlag) {
-        this.notificationID = notificationID;
-        this.templateID = templateID;
-        this.userUID = userUID;
-        this.notificationFlag = notificationFlag;
-        this.smsFlag = smsFlag;
-        this.whatsAppFlag = whatsAppFlag;
-        this.emailFlag = emailFlag;
-    }
-
-//    public NotificationDTO(int notificationID, Integer templateID, String userUID, Boolean notificationFlag, Boolean smsFlag, Boolean whatsAppFlag, Boolean emailFlag, String notificationTimer) {
-//        this.notificationID = notificationID;
-//        this.templateID = templateID;
-//        this.userUID = userUID;
-//        this.notificationFlag = notificationFlag;
-//        this.smsFlag = smsFlag;
-//        this.whatsAppFlag = whatsAppFlag;
-//        this.emailFlag = emailFlag;
-//        this.notificationTimer = notificationTimer;
-//    }
-
-      // Notification Timer Get/Set
-//    public String getNotificationTimer() {
-//        return notificationTimer;
-//    }
-//
-//    public void setNotificationTimer(String notificationTimer) {
-//        this.notificationTimer = notificationTimer;
-//    }
 
     public int getNotificationID() {
         return notificationID;
@@ -98,11 +61,27 @@ public class NotificationDTO {
         this.whatsAppFlag = whatsAppFlag;
     }
 
-    public Boolean getEmailFlag() {
-        return emailFlag;
+    public String getRepeatStartDate() {
+        return repeatStartDate;
     }
 
-    public void setEmailFlag(Boolean emailFlag) {
-        this.emailFlag = emailFlag;
+    public void setRepeatStartDate(String repeatStartDate) {
+        this.repeatStartDate = repeatStartDate;
+    }
+
+    public String getRepeatStartTime() {
+        return repeatStartTime;
+    }
+
+    public void setRepeatStartTime(String repeatStartTime) {
+        this.repeatStartTime = repeatStartTime;
+    }
+
+    public String getRepeatDays() {
+        return repeatDays;
+    }
+
+    public void setRepeatDays(String repeatDays) {
+        this.repeatDays = repeatDays;
     }
 }

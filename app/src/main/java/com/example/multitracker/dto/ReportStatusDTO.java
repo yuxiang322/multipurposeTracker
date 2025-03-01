@@ -1,7 +1,7 @@
 package com.example.multitracker.dto;
 
 public class ReportStatusDTO {
-    private int repeatID;
+    private int reportID;
     private int notificationID;
     private Boolean reportFlag;
     private String repeatInterval;
@@ -12,12 +12,12 @@ public class ReportStatusDTO {
     public ReportStatusDTO() {
     }
 
-    public int getRepeatID() {
-        return repeatID;
+    public int getReportID() {
+        return reportID;
     }
 
-    public void setRepeatID(int repeatID) {
-        this.repeatID = repeatID;
+    public void setReportID(int reportID) {
+        this.reportID = reportID;
     }
 
     public int getNotificationID() {
