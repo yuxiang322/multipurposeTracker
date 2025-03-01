@@ -30,8 +30,8 @@ public class ReportStatusService {
             if (report != null) {
                 responseReport.setReportID(report.getReportID());
                 responseReport.setReportFlag(report.getReportFlag());
-                responseReport.setRepeatStartDate(report.getRepeatStartDate().toString());
-                responseReport.setRepeatStartTime(report.getRepeatStartTime().toString());
+                responseReport.setRepeatStartDate(report.getRepeatStartDate() != null && !report.getRepeatStartDate().toString().isEmpty() ? report.getRepeatStartDate().toString() : null);
+                responseReport.setRepeatStartTime(report.getRepeatStartTime() != null && !report.getRepeatStartTime().toString().isEmpty() ? report.getRepeatStartTime().toString() : null);
                 responseReport.setRepeatIntervalType(report.getRepeatIntervalType());
                 responseReport.setRepeatInterval(report.getRepeatInterval());
                 return responseReport;

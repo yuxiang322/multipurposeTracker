@@ -32,8 +32,8 @@ public class NotificationService {
                 responseNotification.setNotificationFlag(notification.getNotificationFlag());
                 responseNotification.setSmsFlag(notification.getSmsFlag());
                 responseNotification.setWhatsAppFlag(notification.getWhatsAppFlag());
-                responseNotification.setRepeatStartDate(notification.getRepeatStartDate().toString());
-                responseNotification.setRepeatStartTime(notification.getRepeatStartTime().toString());
+                responseNotification.setRepeatStartDate(notification.getRepeatStartDate() != null && !notification.getRepeatStartDate().toString().isEmpty() ? notification.getRepeatStartDate().toString() : null);
+                responseNotification.setRepeatStartTime(notification.getRepeatStartTime() != null && !notification.getRepeatStartTime().toString().isEmpty() ? notification.getRepeatStartTime().toString() : null);
                 responseNotification.setRepeatDays(notification.getRepeatDays());
                 responseNotification.setTemplateID(notification.getTemplateID());
                 return responseNotification;
