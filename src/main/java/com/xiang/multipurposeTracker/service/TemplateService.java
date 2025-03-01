@@ -77,6 +77,7 @@ public class TemplateService {
             // Create Report Status
             ReportStatus reportStatus = new ReportStatus();
             reportStatus.setNotificationID(savedNotification.getNotificationID());
+            reportStatus.setReportFlag(false);
             reportStatusRepository.save(reportStatus);
 
             return templateIDString;
