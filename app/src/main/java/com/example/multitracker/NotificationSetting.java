@@ -2,10 +2,14 @@ package com.example.multitracker;
 
 import static com.example.multitracker.commonUtil.GlobalConstant.userID;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -18,11 +22,14 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 import com.example.multitracker.api.NotificationReportAPI;
 import com.example.multitracker.api.UserDetailsAPI;
+import com.example.multitracker.commonUtil.ConvertTimeZone;
 import com.example.multitracker.commonUtil.RetrofitClientInstance;
 import com.example.multitracker.dto.NotificationDTO;
 import com.example.multitracker.dto.NotificationReportDTO;
@@ -32,14 +39,9 @@ import com.example.multitracker.dto.UserDetailsDTO;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
-import org.checkerframework.checker.units.qual.C;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -55,9 +57,14 @@ public class NotificationSetting extends AppCompatActivity {
     private String userPhone;
     private int reportID;
     private int notificationID;
-    private LocalDate reportDate;
-    private LocalTime reportTime;
-    private LocalTime notificationLocalTime;
+
+    private final ActivityResultLauncher<Intent> requestAlarmPermission = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() != RESULT_OK) {
+                    Toast.makeText(this, "Alarm Permission denied. Notification can't be set.", Toast.LENGTH_SHORT).show();
+                }
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -248,61 +255,68 @@ public class NotificationSetting extends AppCompatActivity {
 
     private void processNotification(NotificationDTO responseNotification) {
         setNotificationField(responseNotification.getNotificationFlag());
+        Log.d("FlagTest", "Notification Flag??: " + responseNotification.getNotificationFlag().toString());
+        SwitchCompat notificationSwitch = findViewById(R.id.notificationSwitchCompat);
+        notificationSwitch.setChecked(responseNotification.getNotificationFlag());
 
         if (responseNotification.getNotificationFlag()) {
             // interval time
             EditText notificationInterval = findViewById(R.id.notificationInterval);
-            notificationInterval.setText(responseNotification.getRepeatStartTime());
+            notificationInterval.setText(responseNotification.getRepeatStartTime() != null ? responseNotification.getRepeatStartTime() : null);
             // Chips selection
-            String chipSelection = responseNotification.getRepeatDays();
-            String[] chipList = chipSelection.split(",");
+            if (responseNotification.getRepeatDays() != null) {
+                String chipSelection = responseNotification.getRepeatDays();
+                String[] chipList = chipSelection.split(",");
 
-            for (String chip : chipList) {
-                switch (chip) {
-                    case "mon":
-                        Chip mon = findViewById(R.id.chipMonday);
-                        mon.setChecked(true);
-                        break;
-                    case "tue":
-                        Chip tue = findViewById(R.id.chipTuesday);
-                        tue.setChecked(true);
-                        break;
-                    case "wed":
-                        Chip wed = findViewById(R.id.chipWednesday);
-                        wed.setChecked(true);
-                        break;
-                    case "thu":
-                        Chip thu = findViewById(R.id.chipThursday);
-                        thu.setChecked(true);
-                        break;
-                    case "fri":
-                        Chip fri = findViewById(R.id.chipFriday);
-                        fri.setChecked(true);
-                        break;
-                    case "sat":
-                        Chip sat = findViewById(R.id.chipSaturday);
-                        sat.setChecked(true);
-                        break;
-                    case "sun":
-                        Chip sun = findViewById(R.id.chipSunday);
-                        sun.setChecked(true);
-                        break;
+                for (String chip : chipList) {
+                    switch (chip) {
+                        case "Mon":
+                            Chip mon = findViewById(R.id.chipMonday);
+                            mon.setChecked(true);
+                            break;
+                        case "Tue":
+                            Chip tue = findViewById(R.id.chipTuesday);
+                            tue.setChecked(true);
+                            break;
+                        case "Wed":
+                            Chip wed = findViewById(R.id.chipWednesday);
+                            wed.setChecked(true);
+                            break;
+                        case "Thu":
+                            Chip thu = findViewById(R.id.chipThursday);
+                            thu.setChecked(true);
+                            break;
+                        case "Fri":
+                            Chip fri = findViewById(R.id.chipFriday);
+                            fri.setChecked(true);
+                            break;
+                        case "Sat":
+                            Chip sat = findViewById(R.id.chipSaturday);
+                            sat.setChecked(true);
+                            break;
+                        case "Sun":
+                            Chip sun = findViewById(R.id.chipSunday);
+                            sun.setChecked(true);
+                            break;
+                    }
                 }
             }
         }
-
     }
 
     private void processReport(ReportStatusDTO responseReport) {
         setReportField(responseReport.getReportFlag());
+        SwitchCompat reportSwitch = findViewById(R.id.reportSwitchCompat);
+        reportSwitch.setChecked(responseReport.getReportFlag());
+        Log.d("FlagTest", "Report Flag??: " + responseReport.getReportFlag().toString());
 
         if (responseReport.getReportFlag()) {
             // Start Date
             EditText reportStatusDate = findViewById(R.id.reportStatusStartDate);
-            reportStatusDate.setText(responseReport.getRepeatStartDate());
+            reportStatusDate.setText(responseReport.getRepeatStartDate() != null ? responseReport.getRepeatStartDate() : null);
             // time
             EditText reportTime = findViewById(R.id.reportStatusTime);
-            reportTime.setText(responseReport.getRepeatStartTime());
+            reportTime.setText(responseReport.getRepeatStartTime() != null ? responseReport.getRepeatStartTime() : null);
 
             if (responseReport.getRepeatIntervalType() == null) {
                 selectedInterval = "-------";
@@ -355,8 +369,6 @@ public class NotificationSetting extends AppCompatActivity {
                         String formattedTime = String.format(Locale.getDefault(), "%02d:%02d", hourOfDay, minute1);
                         Log.d("Timer", "Ntoficaiotn: " + formattedTime);
                         notificationTime.setText(formattedTime);
-                        // Set local time variable
-                        notificationLocalTime = LocalTime.of(hourOfDay, minute1);
                     },
                     hour,
                     minute,
@@ -374,9 +386,9 @@ public class NotificationSetting extends AppCompatActivity {
             DatePickerDialog datePickerDialog = new DatePickerDialog(NotificationSetting.this, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                    startDateEditText.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
-                    // Set local date variable
-                    reportDate = LocalDate.of(year, monthOfYear+1, dayOfMonth);
+                    String formattedMonth = (monthOfYear + 1) < 10 ? "0" + (monthOfYear + 1) : String.valueOf(monthOfYear + 1);
+                    String formattedDay = dayOfMonth < 10 ? "0" + dayOfMonth : String.valueOf(dayOfMonth);
+                    startDateEditText.setText(year + "-" + formattedMonth + "-" + formattedDay);
                 }
             }, year, month, day);
             datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
@@ -394,8 +406,6 @@ public class NotificationSetting extends AppCompatActivity {
                     // Set the selected time to the EditText
                     String formattedTime = String.format(Locale.getDefault(), "%02d:%02d", hourOfDay, minute1);
                     timeEditText.setText(formattedTime);
-                    // Set local time variable
-                    reportTime = LocalTime.of(hourOfDay, minute1);
                     Log.d("Timer", "Report: " + timeEditText.getText());
                 }, hour, minute, true);
                 timePickerDialog.show();
@@ -489,19 +499,19 @@ public class NotificationSetting extends AppCompatActivity {
         return true;
     }
 
-    public LocalDateTime convertToUTC(LocalDate localDate, LocalTime localTime) {
-        if (localDate != null && localTime != null) {
-            LocalDateTime localDateTime = LocalDateTime.of(localDate, localTime);
-
-            ZonedDateTime localZonedDateTime = localDateTime.atZone(ZoneId.systemDefault());
-            ZonedDateTime utcZonedDateTime = localZonedDateTime.withZoneSameInstant(ZoneOffset.UTC);
-
-            return utcZonedDateTime.toLocalDateTime();
-        }
-        return null;
-    }
-
     private void saveNotificationReport() {
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+            if(alarmManager != null && !alarmManager.canScheduleExactAlarms()){
+
+                Intent alarmPermissionIntent = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
+                requestAlarmPermission.launch(alarmPermissionIntent);
+                return;
+            }
+        }
+
         // create NotificationDTO
         NotificationDTO notificationUpdate = new NotificationDTO();
 
@@ -509,12 +519,16 @@ public class NotificationSetting extends AppCompatActivity {
         CheckBox smsCheckbox = findViewById(R.id.smsCheckbox);
         CheckBox whatappsCheckbox = findViewById(R.id.whatappsCheckbox);
         ChipGroup chipGroup = findViewById(R.id.chipGroupDays);
+        EditText notificationTime = findViewById(R.id.notificationInterval);
 
         StringBuilder chipDays = new StringBuilder();
         for (int i = 0; i < chipGroup.getChildCount(); i++) {
             if (chipGroup.getChildAt(i) != null) {
-                if (chipDays.length() > 0) chipDays.append(",");
-                chipDays.append(((Chip) chipGroup.getChildAt(i)).getText());
+                Chip chip = (Chip) chipGroup.getChildAt(i);
+                if (chip.isChecked()) {
+                    if (chipDays.length() > 0) chipDays.append(",");
+                    chipDays.append(chip.getText());
+                }
             }
         }
         String chipDaysString = chipDays.toString();
@@ -526,7 +540,7 @@ public class NotificationSetting extends AppCompatActivity {
         notificationUpdate.setWhatsAppFlag(whatappsCheckbox.isChecked());
         notificationUpdate.setRepeatDays(chipDaysString);
 
-        LocalDateTime notiLocalDateTime = convertToUTC(LocalDate.now(), notificationLocalTime);
+        LocalDateTime notiLocalDateTime = ConvertTimeZone.convertToUTC(LocalDate.now(), LocalTime.parse(notificationTime.getText().toString()));
         notificationUpdate.setRepeatStartDate(notiLocalDateTime.toLocalDate().toString());
         notificationUpdate.setRepeatStartTime(notiLocalDateTime.toLocalTime().toString());
 
@@ -534,13 +548,15 @@ public class NotificationSetting extends AppCompatActivity {
         ReportStatusDTO reportUpdate = new ReportStatusDTO();
 
         SwitchCompat reportSwitch = findViewById(R.id.reportSwitchCompat);
+        EditText reportStatusStartDate = findViewById(R.id.reportStatusStartDate);
+        EditText reportStatusTime = findViewById(R.id.reportStatusTime);
 
         reportUpdate.setNotificationID(notificationID);
         reportUpdate.setReportID(reportID);
         reportUpdate.setReportFlag(reportSwitch.isChecked());
         reportUpdate.setRepeatIntervalType(selectedInterval);
 
-        LocalDateTime reportDateTime = convertToUTC(reportDate, reportTime);
+        LocalDateTime reportDateTime = ConvertTimeZone.convertToUTC(LocalDate.parse(reportStatusStartDate.getText().toString()), LocalTime.parse(reportStatusTime.getText().toString()));
         reportUpdate.setRepeatStartDate(reportDateTime.toLocalDate().toString());
         reportUpdate.setRepeatStartTime(reportDateTime.toLocalTime().toString());
 
@@ -573,6 +589,7 @@ public class NotificationSetting extends AppCompatActivity {
             public void onResponse(Call<String> call, Response<String> response) {
                 // Response success
                 if (response.isSuccessful()) {
+                    // notificaiton compat??
                     if (notificationUpdate.getNotificationFlag()) {
                         notificationAlarmManager.setUpAlarmManager(notificationUpdate);
                     } else {
@@ -580,6 +597,7 @@ public class NotificationSetting extends AppCompatActivity {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<String> call, Throwable t) {
 
