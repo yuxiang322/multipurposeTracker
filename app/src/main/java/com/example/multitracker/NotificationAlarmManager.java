@@ -4,15 +4,24 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
+import android.os.Parcelable;
+import android.util.Log;
 
-import com.example.multitracker.commonUtil.ConvertTimeZone;
+import com.example.multitracker.commonUtil.TimeUtil;
 import com.example.multitracker.dto.NotificationDTO;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
 
+import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
+import java.util.List;
 
 public class NotificationAlarmManager {
     private final Context context;
@@ -21,38 +30,26 @@ public class NotificationAlarmManager {
         this.context = context;
     }
 
-
-    // save alarm -> save sharedpreference
-    // notificationid+useruid
-    // Saving first time + Overwrite alarm, sharedpreference(serialization)
-    // add pendingintent -> template details page
-
-    // delet alarm -> delete from shared preference
-    // notification + useruid
-    // delete from alarm, sharedpreference key if found
-
-    // restore alarm after device reboot
-    // get all current alarm from sharedpreference(deserialization)
-
-    // -- broadcast receveir --> notification compat
-
     public void setUpAlarmManager(NotificationDTO notificationAlarm) {
         if (notificationAlarm == null) {
             return;
         }
-
+        boolean alarmSaveFlag = false;
         String[] dayRepeat = notificationAlarm.getRepeatDays().split(",");
 
         // date time UTC to Local cater to reboot
-        ZonedDateTime zonedNotificationDateTime = ConvertTimeZone.convertToLocalTimeZone(LocalDate.now(ZoneOffset.UTC).toString(), notificationAlarm.getRepeatStartTime() != null ? notificationAlarm.getRepeatStartTime() : null);
+        ZonedDateTime zonedNotificationDateTime = TimeUtil.convertToLocalTimeZone(LocalDate.now(ZoneOffset.UTC).toString(), notificationAlarm.getRepeatStartTime() != null ? notificationAlarm.getRepeatStartTime() : null);
         assert zonedNotificationDateTime != null;
         long notificationDateTime = zonedNotificationDateTime.toInstant().toEpochMilli();
 
         int notificationUID = notificationAlarm.getNotificationID();
 
         Intent notificationIntent = new Intent(context, NotificationBroadcastReceiver.class);
+        notificationIntent.setAction("com.example.multitracker.NotificationAlarmManager");
         notificationIntent.putExtra("notificationAlarmUID", notificationUID);
         notificationIntent.putExtra("repeatTime", zonedNotificationDateTime.toLocalDateTime().toLocalTime().toString());
+        notificationIntent.putExtra("notificationTemplateID", notificationAlarm.getTemplateID());
+        notificationIntent.putExtra("notificationObject", (Parcelable) notificationAlarm);
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, notificationUID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -67,15 +64,21 @@ public class NotificationAlarmManager {
                     if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                         if(alarmManager.canScheduleExactAlarms()){
                             alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerTime,pendingIntent); // need reschedule
+                            alarmSaveFlag = true;
                         }
                     } else {
                         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, triggerTime, AlarmManager.INTERVAL_DAY * 7, pendingIntent);
+                        alarmSaveFlag = true;
                     }
-
                 }
             }
         }
 
+        if(alarmSaveFlag){
+            saveAlarmManager(notificationAlarm);
+        }else {
+            Log.e("AlarmManager", "Failed to set alarm for notificationUID: " + notificationUID);
+        }
     }
 
     public void deleteAlarmManager(NotificationDTO notificationAlarm) {
@@ -88,26 +91,57 @@ public class NotificationAlarmManager {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         alarmManager.cancel(pendingIntent);
+
+        // delete sharepreference
     }
 
     public void saveAlarmManager(NotificationDTO notificationSave) {
-        // retrieve based on key
-        // if not found
-            // create new
-            // serialize
-            // save in sharedpreference
-        // else
-          // revert object back
-          // List<> add
-          // serialize
-          // save
 
+        SharedPreferences alarmSharedPreferences = context.getSharedPreferences("alarmManager", Context.MODE_PRIVATE);
+        String serializedPreference = alarmSharedPreferences.getString("alarmManager", "");
+
+        List<NotificationDTO> tempAlarmList;
+        Gson gson = new Gson();
+        Type listType = new TypeToken<List<NotificationDTO>>() {}.getType();
+
+        tempAlarmList = serializedPreference.isEmpty() ? new ArrayList<>() : gson.fromJson(serializedPreference, listType);
+
+        if(tempAlarmList != null){
+            Iterator<NotificationDTO> iterator = tempAlarmList.iterator();
+
+            while (iterator.hasNext()) {
+                NotificationDTO notificationDTO = iterator.next();
+                if (notificationDTO.getNotificationID() == notificationSave.getNotificationID()) {
+                    iterator.remove();
+                    break;
+                }
+            }
+
+            tempAlarmList.add(notificationSave);
+        }
+
+        SharedPreferences.Editor editor = alarmSharedPreferences.edit();
+        editor.putString("alarmManager", gson.toJson(tempAlarmList));
+        editor.apply();
     }
 
     public void restoreAlarmManager() {
-        // on reboot
-        // gather all Alarm_....
-        // setupAlarmManager(object)
+        SharedPreferences alarmSharedPreferences = context.getSharedPreferences("alarmManager", Context.MODE_PRIVATE);
+        String serializedPreference = alarmSharedPreferences.getString("alarmManager", "");
+
+        List<NotificationDTO> tempAlarmList;
+        Gson gson = new Gson();
+        Type listType = new TypeToken<List<NotificationDTO>>() {}.getType();
+
+        tempAlarmList = serializedPreference.isEmpty() ? new ArrayList<>() : gson.fromJson(serializedPreference, listType);
+
+        if(tempAlarmList != null){
+            for(NotificationDTO alarmDTO : tempAlarmList){
+                setUpAlarmManager(alarmDTO);
+            }
+        }else {
+            Log.w("RestoreAlarmManager", "Restore failed");
+        }
     }
 
     private int getDayOfWeek(String day) {

@@ -7,7 +7,7 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
-public class ConvertTimeZone {
+public class TimeUtil {
     public static LocalDateTime convertToUTC(LocalDate localDate, LocalTime localTime) {
         if (localDate != null && localTime != null) {
             LocalDateTime localDateTime = LocalDateTime.of(localDate, localTime);

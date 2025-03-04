@@ -29,7 +29,7 @@ import androidx.appcompat.widget.SwitchCompat;
 
 import com.example.multitracker.api.NotificationReportAPI;
 import com.example.multitracker.api.UserDetailsAPI;
-import com.example.multitracker.commonUtil.ConvertTimeZone;
+import com.example.multitracker.commonUtil.TimeUtil;
 import com.example.multitracker.commonUtil.RetrofitClientInstance;
 import com.example.multitracker.dto.NotificationDTO;
 import com.example.multitracker.dto.NotificationReportDTO;
@@ -540,7 +540,7 @@ public class NotificationSetting extends AppCompatActivity {
         notificationUpdate.setWhatsAppFlag(whatappsCheckbox.isChecked());
         notificationUpdate.setRepeatDays(chipDaysString);
 
-        LocalDateTime notiLocalDateTime = ConvertTimeZone.convertToUTC(LocalDate.now(), LocalTime.parse(notificationTime.getText().toString()));
+        LocalDateTime notiLocalDateTime = TimeUtil.convertToUTC(LocalDate.now(), LocalTime.parse(notificationTime.getText().toString()));
         notificationUpdate.setRepeatStartDate(notiLocalDateTime.toLocalDate().toString());
         notificationUpdate.setRepeatStartTime(notiLocalDateTime.toLocalTime().toString());
 
@@ -556,7 +556,7 @@ public class NotificationSetting extends AppCompatActivity {
         reportUpdate.setReportFlag(reportSwitch.isChecked());
         reportUpdate.setRepeatIntervalType(selectedInterval);
 
-        LocalDateTime reportDateTime = ConvertTimeZone.convertToUTC(LocalDate.parse(reportStatusStartDate.getText().toString()), LocalTime.parse(reportStatusTime.getText().toString()));
+        LocalDateTime reportDateTime = TimeUtil.convertToUTC(LocalDate.parse(reportStatusStartDate.getText().toString()), LocalTime.parse(reportStatusTime.getText().toString()));
         reportUpdate.setRepeatStartDate(reportDateTime.toLocalDate().toString());
         reportUpdate.setRepeatStartTime(reportDateTime.toLocalTime().toString());
 

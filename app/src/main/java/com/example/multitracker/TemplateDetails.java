@@ -40,10 +40,6 @@ public class TemplateDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.template_detail);
 
-        // Check for login
-        // intent pass TemplateID -> can auto go in?
-
-
         // Retrieval of template table details
         setupTemplateIntent();
         // Edit button set up

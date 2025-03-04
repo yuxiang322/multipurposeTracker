@@ -2,6 +2,7 @@ package com.example.multitracker;
 
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -39,9 +40,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // Redirect user to homepage
-//        Intent intent = new Intent(MainActivity.this, HomePage.class);
-//        startActivity(intent);
+
+        // Getting backend JWT
+        // storing token in somehwere
+        // used for alarm check
+
+        // check for login from notificaiton
+        // Add logic for alarm in firebaseAuthentication()
+
+        // add session checks for future dev
+
         mAuth = FirebaseAuth.getInstance();
         usernameEditText = findViewById(R.id.username);
         passwordEditText = findViewById(R.id.password);

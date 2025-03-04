@@ -43,6 +43,13 @@ public class HomePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_page);
 
+
+        // Check for login(only if from NotificationBroadCastReceive)
+        // intent pass TemplateID
+        // get child linearlayout = tempalte id
+        // perform click or handle error
+
+
         // Set up menu
         menuSetup();
         // Set up buttons
