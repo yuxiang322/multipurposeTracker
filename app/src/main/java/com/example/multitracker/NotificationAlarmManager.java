@@ -5,13 +5,12 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.provider.Settings;
 
 import com.example.multitracker.commonUtil.ConvertTimeZone;
 import com.example.multitracker.dto.NotificationDTO;
 
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.Calendar;
 
@@ -44,8 +43,8 @@ public class NotificationAlarmManager {
 
         String[] dayRepeat = notificationAlarm.getRepeatDays().split(",");
 
-        // date time UTC to Local
-        ZonedDateTime zonedNotificationDateTime = ConvertTimeZone.convertToLocalTimeZone(notificationAlarm.getRepeatStartDate() != null ? notificationAlarm.getRepeatStartDate() : null, notificationAlarm.getRepeatStartTime() != null ? notificationAlarm.getRepeatStartTime() : null);
+        // date time UTC to Local cater to reboot
+        ZonedDateTime zonedNotificationDateTime = ConvertTimeZone.convertToLocalTimeZone(LocalDate.now(ZoneOffset.UTC).toString(), notificationAlarm.getRepeatStartTime() != null ? notificationAlarm.getRepeatStartTime() : null);
         assert zonedNotificationDateTime != null;
         long notificationDateTime = zonedNotificationDateTime.toInstant().toEpochMilli();
 
@@ -91,12 +90,24 @@ public class NotificationAlarmManager {
         alarmManager.cancel(pendingIntent);
     }
 
-    public void saveAlarmManager() {
+    public void saveAlarmManager(NotificationDTO notificationSave) {
+        // retrieve based on key
+        // if not found
+            // create new
+            // serialize
+            // save in sharedpreference
+        // else
+          // revert object back
+          // List<> add
+          // serialize
+          // save
 
     }
 
     public void restoreAlarmManager() {
-
+        // on reboot
+        // gather all Alarm_....
+        // setupAlarmManager(object)
     }
 
     private int getDayOfWeek(String day) {
