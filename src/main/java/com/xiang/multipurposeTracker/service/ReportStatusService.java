@@ -56,8 +56,8 @@ public class ReportStatusService {
                 report.setReportFlag(reportStatusUpdate.getReportFlag());
                 report.setRepeatInterval(reportStatusUpdate.getRepeatInterval());
                 report.setRepeatIntervalType(reportStatusUpdate.getRepeatIntervalType());
-                report.setRepeatStartDate(!reportStatusUpdate.getRepeatStartDate().isEmpty() ? LocalDate.parse(reportStatusUpdate.getRepeatStartDate()) : null);
-                report.setRepeatStartTime(!reportStatusUpdate.getRepeatStartDate().isEmpty() ? LocalTime.parse(reportStatusUpdate.getRepeatStartTime()) : null);
+                report.setRepeatStartDate(reportStatusUpdate.getRepeatStartDate() != null ? LocalDate.parse(reportStatusUpdate.getRepeatStartDate()) : null);
+                report.setRepeatStartTime(reportStatusUpdate.getRepeatStartDate() != null ? LocalTime.parse(reportStatusUpdate.getRepeatStartTime()) : null);
 
                 reportStatusRepository.save(report);
                 isUpdated.set(true);

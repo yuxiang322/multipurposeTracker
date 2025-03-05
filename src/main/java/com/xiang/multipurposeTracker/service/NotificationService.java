@@ -60,8 +60,8 @@ public class NotificationService {
                 notification.setSmsFlag(notificationUpdate.getSmsFlag());
                 notification.setWhatsAppFlag(notificationUpdate.getWhatsAppFlag());
                 notification.setRepeatDays(notificationUpdate.getRepeatDays());
-                notification.setRepeatStartDate(LocalDate.parse(notificationUpdate.getRepeatStartDate()));
-                notification.setRepeatStartTime(LocalTime.parse(notificationUpdate.getRepeatStartTime()));
+                notification.setRepeatStartDate(notificationUpdate.getRepeatStartDate() != null ? LocalDate.parse(notificationUpdate.getRepeatStartDate()) : null);
+                notification.setRepeatStartTime(notificationUpdate.getRepeatStartTime() != null ? LocalTime.parse(notificationUpdate.getRepeatStartTime()) : null);
 
                 notificationRepository.save(notification);
                 isUpdated.set(true);
