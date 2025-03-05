@@ -21,6 +21,7 @@ public class NotificationService {
     @Autowired
     private NotificationsRepository notificationRepository;
     private static final Logger logger = LoggerFactory.getLogger(NotificationService.class);
+
     public NotificationDTO getNotification(TemplateDTO templateDTO) {
         try {
             NotificationDTO responseNotification = new NotificationDTO();

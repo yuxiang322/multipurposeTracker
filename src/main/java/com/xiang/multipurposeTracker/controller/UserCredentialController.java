@@ -44,6 +44,7 @@ public class UserCredentialController {
     public ResponseEntity<String> loginUser(@RequestBody LoginRequestDTO loginRequestDTO) throws FirebaseAuthException {
         String loginResponse = userCredentialService.loginValidation(loginRequestDTO.getUserName(), loginRequestDTO.getPassword());
 
+        // Generate a JWT
         if (loginResponse.equals("Invalid username or password")) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(loginResponse);
         }else if(loginResponse.equals("Firebase authentication error.")){
