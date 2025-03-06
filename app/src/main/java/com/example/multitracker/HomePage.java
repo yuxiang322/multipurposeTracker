@@ -22,6 +22,7 @@ import com.example.multitracker.api.TemplatesAPI;
 import com.example.multitracker.commonUtil.GlobalConstant;
 import com.example.multitracker.commonUtil.MenuUtil;
 import com.example.multitracker.commonUtil.RetrofitClientInstance;
+import com.example.multitracker.dto.NotificationDTO;
 import com.example.multitracker.dto.RetrieveTableDetailsDTO;
 import com.example.multitracker.dto.TemplateDTO;
 import com.example.multitracker.dto.UserUIDRequestDTO;
@@ -232,22 +233,27 @@ public class HomePage extends AppCompatActivity {
                 .setMessage("Are you sure you want to delete this template?")
                 .setPositiveButton(android.R.string.yes, (dialog, which) -> {
                     TemplatesAPI apiService = RetrofitClientInstance.getRetrofitInstance().create(TemplatesAPI.class);
-                    Call<String> call = apiService.deleteTemplate(templateDTODeleteRequest);
-                    call.enqueue(new Callback<String>() {
+                    Call<NotificationDTO> call = apiService.deleteTemplate(templateDTODeleteRequest);
+                    call.enqueue(new Callback<NotificationDTO>() {
                         @Override
-                        public void onResponse(Call<String> call, Response<String> response) {
+                        public void onResponse(Call<NotificationDTO> call, Response<NotificationDTO> response) {
                             if (response.isSuccessful() && response.body() != null) {
                                 // Handle success message
-                                String deleteResponse = response.body();
-                                Toast.makeText(HomePage.this, deleteResponse, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(HomePage.this,"Template Deleted", Toast.LENGTH_SHORT).show();
                                 addTemplates();
+
+                                NotificationDTO notificationDelete = response.body();
+                                // delete
+                                NotificationAlarmManager notificationAlarmManager = new NotificationAlarmManager(getApplicationContext());
+                                notificationAlarmManager.deleteAlarmManager(notificationDelete);
+
                             } else {
                                 Toast.makeText(HomePage.this, "Failed to delete template", Toast.LENGTH_SHORT).show();
                             }
                         }
 
                         @Override
-                        public void onFailure(Call<String> call, Throwable t) {
+                        public void onFailure(Call<NotificationDTO> call, Throwable t) {
                             Toast.makeText(HomePage.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });

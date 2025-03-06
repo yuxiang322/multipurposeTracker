@@ -59,12 +59,13 @@ public class NotificationAlarmManager {
         if (alarmManager != null && notificationDateTime != 0) {
             for (String day : dayRepeat) {
                 int dayInt = getDayOfWeek(day.trim());
-                String combinedStringKey = notificationUID + String.valueOf(dayInt);
-                int pendingIntentKey = Integer.parseInt(combinedStringKey);
-
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(context, pendingIntentKey, notificationIntent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
 
                 if (dayInt != -1) {
+                    String combinedStringKey = notificationUID + String.valueOf(dayInt);
+                    int pendingIntentKey = Integer.parseInt(combinedStringKey);
+
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(context, pendingIntentKey, notificationIntent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+
                     Log.d("AlarmManager", "BaseTime passed: " + notificationDateTime);
                     Log.d("AlarmOnReceiveBoot", "BaseTime passed: " + notificationDateTime);
                     long triggerTime = getNextDayOfWeekMillis(notificationDateTime, dayInt) + 5000;
@@ -94,15 +95,25 @@ public class NotificationAlarmManager {
     }
 
     public void deleteAlarmManager(NotificationDTO notificationAlarm) {
-        Log.d("AlarmManager", "==========================\nDelete alarm sharepreference");
+        Log.d("AlarmManagerDelete", "==========================\nDelete alarm sharepreference");
         int notificationUID = notificationAlarm.getNotificationID();
+        String[] dayRepeat = notificationAlarm.getRepeatDays().split(",");
 
         Intent notificationIntent = new Intent(context, NotificationBroadcastReceiver.class);
 
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, notificationUID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
-        alarmManager.cancel(pendingIntent);
+        for (String day : dayRepeat) {
+            int dayInt = getDayOfWeek(day.trim());
+
+            if (dayInt != -1) {
+                String combinedStringKey = notificationUID + String.valueOf(dayInt);
+                int pendingIntentKey = Integer.parseInt(combinedStringKey);
+
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(context, pendingIntentKey, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+                alarmManager.cancel(pendingIntent);
+            }
+        }
 
         // delete sharepreference
         SharedPreferences alarmSharedPreferences = context.getSharedPreferences("alarmManager", Context.MODE_PRIVATE);
@@ -120,6 +131,7 @@ public class NotificationAlarmManager {
 
             while (iterator.hasNext()) {
                 NotificationDTO notificationDTO = iterator.next();
+                Log.d("AlarmManagerDelete", "Notification: " + notificationDTO.getNotificationID() + " deleted....");
                 if (notificationDTO.getNotificationID() == notificationAlarm.getNotificationID()) {
                     iterator.remove();
                     break;

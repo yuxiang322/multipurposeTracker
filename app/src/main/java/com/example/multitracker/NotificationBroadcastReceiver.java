@@ -74,11 +74,13 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
 
             Log.d("AlarmManager", "ONRECEIVE Notification popup");
             // Notification popup -> TemplteDetails -> check for user login
+            assert notificationDTO != null;
+            notificationSetup(notificationDTO.getTemplateID());
         }
     }
 
     // notification compat
-//    private void notificationSetup(templateID){
+   private void notificationSetup(int templateID){
 //        alarm goes off
 //        user clicks to enter app
 //                Notificationcompat
@@ -95,6 +97,7 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
     // Flag check @ homepage
     // if flag -> proceed to  the custom logic
 
-    //}
+
+    }
 
 }

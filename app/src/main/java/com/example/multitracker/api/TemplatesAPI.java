@@ -1,5 +1,6 @@
 package com.example.multitracker.api;
 
+import com.example.multitracker.dto.NotificationDTO;
 import com.example.multitracker.dto.TemplateDTO;
 import com.example.multitracker.dto.UserUIDRequestDTO;
 
@@ -20,7 +21,7 @@ public interface TemplatesAPI {
 
     // Delete template
     @POST("api/template/deleteTemplate")
-    Call<String> deleteTemplate(@Body TemplateDTO templateRequest);
+    Call<NotificationDTO> deleteTemplate(@Body TemplateDTO templateRequest);
 
     // save template details
     @POST("api/template/saveTemplateDetails")
