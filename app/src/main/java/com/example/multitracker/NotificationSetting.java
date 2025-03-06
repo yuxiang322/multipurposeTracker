@@ -39,9 +39,11 @@ import com.example.multitracker.dto.UserDetailsDTO;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -262,7 +264,10 @@ public class NotificationSetting extends AppCompatActivity {
         if (responseNotification.getNotificationFlag()) {
             // interval time
             EditText notificationInterval = findViewById(R.id.notificationInterval);
-            notificationInterval.setText(responseNotification.getRepeatStartTime() != null ? responseNotification.getRepeatStartTime() : null);
+            ZonedDateTime notificationRepeatDateTime = TimeUtil.convertToLocalTimeZone(responseNotification.getRepeatStartDate(), responseNotification.getRepeatStartTime());
+            String notificationLocalTime = notificationRepeatDateTime.toLocalTime().toString();
+
+            notificationInterval.setText(!notificationLocalTime.isEmpty() ? notificationLocalTime : null);
             // Chips selection
             if (responseNotification.getRepeatDays() != null) {
                 String chipSelection = responseNotification.getRepeatDays();
@@ -426,6 +431,7 @@ public class NotificationSetting extends AppCompatActivity {
         saveNotification.setOnClickListener(v -> {
             if (validateFields()) {
                 saveNotificationReport();
+                finish();
             } else {
                 Toast.makeText(NotificationSetting.this, "Please fill in all required fields.", Toast.LENGTH_SHORT).show();
             }
@@ -540,9 +546,11 @@ public class NotificationSetting extends AppCompatActivity {
         notificationUpdate.setWhatsAppFlag(whatappsCheckbox.isChecked());
         notificationUpdate.setRepeatDays(chipDaysString);
 
-        LocalDateTime notiLocalDateTime = TimeUtil.convertToUTC(LocalDate.now(), LocalTime.parse(notificationTime.getText().toString()));
-        notificationUpdate.setRepeatStartDate(notiLocalDateTime.toLocalDate().toString());
-        notificationUpdate.setRepeatStartTime(notiLocalDateTime.toLocalTime().toString());
+        if(notificationTime.getText() != null || !notificationTime.getText().toString().isEmpty()){
+            LocalDateTime notiLocalDateTime = TimeUtil.convertToUTC(LocalDate.now(), LocalTime.parse(notificationTime.getText().toString()));
+            notificationUpdate.setRepeatStartDate(notiLocalDateTime.toLocalDate().toString());
+            notificationUpdate.setRepeatStartTime(notiLocalDateTime.toLocalTime().toString());
+        }
 
         // create ReportStatusDTO
         ReportStatusDTO reportUpdate = new ReportStatusDTO();
@@ -556,9 +564,12 @@ public class NotificationSetting extends AppCompatActivity {
         reportUpdate.setReportFlag(reportSwitch.isChecked());
         reportUpdate.setRepeatIntervalType(selectedInterval);
 
-        LocalDateTime reportDateTime = TimeUtil.convertToUTC(LocalDate.parse(reportStatusStartDate.getText().toString()), LocalTime.parse(reportStatusTime.getText().toString()));
-        reportUpdate.setRepeatStartDate(reportDateTime.toLocalDate().toString());
-        reportUpdate.setRepeatStartTime(reportDateTime.toLocalTime().toString());
+        if(reportStatusStartDate.getText() != null && reportStatusTime.getText() != null && !reportStatusStartDate.getText().toString().isEmpty() && !reportStatusTime.getText().toString().isEmpty()){
+            LocalDateTime reportDateTime = TimeUtil.convertToUTC(LocalDate.parse(reportStatusStartDate.getText().toString()), LocalTime.parse(reportStatusTime.getText().toString()));
+            reportUpdate.setRepeatStartDate(reportDateTime.toLocalDate().toString());
+            reportUpdate.setRepeatStartTime(reportDateTime.toLocalTime().toString());
+        }
+
 
         if (selectedInterval.equals("Others")) {
             EditText customIntervalEditText = findViewById(R.id.reportCustomInterval);

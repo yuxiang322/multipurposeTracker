@@ -224,6 +224,8 @@ public class HomePage extends AppCompatActivity {
         }
     }
 
+
+    // ADD delete sp
     private void deleteTemplate(TemplateDTO templateDTODeleteRequest) {
         new AlertDialog.Builder(this)
                 .setTitle("Delete Template")

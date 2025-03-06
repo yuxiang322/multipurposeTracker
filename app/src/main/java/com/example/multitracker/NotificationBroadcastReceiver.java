@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 
 import com.example.multitracker.dto.NotificationDTO;
 
@@ -16,60 +17,68 @@ import java.util.Date;
 public class NotificationBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
+        Log.d("AlarmManager", "==========================\nOnReceive Started");
         NotificationAlarmManager notificationAlarmManager = new NotificationAlarmManager(context);
 
         // check for reboot --> restore
-        if(Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())){
+        if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
+            Log.d("AlarmOnReceiveBoot", "==========================\nOnReceive REBOOT");
             notificationAlarmManager.restoreAlarmManager();
         }
 
-        if("com.example.multitracker.NotificationAlarmManager".equals(intent.getAction())){
+        if ("com.example.multitracker.NotificationAlarmManager".equals(intent.getAction())) {
+            Log.d("AlarmManager", "==========================\nOnReceive Action");
 
-            // reshedule for android 26 + -> get repeatTime -> Calendar + 7(E.g Sun alrm -> next Sun) set the alarm
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S){
-                NotificationDTO notificationDTO = intent.getParcelableExtra("notificationObject");
-                int notificationUID = intent.getIntExtra("notificationAlarmUID", -1);
-                int templateID = intent.getIntExtra("notificationTemplateID", -1);
-                String zonedLocalTimeString = intent.getStringExtra("repeatTime");
-                LocalTime repeatTime = LocalTime.parse(zonedLocalTimeString);
+            NotificationDTO notificationDTO = intent.getParcelableExtra("notificationObject");
+            int notificationUID = intent.getIntExtra("notificationAlarmUID", -1);
+            int templateID = intent.getIntExtra("notificationTemplateID", -1);
+            String zonedLocalTimeString = intent.getStringExtra("repeatTime");
+            LocalTime repeatTime = LocalTime.parse(zonedLocalTimeString);
 
-                Intent notificationIntent = new Intent(context, NotificationBroadcastReceiver.class);
-                notificationIntent.setAction("com.example.multitracker.NotificationAlarmManager");
-                notificationIntent.putExtra("notificationAlarmUID", notificationUID);
-                notificationIntent.putExtra("repeatTime", zonedLocalTimeString);
-                notificationIntent.putExtra("notificationTemplateID", templateID);
+            Intent notificationIntent = new Intent(context, NotificationBroadcastReceiver.class);
+            notificationIntent.setAction("com.example.multitracker.NotificationAlarmManager");
+            notificationIntent.putExtra("notificationAlarmUID", notificationUID);
+            notificationIntent.putExtra("repeatTime", zonedLocalTimeString);
+            notificationIntent.putExtra("notificationTemplateID", templateID);
 
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(context, notificationUID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-                AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, repeatTime.getHour());
+            calendar.set(Calendar.MINUTE, repeatTime.getMinute());
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+            calendar.add(Calendar.DAY_OF_MONTH, 7);
 
-                if(alarmManager != null && alarmManager.canScheduleExactAlarms()){
-                    // set nxt alarm day +7
-                    // get calendar of device current date
-                    // calculate triggertime = current date + target repeat time?
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.set(Calendar.HOUR_OF_DAY, repeatTime.getHour());
-                    calendar.set(Calendar.MINUTE, repeatTime.getMinute());
-                    calendar.set(Calendar.SECOND, 0);
-                    calendar.set(Calendar.MILLISECOND, 0);
-                    calendar.add(Calendar.DAY_OF_MONTH, 7);
+            int currentDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+            String combinedStringKey = notificationUID + String.valueOf(currentDayOfWeek);
+            int pendingIntentKey = Integer.parseInt(combinedStringKey);
+            long triggerTime = calendar.getTimeInMillis() + 5000;
 
-                    long triggerTime = calendar.getTimeInMillis();
-                    assert notificationDTO != null;
-                    notificationDTO.setRepeatStartDate(new Date(triggerTime).toString());
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, pendingIntentKey, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+            AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
+            if (alarmManager != null) {
+                Log.d("AlarmManager", "Rescheduling alarm ALARMMANGER not null");
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    if (alarmManager.canScheduleExactAlarms()) {
+                        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent);
+                        Log.d("AlarmManager", "Alarm S+ set for notificaiton pendingIntentKey: " + pendingIntentKey + " | Date: " + new Date(triggerTime));
+                    }
+                } else {
                     alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent);
-
-                    notificationAlarmManager.saveAlarmManager(notificationDTO);
+                    Log.d("AlarmManager", "Alarm set for notificaiton pendingIntentKey: " + pendingIntentKey + " | Date: " + new Date(triggerTime));
                 }
+                assert notificationDTO != null;
+                notificationDTO.setRepeatStartDate(new Date(triggerTime).toString());
+                notificationAlarmManager.saveAlarmManager(notificationDTO);
             }
 
+            Log.d("AlarmManager", "ONRECEIVE Notification popup");
             // Notification popup -> TemplteDetails -> check for user login
-
         }
     }
 
     // notification compat
-    private void notificationSetup(templateID){
+//    private void notificationSetup(templateID){
 //        alarm goes off
 //        user clicks to enter app
 //                Notificationcompat
@@ -83,9 +92,9 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
 //            -> pass flag + tempalteID
 //         firebase redirect -> pass extra intent + Flag
 
-        // Flag check @ homepage
-        // if flag -> proceed to  the custom logic
+    // Flag check @ homepage
+    // if flag -> proceed to  the custom logic
 
-    }
+    //}
 
 }
