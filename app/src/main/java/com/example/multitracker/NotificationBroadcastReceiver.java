@@ -21,7 +21,7 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
         NotificationAlarmManager notificationAlarmManager = new NotificationAlarmManager(context);
 
         // check for reboot --> restore
-        if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
+        if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction()) || Intent.ACTION_LOCKED_BOOT_COMPLETED.equals(intent.getAction())) {
             Log.d("AlarmOnReceiveBoot", "==========================\nOnReceive REBOOT");
             notificationAlarmManager.restoreAlarmManager();
         }
