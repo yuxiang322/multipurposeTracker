@@ -5,14 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d1db8eb0-4824-475c-982c-3f60315432ee" name="Changes" comment="1. Delete Sharetable to DeleteTemplate in TemplateService&#10;2. Validation for Share -&gt; only if it have at least 1 table.&#10;&#10;** POST -&gt; DELETE for delete apis**">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/DTO/JwtDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/controller/TemplateController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/controller/TemplateController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/controller/UserCredentialController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/controller/UserCredentialController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/service/TemplateService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/service/TemplateService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/repository/UserCredentialsRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/repository/UserCredentialsRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/service/UserCredentialService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/service/UserCredentialService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,14 +123,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1723333130686</updated>
-    </task>
-    <task id="LOCAL-00038" summary="1. Deletion of Template logic update&#10;2. Notification/RepeatStatus logic update&#10;3. Delete Table &#10;&#10;** POST -&gt; DELETE for delete apis**">
-      <option name="closed" value="true" />
-      <created>1737363100467</created>
-      <option name="number" value="00038" />
-      <option name="presentableId" value="LOCAL-00038" />
-      <option name="project" value="LOCAL" />
-      <updated>1737363100467</updated>
     </task>
     <task id="LOCAL-00039" summary="1. Deletion of Template logic update&#10;2. Notification/RepeatStatus logic update&#10;3. Delete Table &#10;&#10;** POST -&gt; DELETE for delete apis**">
       <option name="closed" value="true" />
@@ -521,7 +508,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741207645134</updated>
     </task>
-    <option name="localTasksCounter" value="87" />
+    <task id="LOCAL-00087" summary="1. Delete Sharetable to DeleteTemplate in TemplateService&#10;2. Validation for Share -&gt; only if it have at least 1 table.&#10;&#10;** POST -&gt; DELETE for delete apis**">
+      <option name="closed" value="true" />
+      <created>1741558485445</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1741558485445</updated>
+    </task>
+    <option name="localTasksCounter" value="88" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

@@ -1,7 +1,6 @@
 package com.xiang.multipurposeTracker.service;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
 import com.xiang.multipurposeTracker.DTO.JwtDTO;
 import com.xiang.multipurposeTracker.entities.UserCredentials;
@@ -18,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
+import java.util.UUID;
 
 @Service
 public class UserCredentialService {
@@ -37,29 +37,30 @@ public class UserCredentialService {
 
         if (userCredential == null) {
             try {
-                UserRecord.CreateRequest request = new UserRecord.CreateRequest()
-                        .setUid(username);
+                // generate Useruid
+                String useruid = UUID.randomUUID().toString();
 
-                UserRecord userRecord = FirebaseAuth.getInstance().createUser(request);
-
-                if (userRecord != null) {
-                    // Insert user into User_Details table
-                    UserDetails newUserDetails = new UserDetails();
-                    newUserDetails.setUserUID(userRecord.getUid());
-                    newUserDetails.setEmail(email);
-                    newUserDetails.setName(name);
-                    newUserDetails.setPhone(phoneNumber);
-                    userDetailsRepository.save(newUserDetails);
-
-                    // Insert user into User_Credentials table
-                    UserCredentials newUserCredentials = new UserCredentials();
-                    newUserCredentials.setUsername(username);
-                    newUserCredentials.setPassword(password);
-                    newUserCredentials.setUserUID(userRecord.getUid());
-                    userCredentialsRepository.save(newUserCredentials);
-
-                    response = "Registration successful. Please proceed to login.";
+                while (userCredentialsRepository.existsByUserUID(useruid)) {
+                    useruid = UUID.randomUUID().toString();
                 }
+
+                // Insert user into User_Details table
+                UserDetails newUserDetails = new UserDetails();
+                newUserDetails.setUserUID(useruid);
+                newUserDetails.setEmail(email);
+                newUserDetails.setName(name);
+                newUserDetails.setPhone(phoneNumber);
+                userDetailsRepository.save(newUserDetails);
+
+                // Insert user into User_Credentials table
+                UserCredentials newUserCredentials = new UserCredentials();
+                newUserCredentials.setUsername(username);
+                newUserCredentials.setPassword(password);
+                newUserCredentials.setUserUID(useruid);
+                userCredentialsRepository.save(newUserCredentials);
+
+                response = "Registration successful. Please proceed to login.";
+
             } catch (Exception e) {
                 e.printStackTrace();
                 response = "Registration failed: " + e.getMessage();
