@@ -1,5 +1,6 @@
 package com.xiang.multipurposeTracker.service;
 
+import com.xiang.multipurposeTracker.DTO.NotificationDTO;
 import com.xiang.multipurposeTracker.DTO.TemplateDTO;
 import com.xiang.multipurposeTracker.entities.*;
 import com.xiang.multipurposeTracker.repository.*;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,8 +34,14 @@ public class TemplateService {
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(TemplateService.class);
+
     public List<TemplateDTO> getTemplatesByUserUID(String userUID) {
         try {
+
+            if (userUID == null) {
+                return new ArrayList<>();
+            }
+
             List<Template> templates = templateRepository.findByUserUID(userUID);
             return templates.stream()
                     .map(template -> new TemplateDTO(
@@ -89,7 +97,7 @@ public class TemplateService {
     // Delete Template
     // TABLE DELETION. TemplateTable, HeaderDetails, TableDetails
     @Transactional
-    public String deleteTemplate(TemplateDTO templateRequest) {
+    public NotificationDTO deleteTemplate(TemplateDTO templateRequest) {
         try {
             // templateID and userUID
             Template template = templateRepository.findByTemplateIDAndUserUID(
@@ -99,6 +107,16 @@ public class TemplateService {
 
             // Find notification
             Notifications notification = notificationsRepository.findNotificationByTemplateID(template.getTemplateID());
+
+            NotificationDTO notificationDTO = new NotificationDTO();
+            notificationDTO.setNotificationID(notificationDTO.getNotificationID());
+            notificationDTO.setTemplateID(notification.getTemplateID());
+            notificationDTO.setSmsFlag(notification.getSmsFlag());
+            notificationDTO.setWhatsAppFlag(notification.getWhatsAppFlag());
+            notificationDTO.setNotificationFlag(notification.getNotificationFlag());
+            notificationDTO.setRepeatDays(notification.getRepeatDays());
+            notificationDTO.setRepeatStartDate(notification.getRepeatStartDate().toString());
+            notificationDTO.setRepeatStartTime(notification.getRepeatStartTime().toString());
 
             if (notification != null) {
                 // Delete RepeatStatus
@@ -122,7 +140,7 @@ public class TemplateService {
             // Delete template
             templateRepository.delete(template);
 
-            return "Template and related data deleted successfully";
+            return notificationDTO;
         } catch (Exception e) {
             throw new RuntimeException("Failed to delete template. Please try again later.");
         }

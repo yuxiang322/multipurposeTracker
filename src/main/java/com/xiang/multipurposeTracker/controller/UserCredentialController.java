@@ -1,10 +1,7 @@
 package com.xiang.multipurposeTracker.controller;
 
 import com.google.firebase.auth.FirebaseAuthException;
-import com.xiang.multipurposeTracker.DTO.LoginRequestDTO;
-import com.xiang.multipurposeTracker.DTO.PasswordDTO;
-import com.xiang.multipurposeTracker.DTO.RegisterRequestDTO;
-import com.xiang.multipurposeTracker.DTO.UserDetailsDTO;
+import com.xiang.multipurposeTracker.DTO.*;
 import com.xiang.multipurposeTracker.service.UserCredentialService;
 import com.xiang.multipurposeTracker.service.FirebaseService;
 import org.slf4j.Logger;
@@ -41,15 +38,14 @@ public class UserCredentialController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody LoginRequestDTO loginRequestDTO) throws FirebaseAuthException {
-        String loginResponse = userCredentialService.loginValidation(loginRequestDTO.getUserName(), loginRequestDTO.getPassword());
+    public ResponseEntity<JwtDTO> loginUser(@RequestBody LoginRequestDTO loginRequestDTO) throws FirebaseAuthException {
+        JwtDTO loginResponse = userCredentialService.loginValidation(loginRequestDTO.getUserName(), loginRequestDTO.getPassword());
 
-        // Generate a JWT
-        if (loginResponse.equals("Invalid username or password")) {
+        if (loginResponse.getJWTMessage().equals("Invalid username or password") || loginResponse.getJWTMessage().equals("JWT generation error")) {
+
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(loginResponse);
-        }else if(loginResponse.equals("Firebase authentication error.")){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(loginResponse);
-        }else {
+
+        } else {
             return ResponseEntity.ok(loginResponse);
         }
     }

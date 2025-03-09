@@ -1,5 +1,6 @@
 package com.xiang.multipurposeTracker.controller;
 
+import com.xiang.multipurposeTracker.DTO.NotificationDTO;
 import com.xiang.multipurposeTracker.DTO.TemplateDTO;
 import com.xiang.multipurposeTracker.DTO.UserUIDRequestDTO;
 import com.xiang.multipurposeTracker.service.TemplateService;
@@ -41,14 +42,13 @@ public class TemplateController {
 
     // Delete Template
     @PostMapping("/deleteTemplate")
-    public ResponseEntity<String> deleteTemplate(@RequestBody TemplateDTO templateRequest) {
+    public ResponseEntity<NotificationDTO> deleteTemplate(@RequestBody TemplateDTO templateRequest) {
         try {
-            String responseMessage = templateService.deleteTemplate(templateRequest);
+            NotificationDTO responseMessage = templateService.deleteTemplate(templateRequest);
             return new ResponseEntity<>(responseMessage, HttpStatus.OK);
-        } catch (RuntimeException e) {
-            // Log the error for debugging
-            System.err.println("Error in controller: " + e.getMessage());
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception e) {
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
 

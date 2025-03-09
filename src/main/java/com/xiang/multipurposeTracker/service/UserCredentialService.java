@@ -3,13 +3,21 @@ package com.xiang.multipurposeTracker.service;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
+import com.xiang.multipurposeTracker.DTO.JwtDTO;
 import com.xiang.multipurposeTracker.entities.UserCredentials;
 import com.xiang.multipurposeTracker.entities.UserDetails;
 import com.xiang.multipurposeTracker.repository.UserCredentialsRepository;
 import com.xiang.multipurposeTracker.repository.UserDetailsRepository;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import javax.crypto.SecretKey;
+import java.util.Date;
 
 @Service
 public class UserCredentialService {
@@ -18,6 +26,8 @@ public class UserCredentialService {
     private UserCredentialsRepository userCredentialsRepository;
     @Autowired
     private UserDetailsRepository userDetailsRepository;
+    @Value("${jwt.secret}")
+    private String jwtSecret;
 
     @Transactional
     public String registrationValidation(String username, String password, String name, String email, String phoneNumber) {
@@ -60,26 +70,43 @@ public class UserCredentialService {
         return response;
     }
 
-    public String loginValidation(String username, String password) {
+    public JwtDTO loginValidation(String username, String password) {
         String response = null;
+        String token = null;
+
         // Validate the login
         UserCredentials userCredential = userCredentialsRepository.findByUsernameAndPassword(username, password);
         if (userCredential != null && userCredential.getPassword().equals(password)) {
             try {
-                String uid = userCredential.getUserUID();
-                // Generate token
-                response = FirebaseAuth.getInstance().createCustomToken(uid);
-            } catch (FirebaseAuthException e) {
-                e.printStackTrace();
-                response = "Firebase authentication error.";
+                token = generateJwtToken(userCredential);
+                response = "Login Successful";
+
+            } catch (Exception e) {
+                response = "JWT generation error";
+                throw new RuntimeException(e);
             }
+
         } else {
             response = "Invalid username or password";
         }
-        return response;
+
+        return new JwtDTO(response, token);
     }
 
-    public String getUserName(String userUID){
+    private String generateJwtToken(UserCredentials userCredentials) {
+        long expirationTime = 1000 * 60 * 60;
+        Date expirationDate = new Date(System.currentTimeMillis() + expirationTime);
+        SecretKey key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
+
+        return Jwts.builder()
+                .setSubject(userCredentials.getUserUID())
+                .setIssuedAt(new Date())
+                .setExpiration(expirationDate)
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    public String getUserName(String userUID) {
         // Retrieve UserCredentials by userUID
         UserCredentials userCredentials = userCredentialsRepository.findByUserUID(userUID);
 
