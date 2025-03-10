@@ -3,6 +3,7 @@ package com.xiang.multipurposeTracker.service;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserRecord;
 import com.xiang.multipurposeTracker.DTO.JwtDTO;
+import com.xiang.multipurposeTracker.controller.NotificationReportController;
 import com.xiang.multipurposeTracker.entities.UserCredentials;
 import com.xiang.multipurposeTracker.entities.UserDetails;
 import com.xiang.multipurposeTracker.repository.UserCredentialsRepository;
@@ -11,6 +12,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -34,6 +37,8 @@ public class UserCredentialService {
     private UserDetailsRepository userDetailsRepository;
     @Value("${jwt.secret}")
     private String jwtSecret;
+
+    private static final Logger logger = LoggerFactory.getLogger(UserCredentialService.class);
 
     @Transactional
     public String registrationValidation(String username, String password, String name, String email, String phoneNumber) {
@@ -106,6 +111,9 @@ public class UserCredentialService {
         ZonedDateTime expirationDateUtc = Instant.ofEpochMilli(expirationTimestamp).atZone(ZoneOffset.UTC);
 
         SecretKey key = generateSecretKey();
+
+        logger.info("expirationDateutc: {}", expirationDateUtc);
+        logger.info("issueDateutc: {}", ZonedDateTime.now(ZoneOffset.UTC).toInstant());
 
         return Jwts.builder()
                 .setSubject(userCredentials.getUserUID())
