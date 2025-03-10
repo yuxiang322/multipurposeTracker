@@ -19,6 +19,9 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -99,13 +102,15 @@ public class UserCredentialService {
 
     private String generateJwtToken(UserCredentials userCredentials) throws NoSuchAlgorithmException {
         long expirationTime = 1000 * 60 * 60;
-        Date expirationDate = new Date(System.currentTimeMillis() + expirationTime);
+        long expirationTimestamp = System.currentTimeMillis() + expirationTime;
+        ZonedDateTime expirationDateUtc = Instant.ofEpochMilli(expirationTimestamp).atZone(ZoneOffset.UTC);
+
         SecretKey key = generateSecretKey();
 
         return Jwts.builder()
                 .setSubject(userCredentials.getUserUID())
-                .setIssuedAt(new Date())
-                .setExpiration(expirationDate)
+                .setIssuedAt(Date.from(ZonedDateTime.now(ZoneOffset.UTC).toInstant()))
+                .setExpiration(Date.from(expirationDateUtc.toInstant()))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
