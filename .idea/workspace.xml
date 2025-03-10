@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d1db8eb0-4824-475c-982c-3f60315432ee" name="Changes" comment="1. Delete Sharetable to DeleteTemplate in TemplateService&#10;2. Validation for Share -&gt; only if it have at least 1 table.&#10;&#10;** POST -&gt; DELETE for delete apis**" />
+    <list default="true" id="d1db8eb0-4824-475c-982c-3f60315432ee" name="Changes" comment="1. Delete Sharetable to DeleteTemplate in TemplateService&#10;2. Validation for Share -&gt; only if it have at least 1 table.&#10;&#10;** POST -&gt; DELETE for delete apis**">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -119,14 +121,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1723333130686</updated>
-    </task>
-    <task id="LOCAL-00042" summary="1. Sharing Code Entity object updated with table &#10;&#10;** POST -&gt; DELETE for delete apis**">
-      <option name="closed" value="true" />
-      <created>1739460429272</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1739460429272</updated>
     </task>
     <task id="LOCAL-00043" summary="1. Sharing Code Entity object updated with table &#10;&#10;** POST -&gt; DELETE for delete apis**">
       <option name="closed" value="true" />
@@ -512,7 +506,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741568611244</updated>
     </task>
-    <option name="localTasksCounter" value="91" />
+    <task id="LOCAL-00091" summary="1. Delete Sharetable to DeleteTemplate in TemplateService&#10;2. Validation for Share -&gt; only if it have at least 1 table.&#10;&#10;** POST -&gt; DELETE for delete apis**">
+      <option name="closed" value="true" />
+      <created>1741569294857</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1741569294857</updated>
+    </task>
+    <option name="localTasksCounter" value="92" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

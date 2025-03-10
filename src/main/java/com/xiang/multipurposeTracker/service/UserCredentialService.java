@@ -108,17 +108,13 @@ public class UserCredentialService {
     private String generateJwtToken(UserCredentials userCredentials) throws NoSuchAlgorithmException {
         long expirationTime = 1000 * 60 * 60;
         long expirationTimestamp = System.currentTimeMillis() + expirationTime;
-        ZonedDateTime expirationDateUtc = Instant.ofEpochMilli(expirationTimestamp).atZone(ZoneOffset.UTC);
 
         SecretKey key = generateSecretKey();
 
-        logger.info("expirationDateutc: {}", expirationDateUtc);
-        logger.info("issueDateutc: {}", ZonedDateTime.now(ZoneOffset.UTC).toInstant());
-
         return Jwts.builder()
                 .setSubject(userCredentials.getUserUID())
-                .setIssuedAt(Date.from(ZonedDateTime.now(ZoneOffset.UTC).toInstant()))
-                .setExpiration(Date.from(expirationDateUtc.toInstant()))
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(expirationTimestamp))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
