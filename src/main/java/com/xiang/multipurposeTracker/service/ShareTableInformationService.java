@@ -76,6 +76,7 @@ public class ShareTableInformationService {
             logger.info("Returned ShareCode: " + returnShareInfoExist.getSharingCode());
             return returnShareInfoExist;
         } catch (Exception e) {
+            logger.info("any expception???");
             throw new RuntimeException(e);
         }
     }
