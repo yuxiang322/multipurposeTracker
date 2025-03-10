@@ -53,7 +53,6 @@ public class ShareTableInformationService {
 
                 returnShareInfoExist.setSharingCode(generatedShareCode);
                 returnShareInfoExist.setTemplateID(templateId);
-                returnShareInfoExist.setExpirationDate(expirationDate);
                 logger.info("Creating new sharing code.");
             }
 
