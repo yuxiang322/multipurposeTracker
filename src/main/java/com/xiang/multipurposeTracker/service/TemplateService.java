@@ -111,20 +111,17 @@ public class TemplateService {
             NotificationDTO notificationDTO = new NotificationDTO();
             notificationDTO.setNotificationID(notificationDTO.getNotificationID());
             notificationDTO.setTemplateID(notification.getTemplateID());
-            notificationDTO.setSmsFlag(notification.getSmsFlag());
-            notificationDTO.setWhatsAppFlag(notification.getWhatsAppFlag());
-            notificationDTO.setNotificationFlag(notification.getNotificationFlag());
-            notificationDTO.setRepeatDays(notification.getRepeatDays());
-            notificationDTO.setRepeatStartDate(notification.getRepeatStartDate().toString());
-            notificationDTO.setRepeatStartTime(notification.getRepeatStartTime().toString());
+            notificationDTO.setSmsFlag(notification.getSmsFlag() != null ? notification.getSmsFlag() : null);
+            notificationDTO.setWhatsAppFlag(notification.getWhatsAppFlag() != null ? notification.getWhatsAppFlag() : null);
+            notificationDTO.setNotificationFlag(notification.getNotificationFlag() != null ? notification.getNotificationFlag() : null);
+            notificationDTO.setRepeatDays(notification.getRepeatDays() != null ? notification.getRepeatDays() : null);
+            notificationDTO.setRepeatStartDate(notification.getRepeatStartDate() != null ? notification.getRepeatStartDate().toString() : null);
+            notificationDTO.setRepeatStartTime(notification.getRepeatStartTime() != null ? notification.getRepeatStartTime().toString() : null);
 
-            if (notification != null) {
-                // Delete RepeatStatus
-                reportStatusRepository.deleteByNotificationID(notification.getNotificationID());
-
-                // Delete notification
-                notificationsRepository.delete(notification);
-            }
+            // Delete RepeatStatus
+            reportStatusRepository.deleteByNotificationID(notification.getNotificationID());
+            // Delete notification
+            notificationsRepository.delete(notification);
 
             // Delete Share
             shareTableRepository.deleteByTemplateID(template.getTemplateID());
