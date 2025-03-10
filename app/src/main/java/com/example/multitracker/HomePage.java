@@ -1,10 +1,13 @@
 package com.example.multitracker;
 
+import static com.example.multitracker.commonUtil.GlobalConstant.userID;
+
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.multitracker.api.TableManagementAPI;
 import com.example.multitracker.api.TemplatesAPI;
+import com.example.multitracker.commonUtil.EncryptedSharePreferenceUtils;
 import com.example.multitracker.commonUtil.GlobalConstant;
 import com.example.multitracker.commonUtil.MenuUtil;
 import com.example.multitracker.commonUtil.RetrofitClientInstance;
@@ -26,6 +30,7 @@ import com.example.multitracker.dto.NotificationDTO;
 import com.example.multitracker.dto.RetrieveTableDetailsDTO;
 import com.example.multitracker.dto.TemplateDTO;
 import com.example.multitracker.dto.UserUIDRequestDTO;
+import com.example.multitracker.alarmManager.NotificationAlarmManager;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
@@ -38,18 +43,18 @@ import retrofit2.Response;
 
 public class HomePage extends AppCompatActivity {
     private List<TemplateDTO> allTemplates = new ArrayList<>();
+    private boolean fromNotification = false;
+    private boolean isFromNotificationLogin = false;
+    private boolean validateUseruidNotificationFromLogin = true;
+    private String userUIDfromForeground;
+    private int fromNotificationTemplateID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_page);
 
-
-        // Check for login(only if from NotificationBroadCastReceive)
-        // intent pass TemplateID
-        // get child linearlayout = tempalte id
-        // perform click or handle error
-
+        fromNotificationSetup();
 
         // Set up menu
         menuSetup();
@@ -62,6 +67,34 @@ public class HomePage extends AppCompatActivity {
         super.onResume();
         addTemplates();
         searchTemplate();
+    }
+
+    // from notfication
+    private void fromNotificationSetup() {
+
+        Intent intent = getIntent();
+
+        if (intent != null) {
+            fromNotification = intent.getBooleanExtra("isFromNotification", false);
+            if (fromNotification) {
+
+                fromNotificationTemplateID = intent.getIntExtra("fromNotificationAlertTemplateID", -1);
+                isFromNotificationLogin = intent.getBooleanExtra("isFromNotificationLogin", false);
+
+                if (!isFromNotificationLogin) {
+                    userID = intent.getStringExtra("fromNotificationAlertUserUID");
+                } else {
+                    userUIDfromForeground = intent.getStringExtra("userUIDfromForeground");
+
+                    if (!userID.equals(userUIDfromForeground)) {
+                        Toast.makeText(HomePage.this, "Notification does not exists for this account.", Toast.LENGTH_LONG).show();
+                        validateUseruidNotificationFromLogin = false;
+                    }
+                }
+
+                Log.d("AlarmManager", "============\nHomepage UserUID: " + userID);
+            }
+        }
     }
 
     private void menuSetup() {
@@ -78,9 +111,10 @@ public class HomePage extends AppCompatActivity {
                     return true;
                 } else if (itemId == R.id.action_signout) {
                     // Sign out from Firebase
-                    FirebaseAuth.getInstance().signOut();
+                    //FirebaseAuth.getInstance().signOut();
                     Toast.makeText(getApplicationContext(), "Signed out", Toast.LENGTH_SHORT).show();
-                    // clear constant
+                    // clear constant delete sp
+                    deleteJwtSharePreference();
                     GlobalConstant.clearUserId();
 
                     Toast.makeText(getApplicationContext(), "Signed out", Toast.LENGTH_SHORT).show();
@@ -93,6 +127,14 @@ public class HomePage extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void deleteJwtSharePreference(){
+        if (userID != null && !userID.isEmpty()) {
+            EncryptedSharePreferenceUtils.deleteEncryptedSharePreference(this, GlobalConstant.jwtSPLoginFileName, userID);
+        } else {
+            Log.e("JWTtest", "User ID is null or empty...Cannot delete JWT");
+        }
     }
 
     private void buttonSetup() {
@@ -160,7 +202,7 @@ public class HomePage extends AppCompatActivity {
 
     private void addTemplates() {
         TemplatesAPI templateAPI = RetrofitClientInstance.getRetrofitInstance().create(TemplatesAPI.class);
-        String userUID = GlobalConstant.userID;
+        String userUID = userID;
         UserUIDRequestDTO requestDTO = new UserUIDRequestDTO(userUID);
         Call<List<TemplateDTO>> call = templateAPI.getTemplates(requestDTO);
         call.enqueue(new Callback<List<TemplateDTO>>() {
@@ -196,7 +238,7 @@ public class HomePage extends AppCompatActivity {
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
             );
-            layoutParams.setMargins(16, 16, 16, 16);  // Adjust margins as needed
+            layoutParams.setMargins(16, 16, 16, 16);
             templateView.setLayoutParams(layoutParams);
 
             TextView templateName = templateView.findViewById(R.id.templateTitle);
@@ -222,9 +264,19 @@ public class HomePage extends AppCompatActivity {
                 shareTemplate(template);
             });
             scrollViewLinearLayout.addView(templateView);
+
+            if (fromNotification && validateUseruidNotificationFromLogin) {
+                Log.d("AlarmManager", "True from notification?");
+                Log.d("AlarmManager", "Tempalte ID: " + template.getTemplateID() + ". String from intent: " + fromNotificationTemplateID);
+
+                if (template.getTemplateID() == fromNotificationTemplateID) {
+                    Log.d("AlarmManager", "Perform Click???");
+                    viewDetails.performClick();
+                    break;
+                }
+            }
         }
     }
-
 
     // ADD delete sp
     private void deleteTemplate(TemplateDTO templateDTODeleteRequest) {
@@ -239,7 +291,7 @@ public class HomePage extends AppCompatActivity {
                         public void onResponse(Call<NotificationDTO> call, Response<NotificationDTO> response) {
                             if (response.isSuccessful() && response.body() != null) {
                                 // Handle success message
-                                Toast.makeText(HomePage.this,"Template Deleted", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(HomePage.this, "Template Deleted", Toast.LENGTH_SHORT).show();
                                 addTemplates();
 
                                 NotificationDTO notificationDelete = response.body();

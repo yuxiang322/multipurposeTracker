@@ -1,13 +1,21 @@
-package com.example.multitracker;
+package com.example.multitracker.alarmManager;
 
 import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
+import android.widget.RemoteViews;
 
+import androidx.core.app.NotificationCompat;
+
+import com.example.multitracker.HomePage;
+import com.example.multitracker.MainActivity;
+import com.example.multitracker.R;
 import com.example.multitracker.dto.NotificationDTO;
 
 import java.time.LocalTime;
@@ -26,7 +34,7 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
             notificationAlarmManager.restoreAlarmManager();
         }
 
-        if ("com.example.multitracker.NotificationAlarmManager".equals(intent.getAction())) {
+        if ("com.example.multitracker.managers.NotificationAlarmManager".equals(intent.getAction())) {
             Log.d("AlarmManager", "==========================\nOnReceive Action");
 
             NotificationDTO notificationDTO = intent.getParcelableExtra("notificationObject");
@@ -36,7 +44,7 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
             LocalTime repeatTime = LocalTime.parse(zonedLocalTimeString);
 
             Intent notificationIntent = new Intent(context, NotificationBroadcastReceiver.class);
-            notificationIntent.setAction("com.example.multitracker.NotificationAlarmManager");
+            notificationIntent.setAction("com.example.multitracker.managers.NotificationAlarmManager");
             notificationIntent.putExtra("notificationAlarmUID", notificationUID);
             notificationIntent.putExtra("repeatTime", zonedLocalTimeString);
             notificationIntent.putExtra("notificationTemplateID", templateID);
@@ -72,32 +80,16 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
                 notificationAlarmManager.saveAlarmManager(notificationDTO);
             }
 
-            Log.d("AlarmManager", "ONRECEIVE Notification popup");
-            // Notification popup -> TemplteDetails -> check for user login
+            Log.d("AlarmManager", "=============================\nONRECEIVE Notification popup");
             assert notificationDTO != null;
-            notificationSetup(notificationDTO.getTemplateID());
+            notificationDTO.setRepeatStartTime(repeatTime.toString());
+            String packageName = context.getPackageName();
+
+            Intent foregroundIntent = new Intent(context, ForeGroundService.class);
+            foregroundIntent.putExtra("packageName", packageName);
+            foregroundIntent.putExtra("foregroundNotificationDTO", notificationDTO);
+            context.startService(foregroundIntent);
         }
-    }
-
-    // notification compat
-   private void notificationSetup(int templateID){
-//        alarm goes off
-//        user clicks to enter app
-//                Notificationcompat
-//                  -> button listener
-//        verify the login data sp
-//        if login token not expired
-//              -> direct to homapage
-//                -> tempalteID + flag
-//        if not login
-//          -> redirect user to login page
-//            -> pass flag + tempalteID
-//         firebase redirect -> pass extra intent + Flag
-
-    // Flag check @ homepage
-    // if flag -> proceed to  the custom logic
-
-
     }
 
 }

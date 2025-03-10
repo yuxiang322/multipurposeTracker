@@ -80,17 +80,14 @@ public class RegistrationPage extends AppCompatActivity {
                 performRegistration(username, password, name, email, finalPhone);
             }
         });
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                usernameEditText.setText("");
-                passwordEditText.setText("");
-                nameEditText.setText("");
-                emailEditText.setText("");
-                phoneEditText.setText("");
-                countryCodeSpinner.setSelection(0); // Reset spinner
-                finish();
-            }
+        cancelButton.setOnClickListener(v -> {
+            usernameEditText.setText("");
+            passwordEditText.setText("");
+            nameEditText.setText("");
+            emailEditText.setText("");
+            phoneEditText.setText("");
+            countryCodeSpinner.setSelection(0); // Reset spinner
+            finish();
         });
     }
     private void performRegistration(String username, String password, String name, String email, String phone){

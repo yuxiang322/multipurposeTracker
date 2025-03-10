@@ -49,4 +49,6 @@ dependencies {
     implementation("com.github.yukuku:ambilwarna:2.0.1")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.12.5")
     implementation("org.apache.poi:poi-ooxml:5.2.3")
+    implementation("io.jsonwebtoken:jjwt:0.9.1")
+    implementation ("androidx.security:security-crypto:1.1.0-alpha03")
 }

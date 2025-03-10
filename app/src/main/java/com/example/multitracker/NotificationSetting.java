@@ -7,6 +7,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -26,6 +27,8 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.multitracker.api.NotificationReportAPI;
 import com.example.multitracker.api.UserDetailsAPI;
@@ -36,10 +39,10 @@ import com.example.multitracker.dto.NotificationReportDTO;
 import com.example.multitracker.dto.ReportStatusDTO;
 import com.example.multitracker.dto.TemplateDTO;
 import com.example.multitracker.dto.UserDetailsDTO;
+import com.example.multitracker.alarmManager.NotificationAlarmManager;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -50,6 +53,8 @@ import java.util.Locale;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import android.Manifest;
 
 public class NotificationSetting extends AppCompatActivity {
     private TemplateDTO templateDTOIntent;
@@ -507,13 +512,22 @@ public class NotificationSetting extends AppCompatActivity {
 
     private void saveNotificationReport() {
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-            if(alarmManager != null && !alarmManager.canScheduleExactAlarms()){
+            if (alarmManager != null && !alarmManager.canScheduleExactAlarms()) {
 
                 Intent alarmPermissionIntent = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
                 requestAlarmPermission.launch(alarmPermissionIntent);
+                return;
+            }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 101);
+
                 return;
             }
         }
@@ -540,13 +554,14 @@ public class NotificationSetting extends AppCompatActivity {
         String chipDaysString = chipDays.toString();
 
         notificationUpdate.setNotificationID(notificationID);
+        notificationUpdate.setUserUID(userID);
         notificationUpdate.setTemplateID(templateDTOIntent.getTemplateID());
         notificationUpdate.setNotificationFlag(notificationSwitch.isChecked());
         notificationUpdate.setSmsFlag(smsCheckbox.isChecked());
         notificationUpdate.setWhatsAppFlag(whatappsCheckbox.isChecked());
         notificationUpdate.setRepeatDays(chipDaysString);
 
-        if(notificationTime.getText() != null || !notificationTime.getText().toString().isEmpty()){
+        if (notificationTime.getText() != null || !notificationTime.getText().toString().isEmpty()) {
             LocalDateTime notiLocalDateTime = TimeUtil.convertToUTC(LocalDate.now(), LocalTime.parse(notificationTime.getText().toString()));
             notificationUpdate.setRepeatStartDate(notiLocalDateTime.toLocalDate().toString());
             notificationUpdate.setRepeatStartTime(notiLocalDateTime.toLocalTime().toString());
@@ -564,7 +579,7 @@ public class NotificationSetting extends AppCompatActivity {
         reportUpdate.setReportFlag(reportSwitch.isChecked());
         reportUpdate.setRepeatIntervalType(selectedInterval);
 
-        if(reportStatusStartDate.getText() != null && reportStatusTime.getText() != null && !reportStatusStartDate.getText().toString().isEmpty() && !reportStatusTime.getText().toString().isEmpty()){
+        if (reportStatusStartDate.getText() != null && reportStatusTime.getText() != null && !reportStatusStartDate.getText().toString().isEmpty() && !reportStatusTime.getText().toString().isEmpty()) {
             LocalDateTime reportDateTime = TimeUtil.convertToUTC(LocalDate.parse(reportStatusStartDate.getText().toString()), LocalTime.parse(reportStatusTime.getText().toString()));
             reportUpdate.setRepeatStartDate(reportDateTime.toLocalDate().toString());
             reportUpdate.setRepeatStartTime(reportDateTime.toLocalTime().toString());

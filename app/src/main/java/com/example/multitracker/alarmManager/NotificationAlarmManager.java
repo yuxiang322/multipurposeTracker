@@ -1,4 +1,4 @@
-package com.example.multitracker;
+package com.example.multitracker.alarmManager;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.os.Parcelable;
 import android.util.Log;
 
 import com.example.multitracker.commonUtil.TimeUtil;
@@ -23,6 +22,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class NotificationAlarmManager {
     private final Context context;
@@ -48,7 +48,7 @@ public class NotificationAlarmManager {
         int notificationUID = notificationAlarm.getNotificationID();
 
         Intent notificationIntent = new Intent(context, NotificationBroadcastReceiver.class);
-        notificationIntent.setAction("com.example.multitracker.NotificationAlarmManager");
+        notificationIntent.setAction("com.example.multitracker.managers.NotificationAlarmManager");
         notificationIntent.putExtra("notificationAlarmUID", notificationUID);
         notificationIntent.putExtra("repeatTime", zonedNotificationDateTime.toLocalDateTime().toLocalTime().toString());
         notificationIntent.putExtra("notificationTemplateID", notificationAlarm.getTemplateID());
@@ -116,30 +116,12 @@ public class NotificationAlarmManager {
         }
 
         // delete sharepreference
+        String key = String.valueOf(notificationAlarm.getNotificationID());
         SharedPreferences alarmSharedPreferences = context.getSharedPreferences("alarmManager", Context.MODE_PRIVATE);
-        String serializedPreference = alarmSharedPreferences.getString("alarmManager", "");
 
-        List<NotificationDTO> tempAlarmList;
-        Gson gson = new Gson();
-        Type listType = new TypeToken<List<NotificationDTO>>() {
-        }.getType();
-
-        tempAlarmList = serializedPreference.isEmpty() ? new ArrayList<>() : gson.fromJson(serializedPreference, listType);
-
-        if (tempAlarmList != null) {
-            Iterator<NotificationDTO> iterator = tempAlarmList.iterator();
-
-            while (iterator.hasNext()) {
-                NotificationDTO notificationDTO = iterator.next();
-                Log.d("AlarmManagerDelete", "Notification: " + notificationDTO.getNotificationID() + " deleted....");
-                if (notificationDTO.getNotificationID() == notificationAlarm.getNotificationID()) {
-                    iterator.remove();
-                    break;
-                }
-            }
-        }
         SharedPreferences.Editor editor = alarmSharedPreferences.edit();
-        editor.putString("alarmManager", gson.toJson(tempAlarmList));
+        editor.remove(key);
+        Log.d("AlarmManager", "SharePreference. Notificaition number: " + key + " Deleted.\n");
         editor.apply();
     }
 
@@ -147,56 +129,37 @@ public class NotificationAlarmManager {
         Log.d("AlarmManager", "==========================\nSaving alarm sharepreference");
         Log.d("AlarmOnReceiveBoot", "==========================\nSaving alarm sharepreference");
         SharedPreferences alarmSharedPreferences = context.getSharedPreferences("alarmManager", Context.MODE_PRIVATE);
-        String serializedPreference = alarmSharedPreferences.getString("alarmManager", "");
 
-        List<NotificationDTO> tempAlarmList;
+        String key = String.valueOf(notificationSave.getNotificationID());
+        Log.d("AlarmManager", "SharePreference. Notificaition number: " + notificationSave.getNotificationID() + "\n");
+        Log.d("AlarmOnReceiveBoot", "SharePreference. Notificaition number: " + notificationSave.getNotificationID() + "\n");
+
         Gson gson = new Gson();
-        Type listType = new TypeToken<List<NotificationDTO>>() {
-        }.getType();
-
-        tempAlarmList = serializedPreference.isEmpty() ? new ArrayList<>() : gson.fromJson(serializedPreference, listType);
-
-        if (tempAlarmList != null) {
-            Iterator<NotificationDTO> iterator = tempAlarmList.iterator();
-
-            while (iterator.hasNext()) {
-                NotificationDTO notificationDTO = iterator.next();
-                Log.d("AlarmManager", "SharePreference. Notificaition number: " + notificationDTO.getNotificationID() + "\n");
-                Log.d("AlarmOnReceiveBoot", "SharePreference. Notificaition number: " + notificationDTO.getNotificationID() + "\n");
-                if (notificationDTO.getNotificationID() == notificationSave.getNotificationID()) {
-                    Log.d("AlarmManager", "SharePreference. Notificaition number(BREAK): " + notificationDTO.getNotificationID() + "\n");
-                    Log.d("AlarmOnReceiveBoot", "SharePreference. Notificaition number(BREAK): " + notificationDTO.getNotificationID() + "\n");
-                    iterator.remove();
-                    break;
-                }
-            }
-            tempAlarmList.add(notificationSave);
-        }
 
         SharedPreferences.Editor editor = alarmSharedPreferences.edit();
-        editor.putString("alarmManager", gson.toJson(tempAlarmList));
+        editor.putString(key, gson.toJson(notificationSave));
         editor.apply();
     }
 
     public void restoreAlarmManager() {
         Log.d("AlarmOnReceiveBoot", "REBOOT Restore Alarm");
         SharedPreferences alarmSharedPreferences = context.getSharedPreferences("alarmManager", Context.MODE_PRIVATE);
-        String serializedPreference = alarmSharedPreferences.getString("alarmManager", "");
 
-        List<NotificationDTO> tempAlarmList;
-        Gson gson = new Gson();
-        Type listType = new TypeToken<List<NotificationDTO>>() {
-        }.getType();
+        Map<String, ?> allAlarm = alarmSharedPreferences.getAll();
 
-        tempAlarmList = serializedPreference.isEmpty() ? new ArrayList<>() : gson.fromJson(serializedPreference, listType);
+        for(Map.Entry<String,?> alarm : allAlarm.entrySet()){
+            String key = alarm.getKey();
+            String serializedPreferenceValue = (String) alarm.getValue();
 
-        if (tempAlarmList != null) {
-            for (NotificationDTO alarmDTO : tempAlarmList) {
-                Log.d("AlarmOnReceiveBoot", "Restoring Alarm for notification ID: " + alarmDTO.getNotificationID());
-                setUpAlarmManager(alarmDTO);
+            if(serializedPreferenceValue != null){
+                Gson gson = new Gson();
+                NotificationDTO notificationRestore = gson.fromJson(serializedPreferenceValue, NotificationDTO.class);
+
+                if(notificationRestore != null){
+                    Log.d("AlarmOnReceiveBoot", "Restoring Alarm for KEY : " + key);
+                    setUpAlarmManager(notificationRestore);
+                }
             }
-        } else {
-            Log.w("AlarmOnReceiveBoot", "Restore failed");
         }
     }
 
