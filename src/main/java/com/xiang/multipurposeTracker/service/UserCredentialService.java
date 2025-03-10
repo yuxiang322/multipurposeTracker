@@ -16,6 +16,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.UUID;
 
@@ -94,10 +97,10 @@ public class UserCredentialService {
         return new JwtDTO(response, token);
     }
 
-    private String generateJwtToken(UserCredentials userCredentials) {
+    private String generateJwtToken(UserCredentials userCredentials) throws NoSuchAlgorithmException {
         long expirationTime = 1000 * 60 * 60;
         Date expirationDate = new Date(System.currentTimeMillis() + expirationTime);
-        SecretKey key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
+        SecretKey key = generateSecretKey();
 
         return Jwts.builder()
                 .setSubject(userCredentials.getUserUID())
@@ -105,6 +108,13 @@ public class UserCredentialService {
                 .setExpiration(expirationDate)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
+    }
+
+    private SecretKey generateSecretKey() throws NoSuchAlgorithmException {
+        MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
+        byte[] hashedBtyes = sha256.digest(jwtSecret.getBytes());
+
+        return new SecretKeySpec(hashedBtyes, SignatureAlgorithm.HS256.getJcaName());
     }
 
     public String getUserName(String userUID) {
