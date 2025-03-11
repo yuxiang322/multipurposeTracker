@@ -122,14 +122,6 @@
       <option name="presentableId" value="Default" />
       <updated>1723333130686</updated>
     </task>
-    <task id="LOCAL-00046" summary="1. Sharing Code Entity object updated with table &#10;&#10;** POST -&gt; DELETE for delete apis**">
-      <option name="closed" value="true" />
-      <created>1739510513512</created>
-      <option name="number" value="00046" />
-      <option name="presentableId" value="LOCAL-00046" />
-      <option name="project" value="LOCAL" />
-      <updated>1739510513512</updated>
-    </task>
     <task id="LOCAL-00047" summary="1. Sharing Code Entity object updated with table &#10;&#10;** POST -&gt; DELETE for delete apis**">
       <option name="closed" value="true" />
       <created>1739510873514</created>
@@ -514,7 +506,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741645856683</updated>
     </task>
-    <option name="localTasksCounter" value="95" />
+    <task id="LOCAL-00095" summary="1. Delete Sharetable to DeleteTemplate in TemplateService&#10;2. Validation for Share -&gt; only if it have at least 1 table.&#10;&#10;** POST -&gt; DELETE for delete apis**">
+      <option name="closed" value="true" />
+      <created>1741647109206</created>
+      <option name="number" value="00095" />
+      <option name="presentableId" value="LOCAL-00095" />
+      <option name="project" value="LOCAL" />
+      <updated>1741647109207</updated>
+    </task>
+    <option name="localTasksCounter" value="96" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
