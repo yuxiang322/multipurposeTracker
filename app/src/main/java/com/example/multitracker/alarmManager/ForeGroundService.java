@@ -22,6 +22,8 @@ import com.example.multitracker.commonUtil.GlobalConstant;
 import com.example.multitracker.commonUtil.JwtUtils;
 import com.example.multitracker.dto.NotificationDTO;
 
+import java.util.Map;
+
 public class ForeGroundService extends Service {
 
     @Override
@@ -46,10 +48,15 @@ public class ForeGroundService extends Service {
         RemoteViews remoteViews = new RemoteViews(packageName, R.layout.notification_custom_alert);
         remoteViews.setTextViewText(R.id.notificationMessage, notificationDetails);
 
-        String spJwtToken = EncryptedSharePreferenceUtils.getEncryptedSharePreference(this, GlobalConstant.jwtSPLoginFileName, notificationDTO.getUserUID());
+        Map<String,?> spJwtTokenMap = EncryptedSharePreferenceUtils.getEncryptedSharePreference(this, GlobalConstant.jwtSPLoginFileName, notificationDTO.getUserUID());
+        String spJwtToken = null;
+
+        if(spJwtTokenMap !=null){
+            spJwtToken = (String) spJwtTokenMap.get(notificationDTO.getUserUID());
+        }
 
         Intent intent;
-        if (spJwtToken != null ||!JwtUtils.isTokenExpired(spJwtToken)) {
+        if (spJwtToken != null && !JwtUtils.isTokenExpired(spJwtToken)) {
             intent = new Intent(this, HomePage.class);
         } else {
             intent = new Intent(this, MainActivity.class);

@@ -1,19 +1,17 @@
 package com.example.multitracker.dto;
 
-import java.time.LocalDateTime;
-
 public class ShareTableDTO {
+
     private String sharingCode;
     private int templateID;
     private String templateDetails;
-    private LocalDateTime expirationDate;
+    private String expirationDate;
 
     public ShareTableDTO(){}
 
-    public ShareTableDTO(String sharingCode, int templateID, String templateDetails, LocalDateTime expirationDate) {
+    public ShareTableDTO(String sharingCode, int templateID, String expirationDate) {
         this.sharingCode = sharingCode;
         this.templateID = templateID;
-        this.templateDetails = templateDetails;
         this.expirationDate = expirationDate;
     }
 
@@ -41,11 +39,11 @@ public class ShareTableDTO {
         this.templateDetails = templateDetails;
     }
 
-    public LocalDateTime getExpirationDate() {
+    public String getExpirationDate() {
         return expirationDate;
     }
 
-    public void setExpirationDate(LocalDateTime expirationDate) {
+    public void setExpirationDate(String expirationDate) {
         this.expirationDate = expirationDate;
     }
 }

@@ -14,6 +14,7 @@ import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 
 import java.lang.reflect.Type;
+import java.sql.Array;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -97,7 +98,12 @@ public class NotificationAlarmManager {
     public void deleteAlarmManager(NotificationDTO notificationAlarm) {
         Log.d("AlarmManagerDelete", "==========================\nDelete alarm sharepreference");
         int notificationUID = notificationAlarm.getNotificationID();
-        String[] dayRepeat = notificationAlarm.getRepeatDays().split(",");
+
+        String[] dayRepeat = new String[0];;
+
+        if(notificationAlarm.getRepeatDays() != null){
+            dayRepeat = notificationAlarm.getRepeatDays().split(",");
+        }
 
         Intent notificationIntent = new Intent(context, NotificationBroadcastReceiver.class);
 

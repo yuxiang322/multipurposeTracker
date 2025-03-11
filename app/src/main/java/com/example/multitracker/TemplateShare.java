@@ -6,6 +6,8 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +29,6 @@ public class TemplateShare extends DialogFragment {
     private TemplateDTO templateShared;
     private ShareTableDTO sharedInfo;
     private DialogFragment dialogFragment;
-
     private TextView shareCode;
 
     @NonNull
@@ -38,8 +39,7 @@ public class TemplateShare extends DialogFragment {
         templateShared = getArguments().getParcelable("shareTemplate");
 
         shareCode = customDialogView.findViewById(R.id.shareCodeText);
-
-        shareCode.setText("Loading...");
+        shareCode.setText("Loading");
 
         if (getArguments() != null) {
             templateShared = (TemplateDTO) getArguments().getParcelable("shareTemplate");
@@ -49,10 +49,8 @@ public class TemplateShare extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(customDialogView)
                 .setPositiveButton("Copy", (dialog, id) -> {
-                    // Copy text
-                    String shareCodeText = shareCode.getText().toString();
                     ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText("shareCode", shareCodeText);
+                    ClipData clip = ClipData.newPlainText("shareCode", shareCode.getText().toString());
                     clipboard.setPrimaryClip(clip);
                     Toast.makeText(getActivity(), "Share code copied to clipboard", Toast.LENGTH_SHORT).show();
                 })
@@ -67,7 +65,7 @@ public class TemplateShare extends DialogFragment {
     }
 
     // API call
-    private void shareInfoAPI(final TextView shareCode) {
+    private void shareInfoAPI(TextView shareCode) {
         ShareTableAPI shareTableAPI = RetrofitClientInstance.getRetrofitInstance().create(ShareTableAPI.class);
         Call<ShareTableDTO> call = shareTableAPI.getShareInfo(templateShared);
 
@@ -79,7 +77,8 @@ public class TemplateShare extends DialogFragment {
                     Toast.makeText(getActivity(), "Response Success", Toast.LENGTH_SHORT).show();
 
                     if (sharedInfo != null) {
-                        shareCode.setText(sharedInfo.getSharingCode());
+                        setSharingCode(sharedInfo);
+                        Log.d("sharecodeTest", "API response not NULL setting sharecode");
                     }
                 } else {
                     Toast.makeText(getActivity(), "Failed to get share info", Toast.LENGTH_SHORT).show();
@@ -88,7 +87,12 @@ public class TemplateShare extends DialogFragment {
 
             @Override
             public void onFailure(Call<ShareTableDTO> call, Throwable t) {
+                Log.d("sharecodeTest", " FAILURE: " + t.getMessage());
             }
         });
+    }
+
+    private void setSharingCode(ShareTableDTO sharedInfo){
+        shareCode.setText(sharedInfo.getSharingCode());
     }
 }

@@ -19,10 +19,14 @@ import com.example.multitracker.commonUtil.GlobalConstant;
 import com.example.multitracker.commonUtil.JwtUtils;
 import com.example.multitracker.commonUtil.PasswordEncryption;
 import com.example.multitracker.commonUtil.RetrofitClientInstance;
+import com.example.multitracker.commonUtil.TimeUtil;
 import com.example.multitracker.dto.JwtDTO;
 import com.example.multitracker.dto.LoginRequestDTO;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Date;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,19 +36,64 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private EditText usernameEditText;
     private EditText passwordEditText;
+    private boolean isFromNotification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //mAuth = FirebaseAuth.getInstance();
+        Intent getIntent = getIntent();
+        if(getIntent != null){
+            isFromNotification = getIntent.getBooleanExtra("isFromNotification", false);
+        }
+
+        // verify login session
+        if(!isFromNotification){
+            verifyLoginSession();
+        }
+
         usernameEditText = findViewById(R.id.username);
         passwordEditText = findViewById(R.id.password);
         // set up login api
         setupLogin();
         // set up register
         setupRegistration();
+    }
+
+    private void verifyLoginSession() {
+        Map<String, ?> jwtTokenMap = EncryptedSharePreferenceUtils.getEncryptedSharePreference(this, GlobalConstant.jwtSPLoginFileName, null);
+
+        if (jwtTokenMap != null && !jwtTokenMap.isEmpty()) {
+            Log.d("JwtLoginTest", "=========\n Token != null, token not empty??");
+            String latestToken = null;
+            long latestExpiryDate = 0;
+            String latestUserUID = null;
+
+            for (Map.Entry<String, ?> entry : jwtTokenMap.entrySet()) {
+                Log.d("JwtLoginTest", "Looping my map???");
+                String token = (String) entry.getValue();
+                Log.d("JwtLoginTest", "token value???" + token);
+                long expiryDate = JwtUtils.getTokenExpiry(token);
+                Log.d("JwtLoginTest", "ExpiryDate???" + new Date(expiryDate));
+
+                if (!JwtUtils.isTokenExpired(token)) {
+
+                    if (latestExpiryDate == 0 || expiryDate > latestExpiryDate) {
+                        latestExpiryDate = expiryDate;
+                        latestToken = token;
+                        latestUserUID = JwtUtils.extractUserUID(token);
+                        Log.d("JwtLoginTest", "LatestExpiryDate INITIAL" + new Date(latestExpiryDate));
+                    }
+                }
+            }
+
+            if (TimeUtil.isDateValid(latestExpiryDate) && latestUserUID != null && latestToken != null) {
+                GlobalConstant.userID = latestUserUID;
+                Log.d("JwtLoginTest", "Token not expired, Lastest user login: " + latestUserUID);
+                redirectToHomepageEmptyIntent();
+            }
+        }
     }
 
     private void setupRegistration() {
@@ -140,33 +189,35 @@ public class MainActivity extends AppCompatActivity {
         EncryptedSharePreferenceUtils.storeEncryptedSharePreference(this, GlobalConstant.jwtSPLoginFileName, GlobalConstant.userID, responseJWT.getToken());
     }
 
-    private void homePageIntentFromNotification(){
-        boolean fromNotification = false;
+    private void homePageIntentFromNotification() {
         String userUIDfromForeground = null;
         int fromNotificationTemplateID = -1;
 
         Intent getIntent = getIntent();
 
-        if(getIntent != null){
-            fromNotification = getIntent.getBooleanExtra("isFromNotification", false);
-            fromNotificationTemplateID = getIntent.getIntExtra("fromNotificationAlertTemplateID",-1);
+        if (getIntent != null) {
+            fromNotificationTemplateID = getIntent.getIntExtra("fromNotificationAlertTemplateID", -1);
             userUIDfromForeground = getIntent.getStringExtra("fromNotificationAlertUserUID");
         }
 
-        if(fromNotification){
+        if (isFromNotification) {
             Intent homePageIntent = new Intent(MainActivity.this, HomePage.class);
             homePageIntent.putExtra("fromNotificationAlertTemplateID", fromNotificationTemplateID);
             homePageIntent.putExtra("userUIDfromForeground", userUIDfromForeground);
-            homePageIntent.putExtra("isFromNotification", fromNotification);
+            homePageIntent.putExtra("isFromNotification", isFromNotification);
             homePageIntent.putExtra("isFromNotificationLogin", true);
 
             startActivity(homePageIntent);
             finish();
-        }else{
-            Intent homePageIntent = new Intent(MainActivity.this, HomePage.class);
-            startActivity(homePageIntent);
-            finish();
+        } else {
+            redirectToHomepageEmptyIntent();
         }
+    }
+
+    private void redirectToHomepageEmptyIntent() {
+        Intent homePageIntent = new Intent(MainActivity.this, HomePage.class);
+        startActivity(homePageIntent);
+        finish();
     }
 
     private void clearCredentials() {

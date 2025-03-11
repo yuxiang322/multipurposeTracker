@@ -1,5 +1,7 @@
 package com.example.multitracker.commonUtil;
 
+import android.util.Log;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -32,5 +34,13 @@ public class TimeUtil {
             return utcZoneDateTime.withZoneSameInstant(ZoneId.systemDefault());
         }
         return null;
+    }
+
+    public static boolean isDateValid(long dateToCompare){
+        if(dateToCompare != 0){
+            Log.d("JWTtest", "isDateValid return??? value: " + (dateToCompare > System.currentTimeMillis()));
+            return dateToCompare > System.currentTimeMillis();
+        }
+        return false;
     }
 }

@@ -69,11 +69,11 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                     if (alarmManager.canScheduleExactAlarms()) {
                         alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent);
-                        Log.d("AlarmManager", "Alarm S+ set for notificaiton pendingIntentKey: " + pendingIntentKey + " | Date: " + new Date(triggerTime));
+                        Log.d("AlarmManager", "Alarm S+ set NEXT for notificaiton pendingIntentKey: " + pendingIntentKey + " | Date TriggerTime: " + new Date(triggerTime));
                     }
                 } else {
                     alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent);
-                    Log.d("AlarmManager", "Alarm set for notificaiton pendingIntentKey: " + pendingIntentKey + " | Date: " + new Date(triggerTime));
+                    Log.d("AlarmManager", "Alarm set NEXT for notificaiton pendingIntentKey: " + pendingIntentKey + " | Date: " + new Date(triggerTime));
                 }
                 assert notificationDTO != null;
                 notificationDTO.setRepeatStartDate(new Date(triggerTime).toString());

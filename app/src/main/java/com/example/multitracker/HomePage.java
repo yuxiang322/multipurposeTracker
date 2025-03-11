@@ -87,7 +87,7 @@ public class HomePage extends AppCompatActivity {
                     userUIDfromForeground = intent.getStringExtra("userUIDfromForeground");
 
                     if (!userID.equals(userUIDfromForeground)) {
-                        Toast.makeText(HomePage.this, "Notification does not exists for this account.", Toast.LENGTH_LONG).show();
+                        runWrongAccountDialog();
                         validateUseruidNotificationFromLogin = false;
                     }
                 }
@@ -97,41 +97,48 @@ public class HomePage extends AppCompatActivity {
         }
     }
 
+    private void runWrongAccountDialog(){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setTitle("Wrong Account");
+        alertDialog.setMessage("The notification does not exist for this account. Please check your login.");
+        alertDialog.setPositiveButton("OK", ((dialog, which) -> {
+            dialog.dismiss();
+        }));
+        alertDialog.show();
+    }
+
     private void menuSetup() {
         ImageButton menuButton = findViewById(R.id.menuButton);
-        MenuUtil.setupMenuButton(this, R.id.menuButton, R.menu.homepage_menu, new MenuUtil.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                int itemId = item.getItemId();
+        MenuUtil.setupMenuButton(this, R.id.menuButton, R.menu.homepage_menu, item -> {
+            int itemId = item.getItemId();
 
-                if (itemId == R.id.action_notification) {
-                    Toast.makeText(getApplicationContext(), "Notifications Management selected", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(HomePage.this, ManagementPage.class);
-                    startActivity(intent);
-                    return true;
-                } else if (itemId == R.id.action_signout) {
-                    // Sign out from Firebase
-                    //FirebaseAuth.getInstance().signOut();
-                    Toast.makeText(getApplicationContext(), "Signed out", Toast.LENGTH_SHORT).show();
-                    // clear constant delete sp
-                    deleteJwtSharePreference();
-                    GlobalConstant.clearUserId();
+            if (itemId == R.id.action_notification) {
+                Toast.makeText(getApplicationContext(), "Notifications Management selected", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(HomePage.this, ManagementPage.class);
+                startActivity(intent);
+                return true;
+            } else if (itemId == R.id.action_signout) {
+                // Sign out from Firebase
+                //FirebaseAuth.getInstance().signOut();
+                Toast.makeText(getApplicationContext(), "Signed out", Toast.LENGTH_SHORT).show();
+                // clear constant delete sp
+                deleteJwtSharePreference();
+                GlobalConstant.clearUserId();
 
-                    Toast.makeText(getApplicationContext(), "Signed out", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(HomePage.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                    return true;
-                } else {
-                    return false;
-                }
+                Toast.makeText(getApplicationContext(), "Signed out", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(HomePage.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
+            } else {
+                return false;
             }
         });
     }
 
     private void deleteJwtSharePreference(){
         if (userID != null && !userID.isEmpty()) {
-            EncryptedSharePreferenceUtils.deleteEncryptedSharePreference(this, GlobalConstant.jwtSPLoginFileName, userID);
+            EncryptedSharePreferenceUtils.deleteEncryptedSharePreference(this, GlobalConstant.jwtSPLoginFileName, null);
         } else {
             Log.e("JWTtest", "User ID is null or empty...Cannot delete JWT");
         }
@@ -271,6 +278,7 @@ public class HomePage extends AppCompatActivity {
 
                 if (template.getTemplateID() == fromNotificationTemplateID) {
                     Log.d("AlarmManager", "Perform Click???");
+                    fromNotification = false;
                     viewDetails.performClick();
                     break;
                 }

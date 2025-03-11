@@ -26,6 +26,25 @@ public class JwtUtils {
         }
     }
 
+    public static long getTokenExpiry(String jwtToken){
+        try{
+            String[] tokenParts = jwtToken.split("\\.");
+
+            if (tokenParts.length != 3) return 0;
+
+            String payload = new String(Base64.decode(tokenParts[1], Base64.DEFAULT));
+
+            JSONObject jsonObject = new JSONObject(payload);
+            String expiryDate = jsonObject.optString("exp");
+
+            return Long.parseLong(expiryDate) * 1000;
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
     public static boolean isTokenExpired(String jwtContent){
         try{
             String[] tokenParts = jwtContent.split("\\.");
@@ -39,9 +58,10 @@ public class JwtUtils {
             long expiryTimestamp = Long.parseLong(expiryDate) * 1000;
 
             Date expiredDate = new Date(expiryTimestamp);
-            Log.d("JWTtest", "JWT expiry date extraction from sharepreference : " + expiredDate);
+            Log.d("JWTtest", "isTokenExpired JWT expiry date extraction from sharepreference : " + expiredDate);
 
             if(expiredDate.getTime() > System.currentTimeMillis()){
+                Log.d("JWTtest", "isTokenExpired return TRUE");
                 return false;
             }
 
