@@ -48,7 +48,7 @@ public class NotificationService {
 
     // updating
     @Transactional
-    public Boolean updateNotification(NotificationDTO notificationUpdate) {
+    public boolean updateNotification(NotificationDTO notificationUpdate) {
         AtomicBoolean isUpdated = new AtomicBoolean(false);
 
         try {

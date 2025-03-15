@@ -4,7 +4,7 @@ package com.xiang.multipurposeTracker.DTO;
 public class ReportStatusDTO {
     private int reportID;
     private int notificationID;
-    private Boolean reportFlag;
+    private boolean reportFlag;
     private String repeatInterval;
     private String repeatStartDate;
     private String repeatStartTime;
@@ -29,11 +29,11 @@ public class ReportStatusDTO {
         this.notificationID = notificationID;
     }
 
-    public Boolean getReportFlag() {
+    public boolean getReportFlag() {
         return reportFlag;
     }
 
-    public void setReportFlag(Boolean reportFlag) {
+    public void setReportFlag(boolean reportFlag) {
         this.reportFlag = reportFlag;
     }
 

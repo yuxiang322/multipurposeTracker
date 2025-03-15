@@ -45,7 +45,7 @@ public class ReportStatusService {
 
     // updating
     @Transactional
-    public Boolean updateReport(ReportStatusDTO reportStatusUpdate) {
+    public boolean updateReport(ReportStatusDTO reportStatusUpdate) {
         try {
             AtomicBoolean isUpdated = new AtomicBoolean(false);
 

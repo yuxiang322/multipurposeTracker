@@ -4,9 +4,9 @@ import com.xiang.multipurposeTracker.DTO.NotificationDTO;
 import com.xiang.multipurposeTracker.DTO.NotificationReportDTO;
 import com.xiang.multipurposeTracker.DTO.ReportStatusDTO;
 import com.xiang.multipurposeTracker.DTO.TemplateDTO;
+import com.xiang.multipurposeTracker.service.EmailSchedulingService;
 import com.xiang.multipurposeTracker.service.NotificationService;
 import com.xiang.multipurposeTracker.service.ReportStatusService;
-import com.xiang.multipurposeTracker.service.ShareTableInformationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +26,8 @@ public class NotificationReportController {
     private NotificationService notificationService;
     @Autowired
     private ReportStatusService reportStatusService;
+    @Autowired
+    private EmailSchedulingService emailSchedulingService;
 
     private static final Logger logger = LoggerFactory.getLogger(NotificationReportController.class);
 
@@ -51,9 +53,11 @@ public class NotificationReportController {
     @PostMapping("/updateNotificationReport")
     public ResponseEntity<String> updateNotification(@RequestBody NotificationReportDTO changeNotification){
 
-        Boolean notificationResponse = notificationService.updateNotification(changeNotification.getNotificationDTO());
-        Boolean reportResponse = reportStatusService.updateReport(changeNotification.getReportStatusDTO());
-        logger.info("Notification boolean: " + notificationResponse.toString() + "\n Report Boolean: " + reportResponse.toString());
+        boolean notificationResponse = notificationService.updateNotification(changeNotification.getNotificationDTO());
+        boolean reportResponse = reportStatusService.updateReport(changeNotification.getReportStatusDTO());
+        //boolean scheduleEmailForReport = emailSchedulingService.scheduleEmail(changeNotification.getReportStatusDTO());
+        emailSchedulingService.testSchedulingEmail();
+
         if(notificationResponse && reportResponse){
             return ResponseEntity.ok("Updated");
         }else{
