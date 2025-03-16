@@ -3,12 +3,12 @@ package com.xiang.multipurposeTracker.service;
 import com.xiang.multipurposeTracker.DTO.NotificationDTO;
 import com.xiang.multipurposeTracker.DTO.NotificationReportDTO;
 import com.xiang.multipurposeTracker.DTO.ReportStatusDTO;
-import com.xiang.multipurposeTracker.component.TaskSchedulerConfig;
 import com.xiang.multipurposeTracker.entities.UserDetails;
 import com.xiang.multipurposeTracker.repository.UserDetailsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +26,8 @@ public class EmailSchedulingService {
     @Autowired
     private UserDetailsRepository userDetailsRepository;
     @Autowired
-    private TaskSchedulerConfig taskScheduler;
+    private TaskScheduler taskScheduler;
+
     private List<ScheduledFuture<?>> scheduledTasks = new ArrayList<>();
 
     @Async
@@ -65,7 +66,7 @@ public class EmailSchedulingService {
                 }
             };
 
-            ScheduledFuture<?> scheduledTask = taskScheduler.taskScheduler().scheduleAtFixedRate(emailTask, firstInstance, Duration.ofMillis(repeatIntervalMilli));
+            ScheduledFuture<?> scheduledTask = taskScheduler.scheduleAtFixedRate(emailTask, firstInstance, Duration.ofMillis(repeatIntervalMilli));
             scheduledTasks.add(scheduledTask);
 
             emailScheduled = true;
