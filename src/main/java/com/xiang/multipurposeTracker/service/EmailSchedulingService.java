@@ -16,6 +16,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.time.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -31,10 +32,10 @@ public class EmailSchedulingService {
     private UserDetailsRepository userDetailsRepository;
     @Autowired
     private TaskScheduler taskScheduler;
-    private final Map<String, ScheduledFuture<?>> scheduledTaskCheckList = new ConcurrentHashMap<>();
-    @Autowired
-    private EmailSchedulingRepository emailSchedulingRepository;
+//    @Autowired
+//    private EmailSchedulingRepository emailSchedulingRepository;
 
+    private final Map<String, ScheduledFuture<?>> scheduledTaskCheckList = new ConcurrentHashMap<>();
 
     @Async
     public CompletableFuture<Boolean> scheduleEmail(NotificationReportDTO notificationReportDTO) {
@@ -111,9 +112,9 @@ public class EmailSchedulingService {
 
     public void restoreEmailScheduling() {
         try{
-            List<EmailSchedulingDTO> allEmailToBeScheduled = emailSchedulingRepository.findAllEmailToBeScheduled();
+            List<EmailSchedulingDTO> allEmailToBeScheduled = null;
 
-            if(!allEmailToBeScheduled.isEmpty()){
+            if(allEmailToBeScheduled != null){
                 System.out.println("========================List is not empty.");
                 for(EmailSchedulingDTO currentEmail : allEmailToBeScheduled){
 

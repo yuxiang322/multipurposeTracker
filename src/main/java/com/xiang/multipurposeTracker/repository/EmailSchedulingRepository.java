@@ -11,9 +11,9 @@ import java.util.List;
 @Repository
 public interface EmailSchedulingRepository extends JpaRepository<Notifications, Integer> {
 
-    @Query("SELECT new com.example.EmailSchedulingDTO(rs.reportFlag, rs.repeatStartDate, rs.repeatStartTime, rs.repeatInterval, n.userUID) " +
-            "FROM Notifications n " +
-            "INNER JOIN Report_Status rs ON n.NotificationID = rs.NotificationID")
-    List<EmailSchedulingDTO> findAllEmailToBeScheduled();
+//    @Query("SELECT new com.example.EmailSchedulingDTO(rs.reportFlag, rs.repeatStartDate, rs.repeatStartTime, rs.repeatInterval, n.userUID) " +
+//            "FROM Notifications n " +
+//            "INNER JOIN Report_Status rs ON n.NotificationID = rs.NotificationID")
+//    List<EmailSchedulingDTO> findAllEmailToBeScheduled();
 }
 
