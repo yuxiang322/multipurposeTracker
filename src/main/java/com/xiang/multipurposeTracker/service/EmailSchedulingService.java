@@ -56,7 +56,7 @@ public class EmailSchedulingService {
 
         String emailRecipient = getUserEmail(useruid);// get email
         ScheduledFuture<?> existingSchedule = scheduledTaskCheckList.get(useruid); // retrieve schedule if any
-
+        // must clean, reschedule each time user saves.
         if (existingSchedule != null) {
             existingSchedule.cancel(false); // cancel task
             scheduledTaskCheckList.remove(useruid); // remove keypair for garbage
@@ -92,7 +92,7 @@ public class EmailSchedulingService {
             message.setTo(emailRecipient);
             message.setSubject("Test Email");
             message.setText("This is a test email sent from Spring Boot.");
-
+            // update to include excel generation...
             mailSender.send(message);
         } catch (Exception e) {
             e.printStackTrace();
