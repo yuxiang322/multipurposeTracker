@@ -58,6 +58,7 @@ public class NotificationReportController {
         boolean notificationResponse = notificationService.updateNotification(changeNotification.getNotificationDTO());
         boolean reportResponse = reportStatusService.updateReport(changeNotification.getReportStatusDTO());
         CompletableFuture<Boolean> scheduleEmailForReport = emailSchedulingService.scheduleEmail(changeNotification);
+        emailSchedulingService.restoreEmailScheduling(); //test
 
         if(notificationResponse && reportResponse){
             return ResponseEntity.ok("Updated");
