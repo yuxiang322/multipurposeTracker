@@ -113,7 +113,6 @@ public class EmailSchedulingService {
     public void restoreEmailScheduling() {
         try{
             List<EmailSchedulingDTO> allEmailToBeScheduled = null;
-
             if(allEmailToBeScheduled != null){
                 System.out.println("========================List is not empty.");
                 for(EmailSchedulingDTO currentEmail : allEmailToBeScheduled){

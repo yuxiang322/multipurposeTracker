@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="d1db8eb0-4824-475c-982c-3f60315432ee" name="Changes" comment="1. Smtp for report..&#10;&#10;** POST -&gt; DELETE for delete apis**">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/service/EmailSchedulingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xiang/multipurposeTracker/service/EmailSchedulingService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,14 +121,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1723333130686</updated>
-    </task>
-    <task id="LOCAL-00053" summary="1. Sharing Code Entity object updated with table &#10;&#10;** POST -&gt; DELETE for delete apis**">
-      <option name="closed" value="true" />
-      <created>1739517831146</created>
-      <option name="number" value="00053" />
-      <option name="presentableId" value="LOCAL-00053" />
-      <option name="project" value="LOCAL" />
-      <updated>1739517831146</updated>
     </task>
     <task id="LOCAL-00054" summary="1. Sharing Code Entity object updated with table &#10;&#10;** POST -&gt; DELETE for delete apis**">
       <option name="closed" value="true" />
@@ -515,7 +506,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742112738317</updated>
     </task>
-    <option name="localTasksCounter" value="102" />
+    <task id="LOCAL-00102" summary="1. Smtp for report..&#10;&#10;** POST -&gt; DELETE for delete apis**">
+      <option name="closed" value="true" />
+      <created>1742113371393</created>
+      <option name="number" value="00102" />
+      <option name="presentableId" value="LOCAL-00102" />
+      <option name="project" value="LOCAL" />
+      <updated>1742113371393</updated>
+    </task>
+    <option name="localTasksCounter" value="103" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
