@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.CompletableFuture;
+
 @RestController
 @RequestMapping("/api/notification")
 public class NotificationReportController {
@@ -55,8 +57,7 @@ public class NotificationReportController {
 
         boolean notificationResponse = notificationService.updateNotification(changeNotification.getNotificationDTO());
         boolean reportResponse = reportStatusService.updateReport(changeNotification.getReportStatusDTO());
-        //boolean scheduleEmailForReport = emailSchedulingService.scheduleEmail(changeNotification.getReportStatusDTO());
-        emailSchedulingService.testSchedulingEmail();
+        CompletableFuture<Boolean> scheduleEmailForReport = emailSchedulingService.scheduleEmail(changeNotification);
 
         if(notificationResponse && reportResponse){
             return ResponseEntity.ok("Updated");
